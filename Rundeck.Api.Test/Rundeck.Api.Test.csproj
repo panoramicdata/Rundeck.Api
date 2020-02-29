@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<nullable>enable</nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Divergic.Logging.Xunit" Version="3.2.1" />
+		<PackageReference Include="FluentAssertions" Version="5.10.2" />
+		<PackageReference Include="FluentAssertions.Analyzers" Version="0.11.4" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Rundeck.Api\Rundeck.Api.csproj" />
+	</ItemGroup>
+
+</Project>
