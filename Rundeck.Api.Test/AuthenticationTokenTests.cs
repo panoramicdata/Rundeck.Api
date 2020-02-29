@@ -32,16 +32,14 @@ namespace Rundeck.Api.Test
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().NotBeEmpty();
 
-			// Refetch the first token
-			var tokens = await RundeckClient
+			// Re-fetch the first token
+			var token = await RundeckClient
 				.AuthenticationTokens
 				.GetAsync(authenticationTokens[0].Id)
 				.ConfigureAwait(false);
 
-			tokens.Should().NotBeNull();
-			tokens.Should().NotBeEmpty();
-			tokens.Should().ContainSingle();
-			tokens[0].Id.Should().Be(authenticationTokens[0].Id);
+			token.Should().NotBeNull();
+			token.Id.Should().Be(authenticationTokens[0].Id);
 		}
 	}
 }

@@ -29,8 +29,8 @@ namespace Rundeck.Api.Interfaces
 		/// Gets a specific token
 		/// </summary>
 		/// <param name="id">The token id</param>
-		[Get("/api/11/tokens/{id}")]
-		Task<List<AuthenticationToken>> GetAsync(
+		[Get("/api/11/token/{id}")]
+		Task<AuthenticationToken> GetAsync(
 			string id,
 			CancellationToken cancellationToken = default);
 	}
