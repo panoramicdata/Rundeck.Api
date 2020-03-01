@@ -33,5 +33,21 @@ namespace Rundeck.Api.Interfaces
 		Task<AuthenticationToken> GetAsync(
 			string id,
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Create a token
+		/// </summary>
+		[Post("/api/11/tokens")]
+		Task<AuthenticationToken> CreateAsync(
+			[Body] AuthenticationTokenCreationDto authenticationTokenCreationDto,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Delete a token
+		/// </summary>
+		[Delete("/api/11/tokens/{id}")]
+		Task<AuthenticationToken> DeleteAsync(
+			string id,
+			CancellationToken cancellationToken = default);
 	}
 }

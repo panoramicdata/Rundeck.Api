@@ -1,4 +1,6 @@
-﻿using Rundeck.Api.Exceptions;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Rundeck.Api.Exceptions;
 using System;
 
 namespace Rundeck.Api
@@ -15,7 +17,7 @@ namespace Rundeck.Api
 
 		/// <summary>
 		///  The maximum back-off delay..
-		///  Backoffs double in duration until this point,
+		///  Back-offs double in duration until this point,
 		///  after which the delay is maintained at this
 		///  level until the back-off instructions are no
 		///  longer sent.
@@ -26,6 +28,11 @@ namespace Rundeck.Api
 		/// The Uri
 		/// </summary>
 		public Uri? Uri { get; set; }
+
+		/// <summary>
+		/// An optional logger
+		/// </summary>
+		public ILogger Logger { get; set; } = new NullLogger<RundeckClientOptions>();
 
 		/// <summary>
 		/// Validates the options provided are valid.  If not, a ConfigruationException is thrown.
@@ -40,6 +47,11 @@ namespace Rundeck.Api
 			if (string.IsNullOrWhiteSpace(ApiToken))
 			{
 				throw new ConfigurationException(Resources.TokenIsNotSet);
+			}
+
+			if (MaxBackOffDelay < TimeSpan.Zero)
+			{
+				throw new ConfigurationException(Resources.NegativeMaxBackoffDelay);
 			}
 		}
 	}

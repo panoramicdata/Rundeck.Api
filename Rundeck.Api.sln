@@ -12,10 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
+		Rundeck.Api.sln.vsspell = Rundeck.Api.sln.vsspell
 		version.json = version.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rundeck.Api.Test", "Rundeck.Api.Test\Rundeck.Api.Test.csproj", "{9B5CC3FC-6D58-4507-922C-DC0627546365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rundeck.Api.Test", "Rundeck.Api.Test\Rundeck.Api.Test.csproj", "{9B5CC3FC-6D58-4507-922C-DC0627546365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

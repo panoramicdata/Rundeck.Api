@@ -34,7 +34,8 @@ namespace Rundeck.Api.Test
 				new RundeckClientOptions
 				{
 					Uri = new Uri(TestConfig.Uri),
-					ApiToken = TestConfig.Token
+					ApiToken = TestConfig.Token,
+					Logger = Logger
 				});
 		}
 	}

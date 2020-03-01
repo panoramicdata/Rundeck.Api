@@ -13,7 +13,7 @@
 		/// <summary>
 		/// The test username
 		/// </summary>
-		public static string Username { get; set; } = string.Empty;
+		public string Username { get; set; } = string.Empty;
 
 		/// <summary>
 		/// The token to use for authentication

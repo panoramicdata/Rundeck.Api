@@ -32,7 +32,7 @@ namespace Rundeck.Api
 				new JsonSerializerSettings
 				{
 					NullValueHandling = NullValueHandling.Ignore
-				})
+				}),
 			};
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);

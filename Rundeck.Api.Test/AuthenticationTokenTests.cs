@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Rundeck.Api.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -40,6 +41,32 @@ namespace Rundeck.Api.Test
 
 			token.Should().NotBeNull();
 			token.Id.Should().Be(authenticationTokens[0].Id);
+		}
+
+		/// <summary>
+		/// Broken test.  See https://github.com/rundeck/rundeck/issues/5842
+		/// </summary>
+		[Fact(Skip = "Issue 5842")]
+		//[Fact]
+		public async void CreateUpdateDelete_Succeeds()
+		{
+			// Create
+			var newToken = await RundeckClient
+				.AuthenticationTokens
+				.CreateAsync(new AuthenticationTokenCreationDto
+				{
+					User = TestConfig.Username,
+				})
+				.ConfigureAwait(false);
+
+			newToken.Should().NotBeNull();
+			newToken.Id.Should().NotBeNull();
+
+			// Delete
+			await RundeckClient
+				.AuthenticationTokens
+				.DeleteAsync(newToken.Id)
+				.ConfigureAwait(false);
 		}
 	}
 }

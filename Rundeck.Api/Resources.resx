@@ -123,13 +123,16 @@
   <data name="Disposing" xml:space="preserve">
     <value>Disposing</value>
   </data>
+  <data name="NegativeMaxBackoffDelay" xml:space="preserve">
+    <value>The maximum backoff delay should not be negative in the options oject passed into the RundeckClient constructor.</value>
+  </data>
   <data name="OptionsAreMissing" xml:space="preserve">
     <value>The options object was not provided.</value>
   </data>
   <data name="TokenIsNotSet" xml:space="preserve">
-    <value>The API token is not set in the options oject passed into the RundeckClient constructor.</value>
+    <value>The API token must be set in the options oject passed into the RundeckClient constructor.</value>
   </data>
   <data name="UriIsNotSet" xml:space="preserve">
-    <value>The URI is not set.</value>
+    <value>The URI must be set in the options oject passed into the RundeckClient constructor.</value>
   </data>
 </root>

@@ -79,6 +79,15 @@ namespace Rundeck.Api {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The maximum backoff delay should not be negative in the options oject passed into the RundeckClient constructor..
+        /// </summary>
+        internal static string NegativeMaxBackoffDelay {
+            get {
+                return ResourceManager.GetString("NegativeMaxBackoffDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The options object was not provided..
         /// </summary>
         internal static string OptionsAreMissing {
@@ -88,7 +97,7 @@ namespace Rundeck.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The API token is not set in the options oject passed into the RundeckClient constructor..
+        ///   Looks up a localized string similar to The API token must be set in the options oject passed into the RundeckClient constructor..
         /// </summary>
         internal static string TokenIsNotSet {
             get {
@@ -97,7 +106,7 @@ namespace Rundeck.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The URI is not set..
+        ///   Looks up a localized string similar to The URI must be set in the options oject passed into the RundeckClient constructor..
         /// </summary>
         internal static string UriIsNotSet {
             get {

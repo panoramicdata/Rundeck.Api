@@ -14,5 +14,13 @@ namespace Rundeck.Api.Interfaces
 		[Get("/api/25/metrics")]
 		Task<Metrics> GetAsync(
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Gets the metrics metrics
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/api/25/metrics/metrics")]
+		Task<MetricsMetrics> GetMetricsAsync(
+			CancellationToken cancellationToken = default);
 	}
 }
