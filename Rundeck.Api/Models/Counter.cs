@@ -2,7 +2,6 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// Counter
 	/// </summary>

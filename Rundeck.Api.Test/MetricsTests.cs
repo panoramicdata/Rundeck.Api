@@ -35,6 +35,10 @@ namespace Rundeck.Api.Test
 				.ConfigureAwait(false);
 
 			metrics.Should().NotBeNull();
+			metrics.Histograms.Should().NotBeNull();
+			metrics.Meters.Should().NotBeNull();
+			metrics.Timers.Should().NotBeNull();
+			metrics.Version.Should().NotBeNullOrEmpty();
 		}
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// Metrics: the metrics
 	/// </summary>
@@ -43,7 +42,6 @@ namespace Rundeck.Api.Models
 		/// Timers
 		/// </summary>
 		[DataMember(Name = "timers")]
-		public Timers Timers { get; set; } = default!;
+		public MetricsTimers Timers { get; set; } = default!;
 	}
-
 }

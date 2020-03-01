@@ -2,7 +2,6 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// Gauges
 	/// </summary>
@@ -10,165 +9,165 @@ namespace Rundeck.Api.Models
 	public class Gauges
 	{
 		/// <summary>
-		/// dataSourceconnectionpingTime
+		/// DataSourceConnectionPingTime
 		/// </summary>
-		[DataMember(Name = "dataSourceconnectionpingTime")]
-		public IntValue dataSourceconnectionpingTime { get; set; }
+		[DataMember(Name = "dataSource.connection.pingTime")]
+		public IntValue DataSourceConnectionPingTime { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckschedulerquartzrunningExecutions
+		/// RundeckSchedulerQuartzRunningExecutions
 		/// </summary>
-		[DataMember(Name = "rundeckschedulerquartzrunningExecutions")]
-		public IntValue rundeckschedulerquartzrunningExecutions { get; set; }
+		[DataMember(Name = "rundeck.scheduler.quartz.runningExecutions")]
+		public IntValue RundeckSchedulerQuartzRunningExecutions { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesourceCacheevictionCount
+		/// RundeckServicesAuthorizationServicesourceCacheEvictionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesourceCacheevictionCount")]
-		public IntValue rundeckservicesAuthorizationServicesourceCacheevictionCount { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.sourceCache.evictionCount")]
+		public IntValue RundeckServicesAuthorizationServicesourceCacheEvictionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesourceCachehitCount
+		/// RundeckServicesAuthorizationServiceSourceCacheHitCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesourceCachehitCount")]
-		public IntValue rundeckservicesAuthorizationServicesourceCachehitCount { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.sourceCache.hitCount")]
+		public IntValue RundeckServicesAuthorizationServiceSourceCacheHitCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesourceCachehitRate
+		/// RundeckServicesAuthorizationServiceSourceCacheHitRate
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesourceCachehitRate")]
-		public FloatValue rundeckservicesAuthorizationServicesourceCachehitRate { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.sourceCache.hitRate")]
+		public FloatValue RundeckServicesAuthorizationServiceSourceCacheHitRate { get; set; } = new FloatValue();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesourceCacheloadExceptionCount
+		/// RundeckServicesAuthorizationServicesourceCacheLoadExceptionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesourceCacheloadExceptionCount")]
-		public IntValue rundeckservicesAuthorizationServicesourceCacheloadExceptionCount { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.sourceCache.loadExceptionCount")]
+		public IntValue RundeckServicesAuthorizationServicesourceCacheLoadExceptionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesourceCachemissCount
+		/// RundeckServicesAuthorizationServiceSourceCacheMissCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesourceCachemissCount")]
-		public IntValue rundeckservicesAuthorizationServicesourceCachemissCount { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.sourceCache.missCount")]
+		public IntValue RundeckServicesAuthorizationServiceSourceCacheMissCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesNodeServicenodeCacheevictionCount
+		/// RundeckServicesNodeServiceNodeCacheEvictionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesNodeServicenodeCacheevictionCount")]
-		public IntValue rundeckservicesNodeServicenodeCacheevictionCount { get; set; }
+		[DataMember(Name = "rundeck.services.NodeService.nodeCache.evictionCount")]
+		public IntValue RundeckServicesNodeServiceNodeCacheEvictionCount { get; set; } = new IntValue();
 
 		/// <summary>
 		/// rundeckservicesNodeServicenodeCachehitCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesNodeServicenodeCachehitCount")]
-		public IntValue rundeckservicesNodeServicenodeCachehitCount { get; set; }
+		[DataMember(Name = "rundeck.services.NodeService.nodeCache.hitCount")]
+		public IntValue RundeckServicesNodeServiceNodeCacheHitCount { get; set; } = new IntValue();
 
 		/// <summary>
 		/// rundeckservicesNodeServicenodeCachehitRate
 		/// </summary>
-		[DataMember(Name = "rundeckservicesNodeServicenodeCachehitRate")]
-		public FloatValue rundeckservicesNodeServicenodeCachehitRate { get; set; }
+		[DataMember(Name = "rundeck.services.NodeService.nodeCache.hitRate")]
+		public FloatValue RundeckServicesNodeServiceNodeCacheHitRate { get; set; } = new FloatValue();
 
 		/// <summary>
-		/// rundeckservicesNodeServicenodeCacheloadExceptionCount
+		/// RundeckServicesNodeServiceNodeCacheLoadExceptionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesNodeServicenodeCacheloadExceptionCount")]
-		public IntValue rundeckservicesNodeServicenodeCacheloadExceptionCount { get; set; }
+		[DataMember(Name = "rundeck.services.NodeService.nodeCache.loadExceptionCount")]
+		public IntValue RundeckServicesNodeServiceNodeCacheLoadExceptionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesNodeServicenodeCachemissCount
+		/// RundeckServicesNodeServiceNodeCacheMissCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesNodeServicenodeCachemissCount")]
-		public IntValue rundeckservicesNodeServicenodeCachemissCount { get; set; }
+		[DataMember(Name = "rundeck.services.NodeService.nodeCache.missCount")]
+		public IntValue RundeckServicesNodeServiceNodeCacheMissCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicefileCacheevictionCount
+		/// RundeckServicesProjectManagerServiceFileCacheEvictionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicefileCacheevictionCount")]
-		public IntValue rundeckservicesProjectManagerServicefileCacheevictionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.fileCache.evictionCount")]
+		public IntValue RundeckServicesProjectManagerServiceFileCacheEvictionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicefileCachehitCount
+		/// RundeckServicesProjectManagerServiceFileCacheHitCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicefileCachehitCount")]
-		public IntValue rundeckservicesProjectManagerServicefileCachehitCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.fileCache.hitCount")]
+		public IntValue RundeckServicesProjectManagerServiceFileCacheHitCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicefileCachehitRate
+		/// RundeckServicesProjectManagerServiceFileCacheHitRate
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicefileCachehitRate")]
-		public IntValue rundeckservicesProjectManagerServicefileCachehitRate { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.fileCache.hitRate")]
+		public FloatValue RundeckServicesProjectManagerServiceFileCacheHitRate { get; set; } = new FloatValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicefileCacheloadExceptionCount
+		/// RundeckServicesProjectManagerServiceFileCacheLoadExceptionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicefileCacheloadExceptionCount")]
-		public IntValue rundeckservicesProjectManagerServicefileCacheloadExceptionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.fileCache.loadExceptionCount")]
+		public IntValue RundeckServicesProjectManagerServiceFileCacheLoadExceptionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicefileCachemissCount
+		/// RundeckServicesProjectManagerServiceFileCacheMissCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicefileCachemissCount")]
-		public IntValue rundeckservicesProjectManagerServicefileCachemissCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.fileCache.missCount")]
+		public IntValue RundeckServicesProjectManagerServiceFileCacheMissCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServiceprojectCacheevictionCount
+		/// RundeckServicesProjectManagerServiceProjectCacheEvictionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServiceprojectCacheevictionCount")]
-		public IntValue rundeckservicesProjectManagerServiceprojectCacheevictionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.projectCache.evictionCount")]
+		public IntValue RundeckServicesProjectManagerServiceProjectCacheEvictionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServiceprojectCachehitCount
+		/// RundeckServicesProjectManagerServiceProjectCacheHitCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServiceprojectCachehitCount")]
-		public IntValue rundeckservicesProjectManagerServiceprojectCachehitCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.projectCache.hitCount")]
+		public IntValue RundeckServicesProjectManagerServiceProjectCacheHitCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServiceprojectCachehitRate
+		/// RundeckServicesProjectManagerServiceProjectCacheHitRate
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServiceprojectCachehitRate")]
-		public FloatValue rundeckservicesProjectManagerServiceprojectCachehitRate { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.projectCache.hitRate")]
+		public FloatValue RundeckServicesProjectManagerServiceProjectCacheHitRate { get; set; } = new FloatValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServiceprojectCacheloadExceptionCount
+		/// RundeckServicesProjectManagerServiceProjectCacheLoadExceptionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServiceprojectCacheloadExceptionCount")]
-		public IntValue rundeckservicesProjectManagerServiceprojectCacheloadExceptionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.projectCache.loadExceptionCount")]
+		public IntValue RundeckServicesProjectManagerServiceProjectCacheLoadExceptionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServiceprojectCachemissCount
+		/// RundeckServicesProjectManagerServiceProjectCacheMissCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServiceprojectCachemissCount")]
-		public IntValue rundeckservicesProjectManagerServiceprojectCachemissCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.projectCache.missCount")]
+		public IntValue RundeckServicesProjectManagerServiceProjectCacheMissCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicesourceCacheevictionCount
+		/// RundeckServicesProjectManagerServiceSourceCacheEvictionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicesourceCacheevictionCount")]
-		public IntValue rundeckservicesProjectManagerServicesourceCacheevictionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.sourceCache.evictionCount")]
+		public IntValue RundeckServicesProjectManagerServiceSourceCacheEvictionCount { get; set; } = new IntValue();
 
 		/// <summary>
 		/// rundeckservicesProjectManagerServicesourceCachehitCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicesourceCachehitCount")]
-		public IntValue rundeckservicesProjectManagerServicesourceCachehitCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.sourceCache.hitCount")]
+		public IntValue RundeckServicesProjectManagerServiceSourceCacheHitCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicesourceCachehitRate
+		/// RundeckServicesProjectManagerServiceSourceCacheHitRate
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicesourceCachehitRate")]
-		public IntValue rundeckservicesProjectManagerServicesourceCachehitRate { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.sourceCache.hitRate")]
+		public FloatValue RundeckServicesProjectManagerServiceSourceCacheHitRate { get; set; } = new FloatValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicesourceCacheloadExceptionCount
+		/// RundeckServicesProjectManagerServiceSourceCacheLoadExceptionCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicesourceCacheloadExceptionCount")]
-		public IntValue rundeckservicesProjectManagerServicesourceCacheloadExceptionCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.sourceCache.loadExceptionCount")]
+		public IntValue RundeckServicesProjectManagerServiceSourceCacheLoadExceptionCount { get; set; } = new IntValue();
 
 		/// <summary>
-		/// rundeckservicesProjectManagerServicesourceCachemissCount
+		/// RundeckServicesProjectManagerServiceSourceCacheMissCount
 		/// </summary>
-		[DataMember(Name = "rundeckservicesProjectManagerServicesourceCachemissCount")]
-		public IntValue rundeckservicesProjectManagerServicesourceCachemissCount { get; set; }
+		[DataMember(Name = "rundeck.services.ProjectManagerService.sourceCache.missCount")]
+		public IntValue RundeckServicesProjectManagerServiceSourceCacheMissCount { get; set; } = new IntValue();
 	}
 }

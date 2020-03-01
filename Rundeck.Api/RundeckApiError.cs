@@ -32,5 +32,4 @@ namespace Rundeck.Api
 		[DataMember(Name = "message")]
 		public string Message { get; set; } = string.Empty;
 	}
-
 }

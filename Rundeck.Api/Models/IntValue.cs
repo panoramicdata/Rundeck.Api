@@ -2,15 +2,11 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// An int value
 	/// </summary>
 	[DataContract]
-	public class IntValue
+	public class IntValue : ValueObject<int>
 	{
-		[DataMember(Name = "value")]
-		public int Value { get; set; }
 	}
-
 }

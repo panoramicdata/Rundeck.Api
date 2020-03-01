@@ -2,14 +2,12 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// AdvancedMeter
 	/// </summary>
 	[DataContract]
 	public class AdvancedMeter : Meter
 	{
-
 		/// <summary>
 		/// Max
 		/// </summary>

@@ -41,7 +41,7 @@ namespace Rundeck.Api
 				// Complete the action
 				httpResponseMessage = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
-				switch((int)httpResponseMessage.StatusCode)
+				switch ((int)httpResponseMessage.StatusCode)
 				{
 					case 400:
 						var error = JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -50,12 +50,15 @@ namespace Rundeck.Api
 						var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 						throw new RundeckException(errorMessage);
 					case 429:
-						// We havea 429.  Back off by increasing amounts with subsequent attempts, with a configurable maximum.
+						// We have a 429.  Back off by increasing amounts with subsequent attempts, with a configurable maximum.
 						// There is no maximum total wait time.
 						await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
 						delay = TimeSpan.FromMilliseconds(Math.Max(delay.TotalMilliseconds * 2, _options.MaxBackOffDelay.TotalMilliseconds));
 						continue;
 					default:
+#if DEBUG
+						var content = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+#endif
 						return httpResponseMessage;
 				}
 			}

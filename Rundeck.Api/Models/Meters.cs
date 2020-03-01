@@ -2,7 +2,6 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// Meters
 	/// </summary>
@@ -10,33 +9,33 @@ namespace Rundeck.Api.Models
 	public class Meters
 	{
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesystemAuthorizationevaluateMeter
+		/// RundeckServicesAuthorizationServicesystemAuthorizationEvaluateMeter
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesystemAuthorizationevaluateMeter")]
-		public Meter rundeckservicesAuthorizationServicesystemAuthorizationevaluateMeter { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.systemAuthorization.evaluateMeter")]
+		public Meter RundeckServicesAuthorizationServicesystemAuthorizationEvaluateMeter { get; set; } = new Meter();
 
 		/// <summary>
-		/// rundeckservicesAuthorizationServicesystemAuthorizationevaluateSetMeter
+		/// RundeckServicesAuthorizationServicesystemAuthorizationEvaluateSetMeter
 		/// </summary>
-		[DataMember(Name = "rundeckservicesAuthorizationServicesystemAuthorizationevaluateSetMeter")]
-		public Meter rundeckservicesAuthorizationServicesystemAuthorizationevaluateSetMeter { get; set; }
+		[DataMember(Name = "rundeck.services.AuthorizationService.systemAuthorization.evaluateSetMeter")]
+		public Meter RundeckServicesAuthorizationServicesystemAuthorizationEvaluateSetMeter { get; set; } = new Meter();
 
 		/// <summary>
-		/// rundeckservicesExecutionServiceexecutionJobStartMeter
+		/// RundeckServicesExecutionServiceExecutionJobStartMeter
 		/// </summary>
-		[DataMember(Name = "rundeckservicesExecutionServiceexecutionJobStartMeter")]
-		public Meter rundeckservicesExecutionServiceexecutionJobStartMeter { get; set; }
+		[DataMember(Name = "rundeck.services.ExecutionService.executionJobStartMeter")]
+		public Meter RundeckServicesExecutionServiceExecutionJobStartMeter { get; set; } = new Meter();
 
 		/// <summary>
-		/// rundeckservicesExecutionServiceexecutionStartMeter
+		/// RundeckServicesExecutionServiceExecutionStartMeter
 		/// </summary>
-		[DataMember(Name = "rundeckservicesExecutionServiceexecutionStartMeter")]
-		public Meter rundeckservicesExecutionServiceexecutionStartMeter { get; set; }
+		[DataMember(Name = "rundeck.services.ExecutionService.executionStartMeter")]
+		public Meter RundeckServicesExecutionServiceExecutionStartMeter { get; set; } = new Meter();
 
 		/// <summary>
-		/// rundeckservicesExecutionServiceexecutionSuccessMeter
+		/// RundeckServicesExecutionServiceExecutionSuccessMeter
 		/// </summary>
-		[DataMember(Name = "rundeckservicesExecutionServiceexecutionSuccessMeter")]
-		public Meter rundeckservicesExecutionServiceexecutionSuccessMeter { get; set; }
+		[DataMember(Name = "rundeck.services.ExecutionService.executionSuccessMeter")]
+		public Meter RundeckServicesExecutionServiceExecutionSuccessMeter { get; set; } = new Meter();
 	}
 }

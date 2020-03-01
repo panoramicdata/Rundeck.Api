@@ -2,7 +2,6 @@
 
 namespace Rundeck.Api.Models
 {
-
 	/// <summary>
 	/// Counters
 	/// </summary>
@@ -10,9 +9,9 @@ namespace Rundeck.Api.Models
 	public class Counters
 	{
 		/// <summary>
-		/// rundeckschedulerquartzscheduledJobs
+		/// RundeckSchedulerQuartzScheduledJobs
 		/// </summary>
-		[DataMember(Name = "rundeckschedulerquartzscheduledJobs")]
-		public Counter rundeckschedulerquartzscheduledJobs { get; set; }
+		[DataMember(Name = "rundeck.scheduler.quartz.scheduledJobs")]
+		public Counter RundeckSchedulerQuartzScheduledJobs { get; set; } = new Counter();
 	}
 }
