@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.IO;
 using Xunit.Abstractions;
 
@@ -26,14 +25,14 @@ namespace Rundeck.Api.Test
 		protected TestBase(ITestOutputHelper output)
 		{
 			Logger = output.BuildLogger();
-			Logger.LogInformation("Test started");
+			Logger.LogInformation(Resources.TestStarted);
 
 			TestConfig = JsonConvert.DeserializeObject<TestConfig>(File.ReadAllText("../../../appsettings.json"));
 
 			RundeckClient = new RundeckClient(
 				new RundeckClientOptions
 				{
-					Uri = new Uri(TestConfig.Uri),
+					Uri = TestConfig.Uri,
 					ApiToken = TestConfig.Token,
 					Logger = Logger
 				});

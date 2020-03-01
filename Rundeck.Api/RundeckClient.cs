@@ -37,11 +37,29 @@ namespace Rundeck.Api
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);
 			Metrics = RestService.For<IMetrics>(_httpClient, refitSettings);
+			System = RestService.For<ISystem>(_httpClient, refitSettings);
+			Users = RestService.For<IUsers>(_httpClient, refitSettings);
 		}
 
+		/// <summary>
+		/// Authentication tokens
+		/// </summary>
 		public IAuthenticationTokens AuthenticationTokens { get; }
 
+		/// <summary>
+		/// Metrics
+		/// </summary>
 		public IMetrics Metrics { get; }
+
+		/// <summary>
+		/// System
+		/// </summary>
+		public ISystem System { get; }
+
+		/// <summary>
+		/// Users
+		/// </summary>
+		public IUsers Users { get; }
 
 		#region IDisposable Support
 		private bool _disposedValue = false; // To detect redundant calls

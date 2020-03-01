@@ -40,5 +40,18 @@ namespace Rundeck.Api.Test
 			metrics.Timers.Should().NotBeNull();
 			metrics.Version.Should().NotBeNullOrEmpty();
 		}
+
+		[Fact]
+		public async void Metrics_GetHealthCheckAsync_Passes()
+		{
+			var metrics = await RundeckClient
+				.Metrics
+				.GetHealthCheckAsync()
+				.ConfigureAwait(false);
+
+			metrics.Should().NotBeNull();
+			metrics.DataSourceConnectionTime.Should().NotBeNull();
+			metrics.QuartzSchedulerThreadPool.Should().NotBeNull();
+		}
 	}
 }

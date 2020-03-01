@@ -22,5 +22,13 @@ namespace Rundeck.Api.Interfaces
 		[Get("/api/25/metrics/metrics")]
 		Task<MetricsMetrics> GetMetricsAsync(
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Gets the healthcheck metrics
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/api/25/metrics/healthcheck")]
+		Task<HealthCheckMetrics> GetHealthCheckAsync(
+			CancellationToken cancellationToken = default);
 	}
 }

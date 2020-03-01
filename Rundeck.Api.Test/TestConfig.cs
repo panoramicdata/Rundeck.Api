@@ -1,4 +1,6 @@
-﻿namespace Rundeck.Api.Test
+﻿using System;
+
+namespace Rundeck.Api.Test
 {
 	/// <summary>
 	/// XUnit test configuration
@@ -8,7 +10,7 @@
 		/// <summary>
 		/// The server Uri
 		/// </summary>
-		public string Uri { get; set; } = string.Empty;
+		public Uri? Uri { get; set; } = default;
 
 		/// <summary>
 		/// The test username
