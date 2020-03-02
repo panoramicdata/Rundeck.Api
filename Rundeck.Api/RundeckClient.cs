@@ -36,9 +36,14 @@ namespace Rundeck.Api
 			};
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);
+			Executions = RestService.For<IExecutions>(_httpClient, refitSettings);
 			Metrics = RestService.For<IMetrics>(_httpClient, refitSettings);
+			Plugins = RestService.For<IPlugins>(_httpClient, refitSettings);
+			Projects = RestService.For<IProjects>(_httpClient, refitSettings);
+			Storage = RestService.For<IStorage>(_httpClient, refitSettings);
 			System = RestService.For<ISystem>(_httpClient, refitSettings);
 			Users = RestService.For<IUsers>(_httpClient, refitSettings);
+			WebHooks = RestService.For<IWebHooks>(_httpClient, refitSettings);
 		}
 
 		/// <summary>
@@ -47,9 +52,29 @@ namespace Rundeck.Api
 		public IAuthenticationTokens AuthenticationTokens { get; }
 
 		/// <summary>
+		/// Executions
+		/// </summary>
+		public IExecutions Executions { get; }
+
+		/// <summary>
 		/// Metrics
 		/// </summary>
 		public IMetrics Metrics { get; }
+
+		/// <summary>
+		/// Plugins
+		/// </summary>
+		public IPlugins Plugins { get; }
+
+		/// <summary>
+		/// Projects
+		/// </summary>
+		public IProjects Projects { get; }
+
+		/// <summary>
+		/// Storage
+		/// </summary>
+		public IStorage Storage { get; }
 
 		/// <summary>
 		/// System
@@ -60,6 +85,11 @@ namespace Rundeck.Api
 		/// Users
 		/// </summary>
 		public IUsers Users { get; }
+
+		/// <summary>
+		/// Users
+		/// </summary>
+		public IWebHooks WebHooks { get; }
 
 		#region IDisposable Support
 		private bool _disposedValue = false; // To detect redundant calls
