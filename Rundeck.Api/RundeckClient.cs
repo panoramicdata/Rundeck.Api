@@ -29,10 +29,11 @@ namespace Rundeck.Api
 			var refitSettings = new RefitSettings
 			{
 				ContentSerializer = new JsonContentSerializer(
-				new JsonSerializerSettings
-				{
-					NullValueHandling = NullValueHandling.Ignore
-				}),
+					new JsonSerializerSettings
+					{
+						NullValueHandling = NullValueHandling.Ignore
+					}
+				)
 			};
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);

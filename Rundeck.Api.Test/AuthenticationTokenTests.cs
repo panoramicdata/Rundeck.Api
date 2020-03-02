@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,8 +20,16 @@ namespace Rundeck.Api.Test
 				.GetAllAsync()
 				.ConfigureAwait(false);
 
-			authenticationTokens.Should().NotBeNull();
-			authenticationTokens.Should().NotBeEmpty();
+			authenticationTokens.Should().NotBeNullOrEmpty();
+
+			foreach (var token in authenticationTokens)
+			{
+				token.User.Should().Be(TestConfig.Username);
+				token.Creator.Should().Be(TestConfig.Username);
+				token.Expired.Should().BeFalse();
+				token.Expiration.Should().BeAfter(DateTimeOffset.UtcNow);
+				token.Roles.Should().NotBeEmpty();
+			}
 		}
 
 		[Fact]
@@ -30,8 +39,7 @@ namespace Rundeck.Api.Test
 				.AuthenticationTokens
 				.GetAllByUserAsync(TestConfig.Username)
 				.ConfigureAwait(false);
-			authenticationTokens.Should().NotBeNull();
-			authenticationTokens.Should().NotBeEmpty();
+			authenticationTokens.Should().NotBeNullOrEmpty();
 
 			// Re-fetch the first token
 			var token = await RundeckClient
@@ -41,6 +49,7 @@ namespace Rundeck.Api.Test
 
 			token.Should().NotBeNull();
 			token.Id.Should().Be(authenticationTokens[0].Id);
+			token.Token.Should().NotBeNullOrWhiteSpace();
 		}
 
 		/// <summary>

@@ -17,33 +17,39 @@ namespace Rundeck.Api.Models
 		public string User { get; set; } = string.Empty;
 
 		/// <summary>
-		/// User
+		/// Id
 		/// </summary>
 		[DataMember(Name = "id")]
 		public string Id { get; set; } = string.Empty;
 
 		/// <summary>
-		/// User
+		/// Creator
 		/// </summary>
 		[DataMember(Name = "creator")]
 		public string Creator { get; set; } = string.Empty;
 
 		/// <summary>
-		/// User
+		/// Expiration
 		/// </summary>
 		[DataMember(Name = "expiration")]
 		public DateTimeOffset Expiration { get; set; }
 
 		/// <summary>
-		/// User
+		/// Roles
 		/// </summary>
 		[DataMember(Name = "roles")]
 		public List<string> Roles { get; set; } = new List<string>();
 
 		/// <summary>
-		/// User
+		/// Expired
 		/// </summary>
 		[DataMember(Name = "expired")]
 		public bool Expired { get; set; }
+
+		/// <summary>
+		/// Token
+		/// </summary>
+		[DataMember(Name = "token")]
+		public string Token { get; set; } = string.Empty;
 	}
 }
