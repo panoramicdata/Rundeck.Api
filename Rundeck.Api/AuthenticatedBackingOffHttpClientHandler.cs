@@ -69,11 +69,13 @@ namespace Rundeck.Api
 				switch ((int)httpResponseMessage.StatusCode)
 				{
 					case 400:
-						var error = JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false));
-						throw new RundeckException(error);
+						throw new RundeckException(httpResponseMessage.Content != null
+							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false))
+							: new RundeckError { Message = Resources.NoContentBody });
 					case 500:
-						var errorMessage = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-						throw new RundeckException(errorMessage);
+						throw new RundeckException(httpResponseMessage.Content != null
+							? await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false)
+							: Resources.NoContentBody);
 					case 429:
 						// We have a 429.  Back off by increasing amounts with subsequent attempts, with a configurable maximum.
 						// There is no maximum total wait time.
@@ -81,9 +83,6 @@ namespace Rundeck.Api
 						delay = TimeSpan.FromMilliseconds(Math.Max(delay.TotalMilliseconds * 2, _options.MaxBackOffDelay.TotalMilliseconds));
 						continue;
 					default:
-#if DEBUG
-						var content = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-#endif
 						return httpResponseMessage;
 				}
 			}
