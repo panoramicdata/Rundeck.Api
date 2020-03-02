@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
 using Rundeck.Api.Exceptions;
 using System;
 using System.Net.Http;
@@ -10,10 +12,13 @@ namespace Rundeck.Api
 	internal class AuthenticatedBackingOffHttpClientHandler : HttpClientHandler
 	{
 		private readonly RundeckClientOptions _options;
+		private readonly ILogger _logger;
+		private readonly LogLevel _levelToLogAt = LogLevel.Trace;
 
 		public AuthenticatedBackingOffHttpClientHandler(RundeckClientOptions options)
 		{
 			_options = options;
+			_logger = options.Logger ?? NullLogger.Instance;
 		}
 
 		protected override async Task<HttpResponseMessage> SendAsync(
@@ -38,8 +43,28 @@ namespace Rundeck.Api
 				request.Headers.Add("X-Rundeck-Auth-Token", _options.ApiToken);
 				request.Headers.Add("Accept", "application/json");
 
+				// Only do any of this if we're at the level we want to enable for
+				if (_logger.IsEnabled(_levelToLogAt))
+				{
+					_logger.Log(_levelToLogAt, $"Request\r\n{request}");
+					if (request.Content != null)
+					{
+						_logger.Log(_levelToLogAt, "RequestContent\r\n" + await request.Content.ReadAsStringAsync().ConfigureAwait(false));
+					}
+				}
+
 				// Complete the action
 				httpResponseMessage = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+
+				// Log our response before we do anything else
+				if (_logger.IsEnabled(_levelToLogAt))
+				{
+					_logger.Log(_levelToLogAt, $"Response\r\n{httpResponseMessage}");
+					if (httpResponseMessage.Content != null)
+					{
+						_logger.Log(_levelToLogAt, "ResponseContent\r\n" + await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false));
+					}
+				}
 
 				switch ((int)httpResponseMessage.StatusCode)
 				{
