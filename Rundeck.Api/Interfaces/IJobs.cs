@@ -12,7 +12,7 @@ namespace Rundeck.Api.Interfaces
 		/// Lists all job
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/33/job/list")]
+		[Get("/job/list")]
 		Task<List<Plugin>> GetAllAsync(
 			CancellationToken cancellationToken = default);
 	}

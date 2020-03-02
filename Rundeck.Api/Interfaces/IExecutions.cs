@@ -11,7 +11,7 @@ namespace Rundeck.Api.Interfaces
 		/// </summary>
 		/// <param name="id">The execution id</param>
 		/// <param name="cancellationToken"></param>
-		[Delete("/api/32/execution/{id}")]
+		[Delete("/execution/{id}")]
 		Task DeleteAsync(
 			int id,
 			CancellationToken cancellationToken = default);

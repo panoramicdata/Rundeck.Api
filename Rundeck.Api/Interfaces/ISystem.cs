@@ -11,7 +11,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets the Log Storage
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/17/system/logstorage")]
+		[Get("/system/logstorage")]
 		Task<LogStorage> GetLogStorageAsync(
 			CancellationToken cancellationToken = default);
 
@@ -19,7 +19,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets the incomplete Log Storage
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/17/system/logstorage/incomplete")]
+		[Get("/system/logstorage/incomplete")]
 		Task<IncompleteLogStorage> GetIncompleteLogStorageAsync(
 			CancellationToken cancellationToken = default);
 
@@ -27,7 +27,7 @@ namespace Rundeck.Api.Interfaces
 		/// Resume processing incomplete Log Storage uploads.
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Post("/api/17/system/logstorage/incomplete/resume")]
+		[Post("/system/logstorage/incomplete/resume")]
 		Task<ResumeIncompleteLogStorageResult> ResumeIncompleteLogStorageAsync(
 			CancellationToken cancellationToken = default);
 
@@ -35,7 +35,7 @@ namespace Rundeck.Api.Interfaces
 		/// Enables executions, allowing adhoc and manual and scheduled jobs to be run.
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Post("/api/32/system/executions/enable")]
+		[Post("/system/executions/enable")]
 		Task<ExecutionMode> SetActiveModeAsync(
 			CancellationToken cancellationToken = default);
 
@@ -43,7 +43,7 @@ namespace Rundeck.Api.Interfaces
 		/// Disables executions, allowing adhoc and manual and scheduled jobs to be run.
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Post("/api/32/system/executions/disable")]
+		[Post("/system/executions/disable")]
 		Task<ExecutionMode> SetPassiveModeAsync(
 			CancellationToken cancellationToken = default);
 
@@ -51,7 +51,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets the current execution mode. Additionally, if the current mode is passive the response status will be HTTP 503 - Service Unavailable.
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/32/system/executions/status")]
+		[Get("/system/executions/status")]
 		Task<ExecutionMode> GetExecutionModeAsync(
 			CancellationToken cancellationToken = default);
 	}

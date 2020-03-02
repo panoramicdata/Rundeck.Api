@@ -10,6 +10,9 @@ namespace Rundeck.Api
 	/// </summary>
 	public class RundeckClientOptions
 	{
+		// This is the version of the API we support
+		public const int SupportedApiVersion = 34;
+
 		/// <summary>
 		/// The API token
 		/// </summary>
@@ -28,6 +31,11 @@ namespace Rundeck.Api
 		/// The Uri
 		/// </summary>
 		public Uri? Uri { get; set; }
+
+		/// <summary>
+		/// The Rundeck API Version
+		/// </summary>
+		public int ApiVersion { get; } = SupportedApiVersion;
 
 		/// <summary>
 		/// An optional logger

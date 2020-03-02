@@ -12,7 +12,7 @@ namespace Rundeck.Api.Interfaces
 		/// Lists all plugins
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Delete("/api/33/plugin/list")]
+		[Delete("/plugin/list")]
 		Task<List<Plugin>> GetAllAsync(
 			CancellationToken cancellationToken = default);
 	}

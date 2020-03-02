@@ -12,7 +12,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets a list of users
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/27/user/list/")]
+		[Get("/user/list/")]
 		Task<List<User>> GetAllAsync(
 			CancellationToken cancellationToken = default);
 
@@ -20,7 +20,7 @@ namespace Rundeck.Api.Interfaces
 		/// Hey, get me!
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/27/user/info/")]
+		[Get("/user/info/")]
 		Task<User> GetMeAsync(
 			CancellationToken cancellationToken = default);
 
@@ -28,7 +28,7 @@ namespace Rundeck.Api.Interfaces
 		/// Get a specific user
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/27/user/info/{login}")]
+		[Get("/user/info/{login}")]
 		Task<User> GetAsync(
 			string login,
 			CancellationToken cancellationToken = default);
@@ -39,7 +39,7 @@ namespace Rundeck.Api.Interfaces
 		/// <param name="login">The user login</param>
 		/// <param name="user">The user object</param>
 		/// <param name="cancellationToken"></param>
-		[Post("/api/27/user/info/{login}")]
+		[Post("/user/info/{login}")]
 		Task<User> UpdateAsync(
 			string login,
 			[Body] User user,
@@ -49,7 +49,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets the current user's roles
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Post("/api/30/user/roles")]
+		[Post("/user/roles")]
 		Task<RoleSet> GetMyRoleSetAsync(
 			CancellationToken cancellationToken = default);
 	}

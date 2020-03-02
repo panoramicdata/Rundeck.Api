@@ -12,7 +12,7 @@ namespace Rundeck.Api.Interfaces
 		/// Lists all web  hooks
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/33/webhook/list")]
+		[Get("/webhook/list")]
 		Task<List<Plugin>> GetAllAsync(
 			CancellationToken cancellationToken = default);
 	}

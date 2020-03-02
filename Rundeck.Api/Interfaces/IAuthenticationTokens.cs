@@ -12,7 +12,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets a list of tokens
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/api/34/tokens")]
+		[Get("/tokens")]
 		Task<List<AuthenticationToken>> GetAllAsync(
 			CancellationToken cancellationToken = default);
 
@@ -20,7 +20,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets a list of tokens for a specific user
 		/// </summary>
 		/// <param name="username">The username</param>
-		[Get("/api/34/tokens/{username}")]
+		[Get("/tokens/{username}")]
 		Task<List<AuthenticationToken>> GetAllByUserAsync(
 			string username,
 			CancellationToken cancellationToken = default);
@@ -29,7 +29,7 @@ namespace Rundeck.Api.Interfaces
 		/// Gets a specific token
 		/// </summary>
 		/// <param name="id">The token id</param>
-		[Get("/api/34/token/{id}")]
+		[Get("/token/{id}")]
 		Task<AuthenticationToken> GetAsync(
 			string id,
 			CancellationToken cancellationToken = default);
@@ -37,7 +37,7 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Create a token
 		/// </summary>
-		[Post("/api/34/tokens")]
+		[Post("/tokens")]
 		Task<AuthenticationToken> CreateAsync(
 			[Body] AuthenticationTokenCreationDto authenticationTokenCreationDto,
 			CancellationToken cancellationToken = default);
@@ -45,7 +45,7 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Delete a token
 		/// </summary>
-		[Delete("/api/34/tokens/{id}")]
+		[Delete("/tokens/{id}")]
 		Task<AuthenticationToken> DeleteAsync(
 			string id,
 			CancellationToken cancellationToken = default);
