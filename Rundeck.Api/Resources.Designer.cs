@@ -88,6 +88,15 @@ namespace Rundeck.Api {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No content body..
+        /// </summary>
+        internal static string NoContentBody {
+            get {
+                return ResourceManager.GetString("NoContentBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The options object was not provided..
         /// </summary>
         internal static string OptionsAreMissing {

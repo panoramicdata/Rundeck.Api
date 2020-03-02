@@ -126,6 +126,9 @@
   <data name="NegativeMaxBackoffDelay" xml:space="preserve">
     <value>The maximum backoff delay should not be negative in the options oject passed into the RundeckClient constructor.</value>
   </data>
+  <data name="NoContentBody" xml:space="preserve">
+    <value>No content body.</value>
+  </data>
   <data name="OptionsAreMissing" xml:space="preserve">
     <value>The options object was not provided.</value>
   </data>

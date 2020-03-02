@@ -45,7 +45,7 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Delete a token
 		/// </summary>
-		[Delete("/tokens/{id}")]
+		[Delete("/token/{id}")]
 		Task<AuthenticationToken> DeleteAsync(
 			string id,
 			CancellationToken cancellationToken = default);
