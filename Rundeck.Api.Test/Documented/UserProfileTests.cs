@@ -2,11 +2,11 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Rundeck.Api.Test
+namespace Rundeck.Api.Test.Documented
 {
-	public class UserTests : TestBase
+	public class UserProfileTests : TestBase
 	{
-		public UserTests(ITestOutputHelper output) : base(output)
+		public UserProfileTests(ITestOutputHelper output) : base(output)
 		{
 		}
 

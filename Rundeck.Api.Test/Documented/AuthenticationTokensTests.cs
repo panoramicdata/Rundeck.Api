@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Rundeck.Api.Test
+namespace Rundeck.Api.Test.Documented
 {
-	public class AuthenticationTokenTests : TestBase
+	public class AuthenticationTokensTests : TestBase
 	{
-		public AuthenticationTokenTests(ITestOutputHelper output) : base(output)
+		public AuthenticationTokensTests(ITestOutputHelper output) : base(output)
 		{
 		}
 

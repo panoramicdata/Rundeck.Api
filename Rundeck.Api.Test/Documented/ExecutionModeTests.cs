@@ -6,34 +6,12 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Rundeck.Api.Test
+namespace Rundeck.Api.Test.Documented
 {
-	public class SystemTests : TestBase
+	public class ExecutionModeTests : TestBase
 	{
-		public SystemTests(ITestOutputHelper output) : base(output)
+		public ExecutionModeTests(ITestOutputHelper output) : base(output)
 		{
-		}
-
-		[Fact]
-		public async void System_GetLogStorageAsync_Passes()
-		{
-			var logStorage = await RundeckClient
-				.System
-				.GetLogStorageAsync()
-				.ConfigureAwait(false);
-
-			logStorage.Should().NotBeNull();
-		}
-
-		[Fact]
-		public async void System_GetLogStorageIncompleteAsync_Passes()
-		{
-			var logStorage = await RundeckClient
-				.System
-				.GetIncompleteLogStorageAsync()
-				.ConfigureAwait(false);
-
-			logStorage.Should().NotBeNull();
 		}
 
 		[Fact]
