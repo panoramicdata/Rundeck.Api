@@ -43,5 +43,17 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "units")]
 		public string Units { get; set; } = default!;
+
+		/// <summary>
+		/// DurationUnits
+		/// </summary>
+		[DataMember(Name = "duration_units")]
+		public string DurationUnits { get; set; } = default!;
+
+		/// <summary>
+		/// RateUnits
+		/// </summary>
+		[DataMember(Name = "rate_units")]
+		public string RateUnits { get; set; } = default!;
 	}
 }

@@ -39,6 +39,24 @@ namespace Rundeck.Api.Models
 		public int QueuedCount { get; set; }
 
 		/// <summary>
+		/// The queued request count
+		/// </summary>
+		[DataMember(Name = "queuedRequestCount")]
+		public int QueuedRequestCount { get; set; }
+
+		/// <summary>
+		/// The queued retries count
+		/// </summary>
+		[DataMember(Name = "queuedRetriesCount")]
+		public int QueuedRetriesCount { get; set; }
+
+		/// <summary>
+		/// The queued incomplete count
+		/// </summary>
+		[DataMember(Name = "queuedIncompleteCount")]
+		public int QueuedIncompleteCount { get; set; }
+
+		/// <summary>
 		/// The total count
 		/// </summary>
 		[DataMember(Name = "totalCount")]
@@ -55,5 +73,11 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "missingCount")]
 		public int MissingCount { get; set; }
+
+		/// <summary>
+		/// The retries count
+		/// </summary>
+		[DataMember(Name = "retriesCount")]
+		public int RetriesCount { get; set; }
 	}
 }

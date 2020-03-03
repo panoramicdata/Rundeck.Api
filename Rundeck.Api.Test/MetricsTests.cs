@@ -53,5 +53,16 @@ namespace Rundeck.Api.Test
 			metrics.DataSourceConnectionTime.Should().NotBeNull();
 			metrics.QuartzSchedulerThreadPool.Should().NotBeNull();
 		}
+
+		[Fact]
+		public async void Metrics_Ping_Passes()
+		{
+			var ping = await RundeckClient
+				.Metrics
+				.PingAsync()
+				.ConfigureAwait(false);
+
+			ping.Trim().Should().Be("pong");
+		}
 	}
 }

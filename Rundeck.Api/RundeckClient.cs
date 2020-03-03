@@ -32,6 +32,10 @@ namespace Rundeck.Api
 					new JsonSerializerSettings
 					{
 						NullValueHandling = NullValueHandling.Ignore
+#if DEBUG
+						,
+						MissingMemberHandling = MissingMemberHandling.Error
+#endif
 					}
 				)
 			};

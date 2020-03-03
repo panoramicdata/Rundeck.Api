@@ -45,6 +45,12 @@ namespace Rundeck.Api.Models
 		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeApplicationResource { get; set; } = new AdvancedMeter();
 
 		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeApplicationResourceType
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeApplicationResourceType")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeApplicationResourceType { get; set; } = new AdvancedMeter();
+
+		/// <summary>
 		/// RundeckServicesFrameworkServiceFilterNodeSet
 		/// </summary>
 		[DataMember(Name = "rundeck.services.FrameworkService.filterNodeSet")]
