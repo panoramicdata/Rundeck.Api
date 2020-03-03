@@ -55,6 +55,5 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.total")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsTotal { get; set; } = new Counter();
-
 	}
 }
