@@ -54,5 +54,13 @@ namespace Rundeck.Api.Interfaces
 		[Get("/system/executions/status")]
 		Task<ExecutionMode> GetExecutionModeAsync(
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Rundeck server information and stats.
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/system/info")]
+		Task<SystemInfo> GetSystemInfoAsync(
+			CancellationToken cancellationToken = default);
 	}
 }
