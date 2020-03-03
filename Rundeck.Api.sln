@@ -12,7 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
+		RestartDocker.ps1 = RestartDocker.ps1
+		RestartDockerAndTest.ps1 = RestartDockerAndTest.ps1
 		Rundeck.Api.sln.vsspell = Rundeck.Api.sln.vsspell
+		StartDocker.ps1 = StartDocker.ps1
+		StartDockerAndTest.ps1 = StartDockerAndTest.ps1
+		StopDocker.ps1 = StopDocker.ps1
+		Dockerfiles\tokens.properties = Dockerfiles\tokens.properties
 		version.json = version.json
 	EndProjectSection
 EndProject
