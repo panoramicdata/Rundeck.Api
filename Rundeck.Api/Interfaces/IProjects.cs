@@ -12,8 +12,24 @@ namespace Rundeck.Api.Interfaces
 		/// Lists all projects
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Delete("/project/list")]
-		Task<List<Plugin>> GetAllAsync(
+		[Get("/projects")]
+		Task<List<Project>> GetAllAsync(
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Create a Project
+		/// </summary>
+		[Post("/projects")]
+		Task<Project> CreateAsync(
+			[Body] Project project,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Delete a Project
+		/// </summary>
+		[Delete("/project/{name}")]
+		Task<Project> DeleteAsync(
+			string name,
 			CancellationToken cancellationToken = default);
 	}
 }

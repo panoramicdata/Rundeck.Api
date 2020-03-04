@@ -46,7 +46,7 @@ namespace Rundeck.Api.Interfaces
 		/// Delete an AclPolicy
 		/// </summary>
 		[Delete("/system/acl/{name}")]
-		Task<AuthenticationToken> DeleteAsync(
+		Task DeleteAsync(
 			string name,
 			CancellationToken cancellationToken = default);
 	}
