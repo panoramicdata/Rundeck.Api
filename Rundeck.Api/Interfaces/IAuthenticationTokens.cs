@@ -1,5 +1,6 @@
 ﻿using Refit;
 using Rundeck.Api.Models;
+using Rundeck.Api.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

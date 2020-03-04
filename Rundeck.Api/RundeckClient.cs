@@ -49,6 +49,7 @@ namespace Rundeck.Api
 			System = RestService.For<ISystem>(_httpClient, refitSettings);
 			Users = RestService.For<IUsers>(_httpClient, refitSettings);
 			WebHooks = RestService.For<IWebHooks>(_httpClient, refitSettings);
+			Policies = RestService.For<IPolicies>(_httpClient, refitSettings);
 		}
 
 		/// <summary>
@@ -92,9 +93,13 @@ namespace Rundeck.Api
 		public IUsers Users { get; }
 
 		/// <summary>
-		/// Users
+		/// WebHooks
 		/// </summary>
 		public IWebHooks WebHooks { get; }
+		/// <summary>
+		/// Policies
+		/// </summary>
+		public IPolicies Policies { get; }
 
 		#region IDisposable Support
 		private bool _disposedValue = false; // To detect redundant calls

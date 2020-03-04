@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Rundeck.Api.Models;
+using Rundeck.Api.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using Xunit;

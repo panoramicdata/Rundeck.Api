@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Rundeck.Api.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -60,6 +61,36 @@ namespace Rundeck.Api.Test.Documented
 
 			roles.Should().NotBeNull();
 			roles.Roles.Should().NotBeNullOrEmpty();
+		}
+
+		[Fact]
+		public async void Users_UpdateAsync_Passes()
+		{
+			var users = await RundeckClient
+				.Users
+				.GetAllAsync()
+				.ConfigureAwait(false);
+
+			var user = await RundeckClient
+				.Users
+				.GetAsync(users[0].Login)
+				.ConfigureAwait(false);
+
+			var updatedUser = await RundeckClient
+			.Users
+			.UpdateAsync(user.Login, new User
+			{
+				FirstName = "John",
+				LastName = "Smith",
+				Email = "john.smith@example.com"
+			})
+			.ConfigureAwait(false);
+
+			updatedUser.Should().NotBeNull();
+			updatedUser.Login.Should().Be(user.Login);
+			updatedUser.FirstName.Should().Be("John");
+			updatedUser.LastName.Should().Be("Smith");
+			updatedUser.Email.Should().Be("john.smith@example.com");
 		}
 	}
 }

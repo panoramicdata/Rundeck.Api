@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Rundeck.Api.Models
+namespace Rundeck.Api.Models.Dtos
 {
 	/// <summary>
 	/// An authentication token creation DTO
