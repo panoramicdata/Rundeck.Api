@@ -12,6 +12,6 @@ namespace Rundeck.Api.Models
 		/// The links
 		/// </summary>
 		[DataMember(Name = "_links")]
-		public Links Links { get; set; } = default!;
+		public MetricLinks Links { get; set; } = default!;
 	}
 }

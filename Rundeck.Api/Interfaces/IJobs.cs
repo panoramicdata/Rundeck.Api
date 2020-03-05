@@ -9,11 +9,33 @@ namespace Rundeck.Api.Interfaces
 	public interface IJobs
 	{
 		/// <summary>
-		/// Lists all job
+		/// Lists all job for a project
 		/// </summary>
 		/// <param name="cancellationToken"></param>
-		[Get("/job/list")]
-		Task<List<Plugin>> GetAllAsync(
+		[Get("/project/{projectName}/jobs")]
+		Task<List<JobImportResults>> GetAllAsync(
+			string projectName,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Import job for a project from a definition
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Post("/project/{projectName}/jobs/import")]
+		[Headers("Content-Type: application/yaml")]
+		Task<JobImportResults> ImportAsync(
+			string projectName,
+			[Body] string jobContent,
+			[AliasAs("fileformat")] JobFileFormat fileFormat,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Delete a job
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Delete("/job/{id}")]
+		Task<JobImportResults> DeleteAsync(
+			string id,
 			CancellationToken cancellationToken = default);
 	}
 }

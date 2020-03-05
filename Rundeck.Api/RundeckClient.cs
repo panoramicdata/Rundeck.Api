@@ -32,6 +32,7 @@ namespace Rundeck.Api
 					new JsonSerializerSettings
 					{
 						NullValueHandling = NullValueHandling.Ignore
+						//, Converters = { new StringEnumConverter() }
 #if DEBUG
 						,
 						MissingMemberHandling = MissingMemberHandling.Error

@@ -6,7 +6,7 @@ namespace Rundeck.Api.Models
 	/// The links
 	/// </summary>
 	[DataContract]
-	public class Links
+	public class MetricLinks
 	{
 		/// <summary>
 		/// The metrics
