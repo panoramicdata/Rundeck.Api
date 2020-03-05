@@ -67,5 +67,84 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "rundeck.web.requests.requestTimer")]
 		public AdvancedMeter RundeckWebRequestsRequestTimer { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckControllersMenuControllerApiExecutionsRunningv14QueryQueue
+		/// </summary>
+		[DataMember(Name = "rundeck.controllers.MenuController.apiExecutionsRunningv14.queryQueue")]
+		public AdvancedMeter RundeckControllersMenuControllerApiExecutionsRunningv14QueryQueue { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckControllersMenuControllerLoadSummaryProjectStatsOrig
+		/// </summary>
+		[DataMember(Name = "rundeck.controllers.MenuController.loadSummaryProjectStatsOrig")]
+		public AdvancedMeter RundeckControllersMenuControllerLoadSummaryProjectStatsOrig { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckControllersReportsControllerIndexGetExecutionReports
+		/// </summary>
+		[DataMember(Name = "rundeck.controllers.ReportsController.index.getExecutionReports")]
+		public AdvancedMeter RundeckControllersReportsControllerIndexGetExecutionReports { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeApplicationResourceAll
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeApplicationResourceAll")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeApplicationResourceAll { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeApplicationResourceSet
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeApplicationResourceSet")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeApplicationResourceSet { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeApplicationResourceTypeAll
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeApplicationResourceTypeAll")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeApplicationResourceTypeAll { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeProjectJobAll
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeProjectJobAll")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeProjectJobAll { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeProjectResource
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeProjectResource")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeProjectResource { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeProjectResourceAll
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeProjectResourceAll")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeProjectResourceAll { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeProjectResourceAny
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeProjectResourceAny")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeProjectResourceAny { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesFrameworkServiceAuthorizeProjectResources
+		/// </summary>
+		[DataMember(Name = "rundeck.services.FrameworkService.authorizeProjectResources")]
+		public AdvancedMeter RundeckServicesFrameworkServiceAuthorizeProjectResources { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesNodeServiceProjectTestLoadNodes
+		/// </summary>
+		[DataMember(Name = "rundeck.services.NodeService.project.Test.loadNodes")]
+		public AdvancedMeter RundeckServicesNodeServiceProjectTestLoadNodes { get; set; } = new AdvancedMeter();
+
+		/// <summary>
+		/// RundeckServicesNodeServiceProjectTestingLoadNodes
+		/// </summary>
+		[DataMember(Name = "rundeck.services.NodeService.project.Testing.loadNodes")]
+		public AdvancedMeter RundeckServicesNodeServiceProjectTestingLoadNodes { get; set; } = new AdvancedMeter();
+
 	}
 }

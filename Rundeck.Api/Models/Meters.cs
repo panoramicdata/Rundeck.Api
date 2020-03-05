@@ -9,6 +9,12 @@ namespace Rundeck.Api.Models
 	public class Meters
 	{
 		/// <summary>
+		/// RundeckControllersFrameworkControllerCreateProjectPost
+		/// </summary>
+		[DataMember(Name = "rundeck.controllers.FrameworkController.createProjectPost")]
+		public Meter RundeckControllersFrameworkControllerCreateProjectPost { get; set; } = new Meter();
+
+		/// <summary>
 		/// RundeckServicesAuthorizationServicesystemAuthorizationEvaluateMeter
 		/// </summary>
 		[DataMember(Name = "rundeck.services.AuthorizationService.systemAuthorization.evaluateMeter")]
