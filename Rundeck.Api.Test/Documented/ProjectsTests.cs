@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
+	[Collection("ProjectTests")]
 	public class ProjectsTests : TestBase
 	{
 		public ProjectsTests(ITestOutputHelper output) : base(output)
