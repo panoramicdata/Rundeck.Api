@@ -50,5 +50,25 @@ namespace Rundeck.Api.Interfaces
 		Task<Config> GetConfigAsync(
 			string name,
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Project Resources
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/project/{name}/resources")]
+		Task<Dictionary<string, ProjectResource>> GetResourcesAsync(
+			string name,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Project Sources
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/project/{name}/sources")]
+		Task<List<ProjectSource>> GetSourcesAsync(
+			string name,
+			CancellationToken cancellationToken = default);
+
+		// Todo : add Project Configuration Keys CRUD operations
 	}
 }

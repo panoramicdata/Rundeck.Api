@@ -116,5 +116,81 @@ namespace Rundeck.Api.Test.Documented
 					  .ConfigureAwait(false);
 			}
 		}
+
+		[Fact]
+		public async void Projects_GetProjectResources_Ok()
+		{
+			// Arrange - create a project
+			var project = await RundeckClient
+						.Projects
+						.CreateAsync(new Project
+						{
+							Description = "Test project",
+							Name = "Test",
+							Url = "example.com",
+							Config = new Config()
+						}
+						)
+						.ConfigureAwait(false);
+
+			project.Should().NotBeNull();
+
+			try
+			{
+				var resources = await RundeckClient
+					.Projects
+					.GetResourcesAsync("Test")
+					.ConfigureAwait(false);
+
+				resources.Should().NotBeNull();
+				// Todo - check Resource properties
+			}
+			finally
+			{
+				// Cleanup
+				await RundeckClient
+					  .Projects
+					  .DeleteAsync("Test")
+					  .ConfigureAwait(false);
+			}
+		}
+
+		[Fact]
+		public async void Projects_GetProjectSources_Ok()
+		{
+			// Arrange - create a project
+			var project = await RundeckClient
+						.Projects
+						.CreateAsync(new Project
+						{
+							Description = "Test project",
+							Name = "Test",
+							Url = "example.com",
+							Config = new Config()
+						}
+						)
+						.ConfigureAwait(false);
+
+			project.Should().NotBeNull();
+
+			try
+			{
+				var sources = await RundeckClient
+					.Projects
+					.GetSourcesAsync("Test")
+					.ConfigureAwait(false);
+
+				sources.Should().NotBeNull();
+				// Todo - check Source properties
+			}
+			finally
+			{
+				// Cleanup
+				await RundeckClient
+					  .Projects
+					  .DeleteAsync("Test")
+					  .ConfigureAwait(false);
+			}
+		}
 	}
 }
