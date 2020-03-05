@@ -12,7 +12,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void GetAll_Ok()
+		public async void Policies_GetAll_Ok()
 		{
 			var policyListing = await RundeckClient
 				.Policies
@@ -25,7 +25,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void BasicCrud_Ok()
+		public async void Policies_BasicCrud_Ok()
 		{
 			// Arrange
 			// Make sure there are no policies
