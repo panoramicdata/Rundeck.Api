@@ -5,7 +5,6 @@ namespace Rundeck.Api.Models
 	[DataContract]
 	public class Config
 	{
-
 		[DataMember(Name = "project.description")]
 		public string ProjectDescription { get; set; } = default!;
 

@@ -145,6 +145,5 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "rundeck.services.NodeService.project.Testing.loadNodes")]
 		public AdvancedMeter RundeckServicesNodeServiceProjectTestingLoadNodes { get; set; } = new AdvancedMeter();
-
 	}
 }

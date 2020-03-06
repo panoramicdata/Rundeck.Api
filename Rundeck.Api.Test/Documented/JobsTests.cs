@@ -41,7 +41,6 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async void Jobs_GetAll_Ok()
 		{
-
 			var jobs = await RundeckClient
 				.Jobs
 				.GetAllAsync("Test")
@@ -123,6 +122,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			jobImportResult.Should().NotBeNull();
 
 			var jobs = await RundeckClient
 				.Jobs
@@ -169,6 +169,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			jobImportResult.Should().NotBeNull();
 
 			var jobs = await RundeckClient
 				.Jobs

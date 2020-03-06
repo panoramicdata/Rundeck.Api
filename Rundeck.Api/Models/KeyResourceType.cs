@@ -2,10 +2,7 @@
 
 namespace Rundeck.Api.Models
 {
-	/// <summary>
-	/// Execution mode enum
-	/// </summary>
-	public enum ExecutionModeEnum
+	public enum KeyResourceType
 	{
 		/// <summary>
 		/// Unknown - useful when deserialising
@@ -13,15 +10,15 @@ namespace Rundeck.Api.Models
 		Unknown,
 
 		/// <summary>
-		/// Passive
+		/// File
 		/// </summary>
-		[EnumMember(Value = "passive")]
-		Passive,
+		[EnumMember(Value = "file")]
+		File,
 
 		/// <summary>
-		/// Active
+		/// Directory
 		/// </summary>
-		[EnumMember(Value = "active")]
-		Active
+		[EnumMember(Value = "directory")]
+		Directory
 	}
 }
