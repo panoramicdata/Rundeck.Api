@@ -29,6 +29,5 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "Rundeck-auth-modified-username")]
 		public string RundeckAuthModifiedUsername { get; set; } = default!;
-
 	}
 }

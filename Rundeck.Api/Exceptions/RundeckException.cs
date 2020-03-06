@@ -12,9 +12,7 @@ namespace Rundeck.Api.Exceptions
 
 		public RundeckException(RundeckError rundeckError)
 			: base(rundeckError?.Message ?? throw new ArgumentNullException(nameof(rundeckError)))
-		{
-			RundeckError = rundeckError;
-		}
+			=> RundeckError = rundeckError;
 
 		public RundeckException(string message) : base(message)
 		{
