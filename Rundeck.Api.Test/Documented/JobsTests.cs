@@ -1,148 +1,127 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
 	[Collection("ProjectTests")]
-	public class JobsTests : TestBase
+	public class JobsTests : TestBase, IAsyncLifetime
 	{
 		public JobsTests(ITestOutputHelper output) : base(output)
 		{
 		}
 
-		[Fact]
-		public async void Jobs_GetAll_Ok()
+		public async Task InitializeAsync()
 		{
-			try
-			{
-				// Arrange - create a Project to list it's Jobs
-				var project = await RundeckClient
-					.Projects
-					.CreateAsync(new Project
-					{
-						Description = "Test project",
-						Name = "Test",
-						Url = "example.com",
-						Config = new Config()
-					}
-					)
-					.ConfigureAwait(false);
+			var project = await RundeckClient
+				.Projects
+				.CreateAsync(new Project
+				{
+					Description = "Test project",
+					Name = "Test",
+					Url = "example.com",
+					Config = new Config()
+				}
+				).ConfigureAwait(false);
 
-				project.Should().NotBeNull();
+			project.Should().NotBeNull();
+		}
 
-				var jobs = await RundeckClient
-					.Jobs
-					.GetAllAsync("Test")
-					.ConfigureAwait(false);
-
-				jobs.Should().NotBeNull();
-				jobs.Should().BeEmpty();
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
+		public async Task DisposeAsync()
+		{
+			// Remove the Project
+			await RundeckClient
 					  .Projects
 					  .DeleteAsync("Test")
 					  .ConfigureAwait(false);
-			}
+		}
 
+		[Fact]
+		public async void Jobs_GetAll_Ok()
+		{
 
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().BeEmpty();
 		}
 
 		[Fact]
 		public async void Jobs_Import_Ok()
 		{
-			// Arrange - create a Project to list it's Jobs
-			var project = await RundeckClient
-				.Projects
-				.CreateAsync(new Project
-				{
-					Description = "Test project",
-					Name = "Test",
-					Url = "example.com",
-					Config = new Config()
-				}
-				)
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
 				.ConfigureAwait(false);
 
-			project.Should().NotBeNull();
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
 
-			var jobContents = @"
-- defaultTab: nodes
-  description: test job
-  executionEnabled: true
-  id: a4fc12f7-a993-4cee-af01-4aececa0401d
-  loglevel: INFO
-  name: Test  job
-  nodeFilterEditable: false
-  scheduleEnabled: true
-  sequence:
-    commands:
-    - description: test step
-      exec: pwd
-    keepgoing: false
-    strategy: node-first
-  uuid: a4fc12f7-a993-4cee-af01-4aececa0401d";
+			await DeleteJobAsync(jobImportResult.Id).ConfigureAwait(false);
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+		}
 
-			try
-			{
-				var jobImportResults = await RundeckClient
-					.Jobs
-					.ImportAsync("Test", jobContents, JobFileFormat.YAML)
-					.ConfigureAwait(false);
+		[Fact]
+		public async void Jobs_Delete_Ok()
+		{
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
 
-				jobImportResults.Succeeded.Should().ContainSingle();
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
 
-				var jobImportResult = jobImportResults.Succeeded.Single();
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
 
-				try
-				{
-					jobImportResults.Failed.Should().BeEmpty();
-					jobImportResults.Skipped.Should().BeEmpty();
-					// Todo - check jobImportResult properties
-				}
-				finally
-				{
-					// Cleanup
-					await RundeckClient
-						  .Jobs
-						  .DeleteAsync(jobImportResult.Id)
-						  .ConfigureAwait(false);
-				}
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
-			}
+			await DeleteJobAsync(jobImportResult.Id).ConfigureAwait(false);
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+		}
+
+		private async Task AssertJobsEmptyAsync(string projectName)
+		{
+			var jobsAfterDelete = await RundeckClient
+							.Jobs
+							.GetAllAsync(projectName)
+							.ConfigureAwait(false);
+
+			jobsAfterDelete.Should().NotBeNull();
+			jobsAfterDelete.Should().BeEmpty();
 		}
 
 		[Fact]
 		public async void Jobs_GetJobDefinition_Ok()
 		{
-			// Arrange - create a Project to list it's Jobs
-			var project = await RundeckClient
-				.Projects
-				.CreateAsync(new Project
-				{
-					Description = "Test project",
-					Name = "Test",
-					Url = "example.com",
-					Config = new Config()
-				}
-				)
-				.ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			try
+			{
+				var jobDefinition = await RundeckClient
+					.Jobs
+					.GetAsync(jobImportResult.Id, JobFileFormat.YAML)
+					.ConfigureAwait(false);
 
-			project.Should().NotBeNull();
+				jobDefinition.Should().NotBeNullOrEmpty();
+			}
+			finally
+			{
+				// Cleanup
+				await DeleteJobAsync(jobImportResult.Id).ConfigureAwait(false);
+			}
+		}
 
-			var jobContents = @"
+		private async Task<JobImportResult> ImportJobAsync()
+		{
+			const string jobContents = @"
 - defaultTab: nodes
   description: test job
   executionEnabled: true
@@ -159,44 +138,24 @@ namespace Rundeck.Api.Test.Documented
     strategy: node-first
   uuid: a4fc12f7-a993-4cee-af01-4aececa0401d";
 
-			try
-			{
-				var jobImportResults = await RundeckClient
-					.Jobs
-					.ImportAsync("Test", jobContents, JobFileFormat.YAML)
-					.ConfigureAwait(false);
+			var jobImportResults = await RundeckClient
+				.Jobs
+				.ImportAsync("Test", jobContents, JobFileFormat.YAML)
+				.ConfigureAwait(false);
 
-				jobImportResults.Succeeded.Should().ContainSingle();
+			jobImportResults.Succeeded.Should().ContainSingle();
+			jobImportResults.Failed.Should().BeEmpty();
+			jobImportResults.Skipped.Should().BeEmpty();
 
-				var jobImportResult = jobImportResults.Succeeded.Single();
+			return jobImportResults.Succeeded.Single();
+		}
 
-				try
-				{
-					// Todo - deal with yaml response
-					//var jobDefinition = await RundeckClient
-					//	.Jobs
-					//	.GetAsync(jobImportResult.Id, JobFileFormat.YAML)
-					//	.ConfigureAwait(false);
-
-					//jobDefinition.Should().NotBeNull();
-				}
-				finally
-				{
-					// Cleanup
-					await RundeckClient
-						  .Jobs
-						  .DeleteAsync(jobImportResult.Id)
-						  .ConfigureAwait(false);
-				}
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
+		private async Task DeleteJobAsync(string id)
+		{
+			await RundeckClient
+					  .Jobs
+					  .DeleteAsync(id)
 					  .ConfigureAwait(false);
-			}
 		}
 	}
 }

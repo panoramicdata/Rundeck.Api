@@ -13,7 +13,7 @@ namespace Rundeck.Api.Interfaces
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Get("/project/{projectName}/jobs")]
-		Task<List<JobImportResults>> GetAllAsync(
+		Task<List<Job>> GetAllAsync(
 			string projectName,
 			CancellationToken cancellationToken = default);
 
@@ -22,12 +22,12 @@ namespace Rundeck.Api.Interfaces
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		/// Todo - Implement FileDownload to download JobDefinition in XML/YAML format
-		//[Get("/job/{id}")]
-		//[Headers("Content-Type: application/yaml")]
-		//Task<Job> GetAsync(
-		//	string id,
-		//	[AliasAs("format")] JobFileFormat fileFormat,
-		//	CancellationToken cancellationToken = default);
+		[Get("/job/{id}")]
+		[Headers("Content-Type: application/yaml")]
+		Task<string> GetAsync(
+			string id,
+			[AliasAs("format")] JobFileFormat fileFormat,
+			CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Import job for a project from a definition

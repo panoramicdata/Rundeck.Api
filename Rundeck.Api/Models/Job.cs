@@ -16,10 +16,10 @@ namespace Rundeck.Api.Models
 		public string Name { get; set; } = default!;
 
 		[DataMember(Name = "group")]
-		public Group Group { get; set; } = new Group();
+		public string Group { get; set; } = default!;
 
 		[DataMember(Name = "project")]
-		public Project Project { get; set; } = new Project();
+		public string Project { get; set; } = default!;
 
 		[DataMember(Name = "description")]
 		public string Description { get; set; } = default!;
@@ -38,5 +38,12 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "enabled")]
 		public bool Enabled { get; set; }
+
+		// provided in cluster mode
+		[DataMember(Name = "serverOwner")]
+		public bool ServerOwner { get; set; }
+
+		[DataMember(Name = "serverNodeUUID")]
+		public string ServerNodeUUID { get; set; } = default!;
 	}
 }
