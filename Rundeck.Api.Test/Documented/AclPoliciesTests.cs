@@ -44,13 +44,15 @@ namespace Rundeck.Api.Test.Documented
 			{
 				// Create a policy
 				var policy = await RundeckClient
-								.Policies
-								.CreateAsync(policyName, new AclPolicy
-								{
-									Contents = "description: \"my policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build"
-								}
-								)
-								.ConfigureAwait(false);
+					.Policies
+					.CreateAsync(
+						policyName,
+						new AclPolicy
+						{
+							Contents = "description: \"my policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build"
+						}
+					)
+					.ConfigureAwait(false);
 
 				// Assert
 				policy.Should().NotBeNull();
@@ -76,13 +78,15 @@ namespace Rundeck.Api.Test.Documented
 				// Update
 				const string newContents = "description: \"updated policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build";
 				var updatedPolicy = await RundeckClient
-								.Policies
-								.UpdateAsync(policyName, new AclPolicy
-								{
-									Contents = newContents
-								}
-								)
-								.ConfigureAwait(false);
+					.Policies
+					.UpdateAsync(
+						policyName,
+						new AclPolicy
+						{
+							Contents = newContents
+						}
+					)
+					.ConfigureAwait(false);
 
 				updatedPolicy.Should().NotBeNull();
 				updatedPolicy.Should().NotBeEquivalentTo(policy);
