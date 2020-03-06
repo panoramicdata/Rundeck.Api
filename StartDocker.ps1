@@ -14,5 +14,5 @@ do {
     else {
         Write-Host "Rundeck not ready, waiting 1 second"
         sleep 1
-    }    
+    }
 } until ($request.StatusCode -eq 200)
