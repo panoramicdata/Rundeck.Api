@@ -115,7 +115,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void CreateUpdateDelete_Succeeds()
+		public async void CreateDelete_Succeeds()
 		{
 			// Create
 			var newToken = await RundeckClient

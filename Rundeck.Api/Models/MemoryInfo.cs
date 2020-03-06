@@ -18,18 +18,18 @@ namespace Rundeck.Api.Models
 		/// Max value
 		/// </summary>
 		[DataMember(Name = "max")]
-		public int Max { get; set; }
+		public long Max { get; set; }
 
 		/// <summary>
 		/// Free
 		/// </summary>
 		[DataMember(Name = "free")]
-		public int Free { get; set; }
+		public long Free { get; set; }
 
 		/// <summary>
 		/// Total
 		/// </summary>
 		[DataMember(Name = "total")]
-		public int Total { get; set; }
+		public long Total { get; set; }
 	}
 }

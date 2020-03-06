@@ -19,8 +19,7 @@ namespace Rundeck.Api.Test.Documented
 				.GetAllAsync()
 				.ConfigureAwait(false);
 
-			users.Should().NotBeNull();
-			users.Should().NotBeEmpty();
+			users.Should().NotBeNullOrEmpty();
 		}
 
 		[Fact]
@@ -41,6 +40,8 @@ namespace Rundeck.Api.Test.Documented
 				.Users
 				.GetAllAsync()
 				.ConfigureAwait(false);
+
+			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
@@ -70,6 +71,8 @@ namespace Rundeck.Api.Test.Documented
 				.Users
 				.GetAllAsync()
 				.ConfigureAwait(false);
+
+			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
