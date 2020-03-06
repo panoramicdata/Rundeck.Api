@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -209,46 +208,6 @@ namespace Rundeck.Api.Test.Documented
 				.ConfigureAwait(false);
 
 			jobs[0].ScheduleEnabled.Should().BeFalse();
-		}
-
-		private async Task<JobImportResult> ImportJobAsync()
-		{
-			const string jobContents = @"
-- defaultTab: nodes
-  description: test job
-  executionEnabled: false
-  id: a4fc12f7-a993-4cee-af01-4aececa0401d
-  loglevel: INFO
-  name: Test  job
-  nodeFilterEditable: false
-  schedule:
-    month: '*'
-    time:
-      hour: '23'
-      minute: '18'
-      seconds: '0'
-    weekday:
-      day: '*'
-    year: '*'
-  scheduleEnabled: false
-  sequence:
-    commands:
-    - description: test step
-      exec: pwd
-    keepgoing: false
-    strategy: node-first
-  uuid: a4fc12f7-a993-4cee-af01-4aececa0401d";
-
-			var jobImportResults = await RundeckClient
-				.Jobs
-				.ImportAsync("Test", jobContents, JobFileFormat.YAML)
-				.ConfigureAwait(false);
-
-			jobImportResults.Succeeded.Should().ContainSingle();
-			jobImportResults.Failed.Should().BeEmpty();
-			jobImportResults.Skipped.Should().BeEmpty();
-
-			return jobImportResults.Succeeded.Single();
 		}
 
 		private async Task DeleteJobAsync(string id)
