@@ -1,7 +1,6 @@
-﻿using Rundeck.Api.Models;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace Rundeck.Api.Interfaces
+namespace Rundeck.Api.Models
 {
 	[DataContract]
 	public class WebHook

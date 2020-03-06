@@ -1,4 +1,5 @@
 ﻿using Refit;
+using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,7 +19,7 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Create a web hooks for a project
+		/// Create a web hook for a project
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Post("/project/{projectName}/webhook")]
@@ -28,7 +29,18 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Delete a web hooks for a project
+		/// Update a web hook
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Post("/project/{projectName}/webhook/{id}")]
+		Task<string> UpdateAsync(
+			string projectName,
+			int id,
+			[Body] WebHook webHook,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Delete a web hook
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Delete("/project/{projectName}/webhook/{id}")]
