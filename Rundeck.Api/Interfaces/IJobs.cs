@@ -49,5 +49,49 @@ namespace Rundeck.Api.Interfaces
 		Task<JobImportResults> DeleteAsync(
 			string id,
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Enable Executions on a Job
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/execution/enable")]
+		Task<SuccessResult> EnableExecutionsAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Disable Executions on a Job
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/execution/disable")]
+		Task<SuccessResult> DisableExecutionsAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Enable Scheduling on a Job
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/schedule/enable")]
+		Task<SuccessResult> EnableSchedulingAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Disable Scheduling on a Job
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/schedule/disable")]
+		Task<SuccessResult> DisableSchedulingAsync(
+			string id,
+			CancellationToken cancellationToken = default);
 	}
 }

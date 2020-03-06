@@ -119,17 +119,118 @@ namespace Rundeck.Api.Test.Documented
 			}
 		}
 
+		[Fact]
+		public async void Jobs_EnableDisableExecutions_Ok()
+		{
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
+
+			jobs[0].Enabled.Should().BeFalse();
+
+			var enableExecutionsResult = await RundeckClient
+				.Jobs
+				.EnableExecutionsAsync(jobs[0].Id)
+				.ConfigureAwait(false);
+
+			enableExecutionsResult.Success.Should().BeTrue();
+
+			// check that the job has been enabled
+			jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs[0].Enabled.Should().BeTrue();
+
+			var disableExecutionsResult = await RundeckClient
+				.Jobs
+				.DisableExecutionsAsync(jobs[0].Id)
+				.ConfigureAwait(false);
+			disableExecutionsResult.Success.Should().BeTrue();
+
+			// check that the job has been disabled
+			jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs[0].Enabled.Should().BeFalse();
+		}
+
+		[Fact]
+		public async void Jobs_EnableDisableScheduling_Ok()
+		{
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
+
+			jobs[0].Enabled.Should().BeFalse();
+
+			var enableSchedulingResult = await RundeckClient
+				.Jobs
+				.EnableSchedulingAsync(jobs[0].Id)
+				.ConfigureAwait(false);
+
+			enableSchedulingResult.Success.Should().BeTrue();
+
+			// check that the job has been enabled
+			jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs[0].ScheduleEnabled.Should().BeTrue();
+
+			var disableSchedulingResult = await RundeckClient
+				.Jobs
+				.DisableSchedulingAsync(jobs[0].Id)
+				.ConfigureAwait(false);
+			disableSchedulingResult.Success.Should().BeTrue();
+
+			// check that the job has been disabled
+			jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs[0].ScheduleEnabled.Should().BeFalse();
+		}
+
 		private async Task<JobImportResult> ImportJobAsync()
 		{
 			const string jobContents = @"
 - defaultTab: nodes
   description: test job
-  executionEnabled: true
+  executionEnabled: false
   id: a4fc12f7-a993-4cee-af01-4aececa0401d
   loglevel: INFO
   name: Test  job
   nodeFilterEditable: false
-  scheduleEnabled: true
+  schedule:
+    month: '*'
+    time:
+      hour: '23'
+      minute: '18'
+      seconds: '0'
+    weekday:
+      day: '*'
+    year: '*'
+  scheduleEnabled: false
   sequence:
     commands:
     - description: test step
