@@ -42,7 +42,6 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async void Jobs_GetAll_Ok()
 		{
-
 			var jobs = await RundeckClient
 				.Jobs
 				.GetAllAsync("Test")
