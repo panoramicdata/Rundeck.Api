@@ -30,14 +30,11 @@ namespace Rundeck.Api.Test.Documented
 			project.Should().NotBeNull();
 		}
 
-		public async Task DisposeAsync()
-		{
+		public Task DisposeAsync() =>
 			// Remove the Project
-			await RundeckClient
+			RundeckClient
 					  .Projects
-					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
-		}
+					  .DeleteAsync("Test");
 
 		[Fact]
 		public async void WebHooks_GetAll_Ok()
@@ -162,9 +159,8 @@ namespace Rundeck.Api.Test.Documented
 			webHooks.Should().BeEmpty();
 		}
 
-		private async Task<string> CreateWebHookAsync(string jobId)
-		{
-			return await RundeckClient
+		private Task<string> CreateWebHookAsync(string jobId)
+			=> RundeckClient
 				.WebHooks
 				.CreateAsync("Test", new WebHookCreationDto
 				{
@@ -178,9 +174,7 @@ namespace Rundeck.Api.Test.Documented
 					Project = "Test",
 					Roles = "webhook,admin,user",
 					User = "admin"
-
 				}
-				).ConfigureAwait(false);
-		}
+				);
 	}
 }
