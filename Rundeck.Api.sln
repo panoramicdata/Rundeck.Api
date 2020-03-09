@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rundeck.Api", "Rundeck.Api\Rundeck.Api.csproj", "{19414D1E-EB38-47C7-BED3-EF1DA8EF4E7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF106AC4-ACCD-4A83-A0D4-D2ADFE5B964A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+		RestartDocker.ps1 = RestartDocker.ps1
+		RestartDockerAndTest.ps1 = RestartDockerAndTest.ps1
+		Rundeck.Api.sln.vsspell = Rundeck.Api.sln.vsspell
+		StartDocker.ps1 = StartDocker.ps1
+		StartDockerAndTest.ps1 = StartDockerAndTest.ps1
+		StopDocker.ps1 = StopDocker.ps1
+		Dockerfiles\tokens.properties = Dockerfiles\tokens.properties
+		version.json = version.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rundeck.Api.Test", "Rundeck.Api.Test\Rundeck.Api.Test.csproj", "{9B5CC3FC-6D58-4507-922C-DC0627546365}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19414D1E-EB38-47C7-BED3-EF1DA8EF4E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19414D1E-EB38-47C7-BED3-EF1DA8EF4E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19414D1E-EB38-47C7-BED3-EF1DA8EF4E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19414D1E-EB38-47C7-BED3-EF1DA8EF4E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5CC3FC-6D58-4507-922C-DC0627546365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5CC3FC-6D58-4507-922C-DC0627546365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5CC3FC-6D58-4507-922C-DC0627546365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5CC3FC-6D58-4507-922C-DC0627546365}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77519721-F0A6-42D9-A934-A17E8EED8394}
+	EndGlobalSection
+EndGlobal
