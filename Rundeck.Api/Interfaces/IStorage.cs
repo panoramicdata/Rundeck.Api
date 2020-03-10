@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Storage interface
+	/// </summary>
 	public interface IStorage
 	{
 		/// <summary>

@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Keys interface
+	/// </summary>
 	public interface IKeys
 	{
 		/// <summary>
