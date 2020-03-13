@@ -88,7 +88,6 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async void Jobs_BulkDelete_Ok()
 		{
-			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			// Import 2 jobs to be able to test Bulk Delete
 			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
 			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
@@ -120,17 +119,6 @@ namespace Rundeck.Api.Test.Documented
 			{
 				await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			}
-		}
-
-		private async Task AssertJobsEmptyAsync(string projectName)
-		{
-			var jobsAfterDelete = await RundeckClient
-							.Jobs
-							.GetAllAsync(projectName)
-							.ConfigureAwait(false);
-
-			jobsAfterDelete.Should().NotBeNull();
-			jobsAfterDelete.Should().BeEmpty();
 		}
 
 		[Fact]
@@ -201,6 +189,70 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
+		public async void Jobs_BulkExecutionToggle_Passes()
+		{
+			// Import 2 jobs to be able to test Bulk Delete
+			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
+			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().HaveCount(2);
+
+			try
+			{
+				// Enable 2 jobs
+				var bulkExecutionEnabledResult = await RundeckClient
+					.Jobs
+					.EnableExecutionsAsync(new List<string>()
+						{
+							jobImportResult.Id,
+							jobImportResult2.Id
+						}
+					)
+					.ConfigureAwait(false);
+
+				bulkExecutionEnabledResult.Should().NotBeNull();
+				bulkExecutionEnabledResult.Enabled.Should().BeTrue();
+				bulkExecutionEnabledResult.Succeeded.Should().HaveCount(2);
+
+				// Disable 2 jobs
+				var bulkExecutionDisabledResult = await RundeckClient
+					.Jobs
+					.DisableExecutionsAsync(new List<string>()
+						{
+							jobImportResult.Id,
+							jobImportResult2.Id
+						}
+					)
+					.ConfigureAwait(false);
+
+				bulkExecutionDisabledResult.Should().NotBeNull();
+				bulkExecutionDisabledResult.Enabled.Should().BeFalse();
+				bulkExecutionDisabledResult.Succeeded.Should().HaveCount(2);
+			}
+			finally
+			{
+				// Cleanup jobs
+				await RundeckClient
+					.Jobs
+					.DeleteAsync(new List<string>()
+						{
+							jobImportResult.Id,
+							jobImportResult2.Id
+						}
+					)
+					.ConfigureAwait(false);
+
+				await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			}
+		}
+
+		[Fact]
 		public async void Jobs_EnableDisableScheduling_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
@@ -251,5 +303,16 @@ namespace Rundeck.Api.Test.Documented
 			=> RundeckClient
 				.Jobs
 				.DeleteAsync(id);
+
+		private async Task AssertJobsEmptyAsync(string projectName)
+		{
+			var jobsAfterDelete = await RundeckClient
+							.Jobs
+							.GetAllAsync(projectName)
+							.ConfigureAwait(false);
+
+			jobsAfterDelete.Should().NotBeNull();
+			jobsAfterDelete.Should().BeEmpty();
+		}
 	}
 }

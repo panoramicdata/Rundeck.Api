@@ -75,6 +75,17 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// Bulk Enable Executions on Jobs
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/jobs/execution/enable")]
+		Task<BulkJobExecutionToggleResponse> EnableExecutionsAsync(
+			[Query(CollectionFormat.Csv)] List<string> idlist,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Disable Executions on a Job
 		/// </summary>
 		/// <param name="id"></param>
@@ -83,6 +94,17 @@ namespace Rundeck.Api.Interfaces
 		[Post("/job/{id}/execution/disable")]
 		Task<SuccessResult> DisableExecutionsAsync(
 			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Bulk Disable Executions Jobs
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/jobs/execution/disable")]
+		Task<BulkJobExecutionToggleResponse> DisableExecutionsAsync(
+			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
