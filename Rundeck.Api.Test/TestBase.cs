@@ -42,7 +42,7 @@ namespace Rundeck.Api.Test
 				});
 		}
 
-		public async Task<JobImportResult> ImportJobAsync()
+		public async Task<JobImportResult> ImportJobAsync(JobUuidOption uuidOption = JobUuidOption.Preserve)
 		{
 			const string jobContents = @"
 - defaultTab: nodes
@@ -72,7 +72,7 @@ namespace Rundeck.Api.Test
 
 			var jobImportResults = await RundeckClient
 				.Jobs
-				.ImportAsync("Test", jobContents, JobFileFormat.YAML)
+				.ImportAsync("Test", jobContents, JobFileFormat.YAML, uuidOption)
 				.ConfigureAwait(false);
 
 			jobImportResults.Succeeded.Should().ContainSingle();

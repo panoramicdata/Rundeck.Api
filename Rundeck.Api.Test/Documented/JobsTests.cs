@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -82,6 +83,43 @@ namespace Rundeck.Api.Test.Documented
 
 			await DeleteJobAsync(jobImportResult.Id).ConfigureAwait(false);
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+		}
+
+		[Fact]
+		public async void Jobs_BulkDelete_Ok()
+		{
+			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			// Import 2 jobs to be able to test Bulk Delete
+			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
+			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().HaveCount(2);
+
+			try
+			{
+				var bulkDeletionResult = await RundeckClient
+					.Jobs
+					.DeleteAsync(new List<string>()
+						{
+							jobImportResult.Id,
+							jobImportResult2.Id
+						}
+					)
+					.ConfigureAwait(false);
+
+				bulkDeletionResult.RequestCount.Should().Be(2);
+				bulkDeletionResult.Succeeded.Should().HaveCount(2);
+			}
+			finally
+			{
+				await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
+			}
 		}
 
 		private async Task AssertJobsEmptyAsync(string projectName)

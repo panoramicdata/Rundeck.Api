@@ -42,6 +42,7 @@ namespace Rundeck.Api.Interfaces
 			string projectName,
 			[Body] string jobContent,
 			[AliasAs("fileformat")] JobFileFormat fileFormat,
+			[AliasAs("uuidOption")] JobUuidOption uuidOption = JobUuidOption.Preserve,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -49,8 +50,17 @@ namespace Rundeck.Api.Interfaces
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Delete("/job/{id}")]
-		Task<JobImportResults> DeleteAsync(
+		Task DeleteAsync(
 			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Bulk Delete jobs
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Delete("/jobs/delete")]
+		Task<JobBulkDeleteResults> DeleteAsync(
+			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
