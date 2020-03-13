@@ -29,14 +29,12 @@ namespace Rundeck.Api.Test.Documented
 			project.Should().NotBeNull();
 		}
 
-		public async Task DisposeAsync()
-		{
+		public async Task DisposeAsync() =>
 			// Remove the Project
 			await RundeckClient
 					  .Projects
 					  .DeleteAsync("Test")
 					  .ConfigureAwait(false);
-		}
 
 		[Fact]
 		public async void Jobs_GetAll_Ok()
@@ -211,12 +209,9 @@ namespace Rundeck.Api.Test.Documented
 			jobs[0].ScheduleEnabled.Should().BeFalse();
 		}
 
-		private async Task DeleteJobAsync(string id)
-		{
-			await RundeckClient
-					  .Jobs
-					  .DeleteAsync(id)
-					  .ConfigureAwait(false);
-		}
+		private Task DeleteJobAsync(string id)
+			=> RundeckClient
+				.Jobs
+				.DeleteAsync(id);
 	}
 }

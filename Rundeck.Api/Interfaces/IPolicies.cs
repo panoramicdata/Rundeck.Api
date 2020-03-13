@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Policies interface
+	/// </summary>
 	public interface IPolicies
 	{
 		/// <summary>

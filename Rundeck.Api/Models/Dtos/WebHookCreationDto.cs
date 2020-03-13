@@ -5,7 +5,6 @@ namespace Rundeck.Api.Models.Dtos
 	[DataContract]
 	public class WebHookCreationDto
 	{
-
 		[DataMember(Name = "config")]
 		public WebHookConfig Config { get; set; } = new WebHookConfig();
 

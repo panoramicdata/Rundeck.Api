@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Metrics interface
+	/// </summary>
 	public interface IMetrics
 	{
 		/// <summary>

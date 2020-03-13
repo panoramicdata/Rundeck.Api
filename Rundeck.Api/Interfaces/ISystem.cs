@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// System interface
+	/// </summary>
 	public interface ISystem
 	{
 		/// <summary>

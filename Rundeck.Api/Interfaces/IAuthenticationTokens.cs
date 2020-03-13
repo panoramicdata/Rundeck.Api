@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// AuthenticationTokens interface
+	/// </summary>
 	public interface IAuthenticationTokens
 	{
 		/// <summary>

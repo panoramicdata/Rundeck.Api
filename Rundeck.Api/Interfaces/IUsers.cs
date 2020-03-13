@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Users interface
+	/// </summary>
 	public interface IUsers
 	{
 		/// <summary>

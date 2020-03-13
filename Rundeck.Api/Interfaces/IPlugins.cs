@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Plugins interface
+	/// </summary>
 	public interface IPlugins
 	{
 		/// <summary>

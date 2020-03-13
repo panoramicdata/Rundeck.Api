@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Projects interface
+	/// </summary>
 	public interface IProjects
 	{
 		/// <summary>

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Jobs interface
+	/// </summary>
 	public interface IJobs
 	{
 		/// <summary>

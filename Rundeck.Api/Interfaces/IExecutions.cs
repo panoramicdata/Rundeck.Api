@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Executions interface
+	/// </summary>
 	public interface IExecutions
 	{
 		/// <summary>

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Rundeck.Api.Interfaces
 {
+	/// <summary>
+	/// Webhooks interface
+	/// </summary>
 	public interface IWebHooks
 	{
 		/// <summary>
