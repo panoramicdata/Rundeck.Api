@@ -31,5 +31,16 @@ namespace Rundeck.Api.Test.Documented
 
 			logStorage.Should().NotBeNull();
 		}
+
+		[Fact]
+		public async void System_ResumeIncompleteLogStorageAsync_Passes()
+		{
+			var response = await RundeckClient
+				.System
+				.ResumeIncompleteLogStorageAsync()
+				.ConfigureAwait(false);
+
+			response.Resumed.Should().BeTrue();
+		}
 	}
 }

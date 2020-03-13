@@ -42,6 +42,7 @@ namespace Rundeck.Api
 			};
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);
+			Cluster = RestService.For<ICluster>(_httpClient, refitSettings);
 			Executions = RestService.For<IExecutions>(_httpClient, refitSettings);
 			Jobs = RestService.For<IJobs>(_httpClient, refitSettings);
 			Keys = RestService.For<IKeys>(_httpClient, refitSettings);
@@ -114,6 +115,11 @@ namespace Rundeck.Api
 		/// Jobs
 		/// </summary>
 		public IKeys Keys { get; }
+
+		/// <summary>
+		/// Cluster
+		/// </summary>
+		public ICluster Cluster { get; }
 
 		#region IDisposable Support
 		private bool _disposedValue = false; // To detect redundant calls
