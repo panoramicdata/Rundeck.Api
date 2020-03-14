@@ -17,6 +17,5 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "failed")]
 		public IList<JobDeletionResult> Failed { get; set; } = new List<JobDeletionResult>();
-
 	}
 }
