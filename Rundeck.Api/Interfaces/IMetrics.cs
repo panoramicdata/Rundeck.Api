@@ -19,7 +19,7 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Gets the metrics metrics
+		/// Gets the metrics
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Get("/metrics/metrics")]
