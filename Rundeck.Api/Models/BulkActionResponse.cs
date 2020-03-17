@@ -12,6 +12,9 @@ namespace Rundeck.Api.Models
 		[DataMember(Name = "allsuccessful")]
 		public bool Allsuccessful { get; set; }
 
+		[DataMember(Name = "enabled")]
+		public bool? Enabled { get; set; }
+
 		[DataMember(Name = "succeeded")]
 		public IList<ActionResult> Succeeded { get; set; } = new List<ActionResult>();
 

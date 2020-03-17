@@ -59,7 +59,7 @@ namespace Rundeck.Api.Interfaces
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		[Delete("/jobs/delete")]
-		Task<JobBulkDeleteResults> DeleteAsync(
+		Task<BulkActionResponse> DeleteAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -81,7 +81,7 @@ namespace Rundeck.Api.Interfaces
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/execution/enable")]
-		Task<BulkJobExecutionToggleResponse> EnableExecutionsAsync(
+		Task<BulkActionResponse> EnableExecutionsAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -103,7 +103,7 @@ namespace Rundeck.Api.Interfaces
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/execution/disable")]
-		Task<BulkJobExecutionToggleResponse> DisableExecutionsAsync(
+		Task<BulkActionResponse> DisableExecutionsAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -119,6 +119,17 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// Bulk Enable Scheduling on Jobs
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/jobs/schedule/enable")]
+		Task<BulkActionResponse> EnableSchedulingAsync(
+			[Query(CollectionFormat.Csv)] List<string> idlist,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Disable Scheduling on a Job
 		/// </summary>
 		/// <param name="id"></param>
@@ -127,6 +138,17 @@ namespace Rundeck.Api.Interfaces
 		[Post("/job/{id}/schedule/disable")]
 		Task<SuccessResult> DisableSchedulingAsync(
 			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Bulk Disable Scheduling on Jobs
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/jobs/schedule/disable")]
+		Task<BulkActionResponse> DisableSchedulingAsync(
+			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 	}
 }
