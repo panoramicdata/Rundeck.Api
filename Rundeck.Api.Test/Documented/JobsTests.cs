@@ -363,6 +363,29 @@ namespace Rundeck.Api.Test.Documented
 			}
 		}
 
+		[Fact]
+		public async void Jobs_GetMetadata_Passes()
+		{
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
+
+			var jobMetadata = await RundeckClient
+				.Jobs
+				.GetMetadataAsync(jobs[0].Id)
+				.ConfigureAwait(false);
+
+			jobMetadata.Should().NotBeNull();
+			jobMetadata.Id.Should().BeEquivalentTo(jobs[0].Id);
+			// Todo: Add more tests to JobMetadata
+		}
+
 		private Task DeleteJobAsync(string id)
 			=> RundeckClient
 				.Jobs

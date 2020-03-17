@@ -33,6 +33,15 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// Get a Job's Metadata
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Get("/job/{id}/info")]
+		Task<Job> GetMetadataAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Import job for a project from a definition
 		/// </summary>
 		/// <param name="cancellationToken"></param>
