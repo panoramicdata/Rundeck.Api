@@ -85,6 +85,26 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// Get Job Executions
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Get("/job/{id}/executions")]
+		Task<JobExecutionsListingResult> GetExecutionsAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Execute a Job
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Post("/job/{id}/run")]
+		Task<string> ExecuteAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Import job for a project from a definition
 		/// </summary>
 		/// <param name="projectName"></param>

@@ -21,6 +21,12 @@ namespace Rundeck.Api.Models
 		public AdvancedMeter RundeckQuartzJobsExecutionJobExecutionTimer { get; set; } = new AdvancedMeter();
 
 		/// <summary>
+		/// RundeckQuartzjobsExecutionJobExecutionTimer
+		/// </summary>
+		[DataMember(Name = "rundeck.quartzjobs.ExecutionJob.executionTimer")]
+		public AdvancedMeter RundeckQuartzjobsExecutionJobExecutionTimer { get; set; } = new AdvancedMeter();
+
+		/// <summary>
 		/// RundeckServicesAuthorizationServiceGetSystemAuthorization
 		/// </summary>
 		[DataMember(Name = "rundeck.services.AuthorizationService.getSystemAuthorization")]
