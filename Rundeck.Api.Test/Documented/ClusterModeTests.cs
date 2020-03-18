@@ -19,6 +19,8 @@ namespace Rundeck.Api.Test.Documented
 				.GetAllJobsAsync()
 				.ConfigureAwait(false);
 
+			// Todo - create a Job here and check how that affects the Cluster
+
 			jobs.Should().NotBeNull();
 			jobs.Should().BeEmpty();
 		}
@@ -39,7 +41,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			var jobs = await RundeckClient
 				.Cluster
-				.GetAllJobsForClusterAsync(uuid)
+				.GetAllJobsAsync(uuid)
 				.ConfigureAwait(false);
 
 			// Assert

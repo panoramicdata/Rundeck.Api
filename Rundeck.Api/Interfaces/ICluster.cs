@@ -23,7 +23,8 @@ namespace Rundeck.Api.Interfaces
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Get("/scheduler/server/{uuid}/jobs")]
-		Task<List<Job>> GetAllJobsForClusterAsync(string uuid,
+		Task<List<Job>> GetAllJobsAsync(
+			string uuid,
 			CancellationToken cancellationToken = default);
 	}
 }
