@@ -51,5 +51,14 @@ namespace Rundeck.Api.Interfaces
 			string projectName,
 			int id,
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Send Webhook Event
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		[Post("/webhook/{authToken}")]
+		Task<string> SendEventAsync(
+			string authToken,
+			CancellationToken cancellationToken = default);
 	}
 }

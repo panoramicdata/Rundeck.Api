@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
+using Refit;
 using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,6 +16,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 		}
 
+		// Executed before each test
 		public async Task InitializeAsync()
 		{
 			var project = await RundeckClient
@@ -30,8 +33,9 @@ namespace Rundeck.Api.Test.Documented
 			project.Should().NotBeNull();
 		}
 
+		// Executed after each test
 		public Task DisposeAsync() =>
-			// Remove the Project
+			// Remove the Project, this also removes entities belonging to the Project
 			RundeckClient
 					  .Projects
 					  .DeleteAsync("Test");
@@ -159,6 +163,69 @@ namespace Rundeck.Api.Test.Documented
 			webHooks.Should().BeEmpty();
 		}
 
+		[Fact]
+		public async void SendWebhookEvent_Passes()
+		{
+			// Arrange
+			// Create a job as WebHook requires a job Id
+			await ImportJobAsync().ConfigureAwait(false);
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
+
+			await CreateWebHookAsync(jobs[0].Id).ConfigureAwait(false);
+
+			// Get the webhook we just created
+			var webHooks = await RundeckClient
+				.WebHooks
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			// Act - send Webhook event using the above created Webhook's auth_token
+			var webhookEventResult = await RundeckClient
+				.WebHooks
+				.SendEventAsync(webHooks[0].AuthToken)
+				.ConfigureAwait(false);
+
+			webhookEventResult.Should().NotBeNullOrEmpty();
+			webhookEventResult.Should().Contain("ok");
+		}
+
+		[Fact]
+		public async void SendWebhookEvent_InvalidAuthToken_Failes()
+		{
+			// Arrange
+			// Create a job as WebHook requires a job Id
+			await ImportJobAsync().ConfigureAwait(false);
+			var jobs = await RundeckClient
+				.Jobs
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			jobs.Should().NotBeNull();
+			jobs.Should().ContainSingle();
+
+			await CreateWebHookAsync(jobs[0].Id).ConfigureAwait(false);
+
+			// Get the webhook we just created
+			var webHooks = await RundeckClient
+				.WebHooks
+				.GetAllAsync("Test")
+				.ConfigureAwait(false);
+
+			// Act - send Webhook event using the above created Webhook's auth_token
+			Func<Task> act = async () => await RundeckClient
+				.WebHooks
+				.SendEventAsync("invalid_auth_token")
+				.ConfigureAwait(false);
+
+			act.Should().Throw<ApiException>();
+		}
+
 		private Task<string> CreateWebHookAsync(string jobId)
 			=> RundeckClient
 				.WebHooks
@@ -169,7 +236,7 @@ namespace Rundeck.Api.Test.Documented
 						JobId = jobId
 					},
 					Enabled = true,
-					EventPlugin = "webhook-run-job",
+					EventPlugin = "log-webhook-event",
 					Name = "Test webhook",
 					Project = "Test",
 					Roles = "webhook,admin,user",
