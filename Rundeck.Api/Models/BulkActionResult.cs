@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Rundeck.Api.Models
 {
 	[DataContract]
-	public class BulkActionResponse
+	public class BulkActionResult
 	{
 		[DataMember(Name = "requestCount")]
 		public int RequestCount { get; set; }

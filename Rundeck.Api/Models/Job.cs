@@ -41,9 +41,9 @@ namespace Rundeck.Api.Models
 
 		// provided in cluster mode
 		[DataMember(Name = "serverOwner")]
-		public bool ServerOwner { get; set; }
+		public bool? ServerOwner { get; set; }
 
 		[DataMember(Name = "serverNodeUUID")]
-		public string ServerNodeUUID { get; set; } = default!;
+		public string? ServerNodeUUID { get; set; } = default!;
 	}
 }

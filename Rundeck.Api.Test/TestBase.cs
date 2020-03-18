@@ -50,8 +50,12 @@ namespace Rundeck.Api.Test
   executionEnabled: false
   id: a4fc12f7-a993-4cee-af01-4aececa0401d
   loglevel: INFO
-  name: Test  job
+  name: Test job
   nodeFilterEditable: false
+  options:
+  - description: option description
+    name: myfile
+    type: file
   schedule:
     month: '*'
     time:

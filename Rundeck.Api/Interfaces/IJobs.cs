@@ -23,6 +23,8 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Get job definition
 		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="fileFormat"></param>
 		/// <param name="cancellationToken"></param>
 		/// Todo - Implement FileDownload to download JobDefinition in XML/YAML format
 		[Get("/job/{id}")]
@@ -35,6 +37,7 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Get a Job's Metadata
 		/// </summary>
+		/// /// <param name="id"></param>
 		/// <param name="cancellationToken"></param>
 		[Get("/job/{id}/info")]
 		Task<Job> GetMetadataAsync(
@@ -42,8 +45,52 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// List Files uploaded for a Job
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Get("/job/{id}/input/files")]
+		Task<JobFileListingResult> GetFilesAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Info About an Uploaded File
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Get("/jobs/file/{id}")]
+		Task<JobOptionFile> GetFileInfoAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Job Forecast
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Get("/job/{id}/forecast")]
+		Task<Job> GetForecastAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Get Job Workflow
+		/// </summary>
+		/// /// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Get("/job/{id}/workflow")]
+		Task<Dictionary<string, List<Workflow>>> GetWorkflowAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Import job for a project from a definition
 		/// </summary>
+		/// <param name="projectName"></param>
+		/// <param name="jobContent"></param>
+		/// <param name="fileFormat"></param>
+		/// <param name="uuidOption"></param>
 		/// <param name="cancellationToken"></param>
 		[Post("/project/{projectName}/jobs/import")]
 		[Headers("Content-Type: application/yaml")]
@@ -57,6 +104,7 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Delete a job
 		/// </summary>
+		/// <param name="id"></param>
 		/// <param name="cancellationToken"></param>
 		[Delete("/job/{id}")]
 		Task DeleteAsync(
@@ -66,9 +114,10 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Bulk Delete jobs
 		/// </summary>
+		/// <param name="idlist"></param>
 		/// <param name="cancellationToken"></param>
 		[Delete("/jobs/delete")]
-		Task<BulkActionResponse> DeleteAsync(
+		Task<BulkActionResult> DeleteAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -86,11 +135,11 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Bulk Enable Executions on Jobs
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="idlist"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/execution/enable")]
-		Task<BulkActionResponse> EnableExecutionsAsync(
+		Task<BulkActionResult> EnableExecutionsAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -108,11 +157,11 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Bulk Disable Executions Jobs
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="idlist"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/execution/disable")]
-		Task<BulkActionResponse> DisableExecutionsAsync(
+		Task<BulkActionResult> DisableExecutionsAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -130,11 +179,11 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Bulk Enable Scheduling on Jobs
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="idlist"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/schedule/enable")]
-		Task<BulkActionResponse> EnableSchedulingAsync(
+		Task<BulkActionResult> EnableSchedulingAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
 			CancellationToken cancellationToken = default);
 
@@ -152,12 +201,29 @@ namespace Rundeck.Api.Interfaces
 		/// <summary>
 		/// Bulk Disable Scheduling on Jobs
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="idlist"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		[Post("/jobs/schedule/disable")]
-		Task<BulkActionResponse> DisableSchedulingAsync(
+		Task<BulkActionResult> DisableSchedulingAsync(
 			[Query(CollectionFormat.Csv)] List<string> idlist,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Upload a File for a Job Option
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="filename"></param>
+		/// <param name="optionName"></param>
+		/// <param name="fileContent"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/input/file/{filename}")]
+		[Headers("Content-Type: octet/stream")]
+		Task<JobOptionUploadResult> UploadJobOptionFileAsync(
+			string id,
+			string filename,
+			[Body] string fileContent,
 			CancellationToken cancellationToken = default);
 	}
 }

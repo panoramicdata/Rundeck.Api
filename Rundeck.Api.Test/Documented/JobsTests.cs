@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.VisualBasic;
 using Rundeck.Api.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -368,23 +369,122 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
 
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test")
-				.ConfigureAwait(false);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().ContainSingle();
-
 			var jobMetadata = await RundeckClient
 				.Jobs
-				.GetMetadataAsync(jobs[0].Id)
+				.GetMetadataAsync(jobImportResult.Id)
 				.ConfigureAwait(false);
 
 			jobMetadata.Should().NotBeNull();
-			jobMetadata.Id.Should().BeEquivalentTo(jobs[0].Id);
+			jobMetadata.Id.Should().BeEquivalentTo(jobImportResult.Id);
 			// Todo: Add more tests to JobMetadata
 		}
+
+		[Fact]
+		public async void Jobs_UploadFileForJob_Passes()
+		{
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			const string fileContent = "test file";
+			var uploadJobOptionResult = await RundeckClient
+				.Jobs
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
+				.ConfigureAwait(false);
+
+			uploadJobOptionResult.Should().NotBeNull();
+			uploadJobOptionResult.Total.Should().Be(1);
+		}
+
+		[Fact]
+		public async void Jobs_ListUploadedFiles_Passes()
+		{
+			// Arrange
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			const string fileContent = "test file";
+			var uploadJobOptionResult = await RundeckClient
+				.Jobs
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
+				.ConfigureAwait(false);
+
+			uploadJobOptionResult.Should().NotBeNull();
+
+			// Act
+			var files = await RundeckClient
+				.Jobs
+				.GetFilesAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			// Assert
+			files.Should().NotBeNull();
+			files.Paging.Count.Should().Be(1);
+			files.Files.Should().ContainSingle();
+		}
+
+		[Fact]
+		public async void Jobs_GetUploadedOptionFileInfo_Passes()
+		{
+			// Arrange
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			const string fileContent = "test file";
+			var uploadJobOptionResult = await RundeckClient
+				.Jobs
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
+				.ConfigureAwait(false);
+
+			uploadJobOptionResult.Should().NotBeNull();
+
+			var files = await RundeckClient
+				.Jobs
+				.GetFilesAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			// Act
+			var fileInfo = await RundeckClient
+				.Jobs
+				.GetFileInfoAsync(files.Files[0].Id)
+				.ConfigureAwait(false);
+
+			// Assert
+			fileInfo.Should().NotBeNull();
+			fileInfo.Id.Should().Be(files.Files[0].Id);
+			// Todo - Test all properties on FileInfo
+		}
+
+		[Fact]
+		public async void Jobs_GetForecast_Passes()
+		{
+			// Arrange
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var forecast = await RundeckClient
+				.Jobs
+				.GetForecastAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			forecast.Should().NotBeNull();
+			forecast.Id.Should().Be(jobImportResult.Id);
+			// Todo - test all properties of Forecast
+		}
+
+		[Fact]
+		public async void Jobs_GetWorkflow_Passes()
+		{
+			// Arrange
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			var workflow = await RundeckClient
+				.Jobs
+				.GetWorkflowAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			workflow.Should().NotBeNull();
+			workflow.Count.Should().Be(1);
+			workflow.ContainsKey("workflow").Should().BeTrue();
+			workflow["workflow"].Should().ContainSingle();
+			workflow["workflow"][0].Exec.Should().Be("pwd");
+		}
+
 
 		private Task DeleteJobAsync(string id)
 			=> RundeckClient
