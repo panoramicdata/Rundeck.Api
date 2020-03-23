@@ -45,5 +45,8 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "serverNodeUUID")]
 		public string? ServerNodeUUID { get; set; } = default!;
+
+		[DataMember(Name = "averageDuration")]
+		public int AverageDuration { get; set; }
 	}
 }
