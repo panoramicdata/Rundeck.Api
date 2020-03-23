@@ -9,6 +9,12 @@ namespace Rundeck.Api.Models
 		[DataMember(Name = "requestCount")]
 		public int RequestCount { get; set; }
 
+		[DataMember(Name = "successCount")]
+		public int SuccessCount { get; set; }
+
+		[DataMember(Name = "failedCount")]
+		public int FailedCount { get; set; }
+
 		[DataMember(Name = "allsuccessful")]
 		public bool Allsuccessful { get; set; }
 

@@ -142,6 +142,16 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// Delete all Executions for a Job
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		[Delete("/job/{id}/executions")]
+		Task<BulkActionResult> DeleteExecutionsAsync(
+			string id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Enable Executions on a Job
 		/// </summary>
 		/// <param name="id"></param>

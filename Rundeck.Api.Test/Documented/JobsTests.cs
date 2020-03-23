@@ -91,6 +91,46 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
+		public async void Jobs_Retry_Passes()
+		{
+			// Arrange
+			// Import a job
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			// Enable Execution on the Job
+			await RundeckClient
+				.Jobs
+				.EnableExecutionsAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			// Act
+			var jobExecutionResult = await RundeckClient
+				.Jobs
+				.ExecuteAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			// wait for the job execution to complete
+			JobExecutionsListingResult executionResult;
+			while (true)
+			{
+				executionResult = await RundeckClient
+				.Jobs
+				.GetExecutionsAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
+				{
+					await Task.Delay(100).ConfigureAwait(false);
+					continue;
+				}
+
+				break;
+			}
+
+			executionResult.Executions.Should().ContainSingle();
+			executionResult.Executions[0].Status.Should().Be(JobExecutionStatus.Succeeded);
+		}
+
+		[Fact]
 		public async void Jobs_Import_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
