@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Refit;
+using Rundeck.Api.Exceptions;
 using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
 using System;
@@ -196,7 +196,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void SendWebhookEvent_InvalidAuthToken_Failes()
+		public async void SendWebhookEvent_InvalidAuthToken_NotAuthorized()
 		{
 			// Arrange
 			// Create a job as WebHook requires a job Id
@@ -223,7 +223,7 @@ namespace Rundeck.Api.Test.Documented
 				.SendEventAsync("invalid_auth_token")
 				.ConfigureAwait(false);
 
-			act.Should().Throw<ApiException>();
+			act.Should().Throw<NotAuthorizedException>();
 		}
 
 		private Task<string> CreateWebHookAsync(string jobId)

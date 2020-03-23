@@ -82,6 +82,10 @@ namespace Rundeck.Api
 						await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
 						delay = TimeSpan.FromMilliseconds(Math.Max(delay.TotalMilliseconds * 2, _options.MaxBackOffDelay.TotalMilliseconds));
 						continue;
+					case 403:
+						throw new NotAuthorizedException(httpResponseMessage.Content != null
+							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false))
+							: new RundeckError { Message = Resources.NoContentBody });
 					default:
 						return httpResponseMessage;
 				}
