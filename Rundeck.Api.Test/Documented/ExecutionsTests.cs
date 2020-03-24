@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -56,7 +57,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async Task Executions_Delete_Passes()
+		public async Task Executions_DeleteAllForJob_Passes()
 		{
 			// Arrange
 			// Ensure there are no executions
@@ -150,6 +151,68 @@ namespace Rundeck.Api.Test.Documented
 			files.Files[0].OptionName.Should().Be("myfile");
 		}
 
+		[Fact]
+		public async Task Executions_DeleteAsync_Passes()
+		{
+			// Arrange
+			// Ensure there are no executions
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+
+			// wait for the job execution to complete
+			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+
+			executionResult.Executions.Should().ContainSingle();
+
+			// Act
+			await RundeckClient
+				.Executions
+				.DeleteAsync(executionResult.Executions[0].Id)
+				.ConfigureAwait(false);
+
+			// Assert
+			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+		}
+
+		[Fact]
+		public async Task Executions_BulkDelete_Passes()
+		{
+			// Arrange
+			// Ensure there are no executions
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+
+			// Run the job twice
+			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			await GetExecutions(jobImportResult).ConfigureAwait(false);
+			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+
+			executionResult.Executions.Count.Should().Be(2);
+
+			// Act
+			var ids = new Dictionary<string, List<int>>
+			{
+				{
+					"ids",
+					new List<int>()
+				{
+					executionResult.Executions[0].Id,
+					executionResult.Executions[1].Id
+				}
+				}
+			};
+
+			await RundeckClient
+				.Executions
+				.DeleteAsync(ids)
+				.ConfigureAwait(false);
+
+			// Assert
+			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+		}
+
 		private async Task RunJobAsync(JobImportResult jobImportResult)
 		{
 			// Enable execution on the Job and then run it
@@ -175,7 +238,7 @@ namespace Rundeck.Api.Test.Documented
 
 				// if there are no Executions or the Job is still running, try agin
 				// Todo - this loop never finishes if something goes wrong with running the Job
-				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
+				if (executionResult.Executions.Count == 0 || executionResult.Executions.Any(e => e.Status == JobExecutionStatus.Running))
 				{
 					await Task.Delay(100).ConfigureAwait(false);
 					continue;

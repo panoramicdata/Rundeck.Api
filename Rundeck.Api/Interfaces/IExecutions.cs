@@ -1,5 +1,6 @@
 ﻿using Refit;
 using Rundeck.Api.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,5 +42,17 @@ namespace Rundeck.Api.Interfaces
 		Task DeleteAsync(
 			int id,
 			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Bulk delete Executions
+		/// </summary>
+		/// <param name="idlist"></param>
+		/// <param name="cancellationToken"></param>
+		[Post("/executions/delete")]
+		[Headers("application/json")]
+		Task DeleteAsync(
+			[Body] Dictionary<string, List<int>> idlist,
+			CancellationToken cancellationToken = default);
+
 	}
 }
