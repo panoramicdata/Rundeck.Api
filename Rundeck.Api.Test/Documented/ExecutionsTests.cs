@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -89,21 +90,64 @@ namespace Rundeck.Api.Test.Documented
 		public async Task Executions_GetInfo_Passes()
 		{
 			// Arrange
-			// Ensure there are no executions
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
 			await RunJobAsync(jobImportResult).ConfigureAwait(false);
 
 			// wait for the job execution to complete
 			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
 
+			// Act
 			var executionInfo = await RundeckClient
 				.Executions
 				.GetAsync(executionResult.Executions[0].Id)
 				.ConfigureAwait(false);
 
+			// Assert
 			executionInfo.Should().NotBeNull();
 			executionInfo.Id.Should().Be(executionResult.Executions[0].Id);
+		}
+
+		[Fact]
+		public async Task Executions_ListInputFiles_Passes()
+		{
+			// Arrange
+			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+
+			const string fileContent = "test file";
+			var uploadJobOptionResult = await RundeckClient
+				.Jobs
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
+				.ConfigureAwait(false);
+
+			uploadJobOptionResult.Should().NotBeNull();
+
+			// Enable execution on the Job and then run it
+			await RundeckClient
+				.Jobs
+				.EnableExecutionsAsync(jobImportResult.Id)
+				.ConfigureAwait(false);
+
+			// Run the job with the uploaded file
+			var options = new Dictionary<string, Dictionary<string, string>>
+			{
+				{ "options", uploadJobOptionResult.Options }
+			};
+			await RundeckClient
+				.Jobs
+				.ExecuteAsync(jobImportResult.Id, options)
+				.ConfigureAwait(false);
+
+			// wait for the job execution to complete
+			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+
+			// Act
+			var files = await RundeckClient
+				.Executions
+				.GetFilesAsync(executionResult.Executions[0].Id)
+				.ConfigureAwait(false);
+
+			files.Files[0].Id.Should().Be(uploadJobOptionResult.Options["myfile"]);
+			files.Files[0].OptionName.Should().Be("myfile");
 		}
 
 		private async Task RunJobAsync(JobImportResult jobImportResult)

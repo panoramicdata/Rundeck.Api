@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -23,6 +24,9 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "description")]
 		public string Description { get; set; } = default!;
+
+		[DataMember(Name = "options")]
+		public Dictionary<string, string> Options { get; set; } = new Dictionary<string, string>();
 
 		[DataMember(Name = "href")]
 		public string Href { get; set; } = default!;

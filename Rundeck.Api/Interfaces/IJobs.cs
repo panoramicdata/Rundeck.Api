@@ -95,13 +95,17 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Execute a Job
+		/// Execute a job
 		/// </summary>
-		/// /// <param name="id"></param>
+		/// <param name="id"></param>
+		/// <param name="executionOption"></param>
 		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		[Post("/job/{id}/run")]
+		[Headers("Content-Type: application/json")]
 		Task<string> ExecuteAsync(
 			string id,
+			[Body] Dictionary<string, Dictionary<string, string>> executionOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>

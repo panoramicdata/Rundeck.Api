@@ -22,6 +22,17 @@ namespace Rundeck.Api.Interfaces
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
+		/// List Input Files for an Execution
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Get("/execution/{id}/input/files")]
+		Task<JobFileListingResult> GetFilesAsync(
+			int id,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
 		/// Deletes an execution
 		/// </summary>
 		/// <param name="id">The execution id</param>
