@@ -1,29 +1,46 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
 	[Collection("ProjectTests")]
-	public class ProjectsTests : TestBase
+	public class ProjectsTests : TestBase, IAsyncLifetime
 	{
+		private Project? _project;
+
 		public ProjectsTests(ITestOutputHelper output) : base(output)
 		{
 		}
 
+		public async Task InitializeAsync()
+		{
+			_project = await RundeckClient
+				.Projects
+				.CreateAsync(new Project
+				{
+					Description = "Test project",
+					Name = "Test",
+					Url = "example.com",
+					Config = new Config()
+				}
+				).ConfigureAwait(false);
+
+			_project.Should().NotBeNull();
+		}
+
+		public async Task DisposeAsync() =>
+			// Remove the Project
+			await RundeckClient
+					  .Projects
+					  .DeleteAsync("Test")
+					  .ConfigureAwait(false);
+
 		[Fact]
 		public async void Projects_CreateReadDelete_Ok()
 		{
-			// Ensure there are no existing projects
-			var projects = await RundeckClient
-				.Projects
-				.GetAllAsync()
-				.ConfigureAwait(false);
-
-			projects.Should().NotBeNull();
-			projects.Should().BeEmpty();
-
 			try
 			{
 				// Create a project
@@ -31,8 +48,8 @@ namespace Rundeck.Api.Test.Documented
 						.Projects
 						.CreateAsync(new Project
 						{
-							Description = "Test project",
-							Name = "Test",
+							Description = "Create a project for testing",
+							Name = "Project",
 							Url = "example.com",
 							Config = new Config()
 						}
@@ -42,20 +59,18 @@ namespace Rundeck.Api.Test.Documented
 				project.Should().NotBeNull();
 				// Todo - test Project properties
 
-				projects = await RundeckClient
+				var projects = await RundeckClient
 					.Projects
 					.GetAllAsync()
 					.ConfigureAwait(false);
 
 				projects.Should().NotBeNullOrEmpty();
-				projects[0].Name.Should().Be(project.Name);
-				projects[0].Url.Should().Be(project.Url);
-				projects[0].Description.Should().Be(project.Description);
+				projects.Should().HaveCount(2);
 
 				// Get a Project by name
 				var testProject = await RundeckClient
 					.Projects
-					.GetAsync("Test")
+					.GetAsync("Project")
 					.ConfigureAwait(false);
 
 				testProject.Should().NotBeNull();
@@ -66,132 +81,66 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup
 				await RundeckClient
 					  .Projects
-					  .DeleteAsync("Test")
+					  .DeleteAsync("Project")
 					  .ConfigureAwait(false);
-
-				// Ensure there are no projects after cleanup
-				projects = await RundeckClient
-				.Projects
-				.GetAllAsync()
-				.ConfigureAwait(false);
-
-				projects.Should().NotBeNull();
-				projects.Should().BeEmpty();
 			}
 		}
 
 		[Fact]
 		public async void Projects_GetProjectConfig_Ok()
 		{
-			try
-			{
-				// Arrange - create a project
-				var project = await RundeckClient
-							.Projects
-							.CreateAsync(new Project
-							{
-								Description = "Test project",
-								Name = "Test",
-								Url = "example.com",
-								Config = new Config()
-							}
-							)
-							.ConfigureAwait(false);
+			var config = await RundeckClient
+				.Projects
+				.GetConfigAsync(_project.Name)
+				.ConfigureAwait(false);
 
-				project.Should().NotBeNull();
-
-				var config = await RundeckClient
-					.Projects
-					.GetConfigAsync("Test")
-					.ConfigureAwait(false);
-
-				config.Should().NotBeNull();
-				config.Should().BeEquivalentTo(project.Config);
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
-			}
+			config.Should().NotBeNull();
+			config.Should().BeEquivalentTo(_project.Config);
 		}
 
 		[Fact]
 		public async void Projects_GetProjectResources_Ok()
 		{
-			// Arrange - create a project
-			var project = await RundeckClient
-						.Projects
-						.CreateAsync(new Project
-						{
-							Description = "Test project",
-							Name = "Test",
-							Url = "example.com",
-							Config = new Config()
-						}
-						)
-						.ConfigureAwait(false);
+			var resources = await RundeckClient
+				.Projects
+				.GetResourcesAsync(_project.Name)
+				.ConfigureAwait(false);
 
-			project.Should().NotBeNull();
-
-			try
-			{
-				var resources = await RundeckClient
-					.Projects
-					.GetResourcesAsync("Test")
-					.ConfigureAwait(false);
-
-				resources.Should().NotBeNull();
-				// Todo - check Resource properties
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
-			}
+			resources.Should().NotBeNull();
+			// Todo - check Resource properties
 		}
 
 		[Fact]
 		public async void Projects_GetProjectSources_Ok()
 		{
-			// Arrange - create a project
-			var project = await RundeckClient
-						.Projects
-						.CreateAsync(new Project
-						{
-							Description = "Test project",
-							Name = "Test",
-							Url = "example.com",
-							Config = new Config()
-						}
-						)
-						.ConfigureAwait(false);
+			var sources = await RundeckClient
+				.Projects
+				.GetSourcesAsync(_project.Name)
+				.ConfigureAwait(false);
 
-			project.Should().NotBeNull();
+			sources.Should().NotBeNull();
+			// Todo - check Source properties
+		}
 
-			try
+		[Fact]
+		public async void Projects_RunAdhocCommand_Passes()
+		{
+			// Arrange
+			var command = new AdhocCommand
 			{
-				var sources = await RundeckClient
-					.Projects
-					.GetSourcesAsync("Test")
-					.ConfigureAwait(false);
+				Project = _project.Name,
+				Exec = "echo hello world",
+			};
 
-				sources.Should().NotBeNull();
-				// Todo - check Source properties
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
-			}
+			// Act
+			var response = await RundeckClient
+				.Projects
+				.RunCommandAsync(_project.Name, command)
+				.ConfigureAwait(false);
+
+			// Assert
+			response.Should().NotBeNull();
+			response.Message.Should().Contain("Immediate execution scheduled");
 		}
 	}
 }

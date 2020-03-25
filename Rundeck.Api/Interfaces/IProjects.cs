@@ -72,6 +72,14 @@ namespace Rundeck.Api.Interfaces
 			string name,
 			CancellationToken cancellationToken = default);
 
+		[Post("/project/{name}/run/command")]
+		Task<AdhocExecutionResult> RunCommandAsync(
+			string name,
+			[Body] AdhocCommand command,
+			CancellationToken cancellationToken = default);
+
+		// Todo - add Adhoc Scripts
+
 		// Todo : add Project Configuration Keys CRUD operations
 	}
 }

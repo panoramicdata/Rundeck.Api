@@ -27,6 +27,12 @@ namespace Rundeck.Api.Models
 		public Meter RundeckServicesAuthorizationServicesystemAuthorizationEvaluateSetMeter { get; set; } = new Meter();
 
 		/// <summary>
+		/// RundeckServicesExecutionServiceExecutionAdhocStartMeter
+		/// </summary>
+		[DataMember(Name = "rundeck.services.ExecutionService.executionAdhocStartMeter")]
+		public Meter RundeckServicesExecutionServiceExecutionAdhocStartMeter { get; set; } = new Meter();
+
+		/// <summary>
 		/// RundeckServicesExecutionServiceExecutionJobStartMeter
 		/// </summary>
 		[DataMember(Name = "rundeck.services.ExecutionService.executionJobStartMeter")]
