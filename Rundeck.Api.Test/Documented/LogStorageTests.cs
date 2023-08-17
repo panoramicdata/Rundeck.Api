@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,7 +12,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void System_GetLogStorageAsync_Passes()
+		public async Task System_GetLogStorageAsync_Passes()
 		{
 			var logStorage = await RundeckClient
 				.System
@@ -22,7 +23,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void System_GetLogStorageIncompleteAsync_Passes()
+		public async Task System_GetLogStorageIncompleteAsync_Passes()
 		{
 			var logStorage = await RundeckClient
 				.System
@@ -33,7 +34,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void System_ResumeIncompleteLogStorageAsync_Passes()
+		public async Task System_ResumeIncompleteLogStorageAsync_Passes()
 		{
 			var response = await RundeckClient
 				.System

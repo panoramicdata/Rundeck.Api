@@ -2,6 +2,7 @@
 using Rundeck.Api.Models.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -14,7 +15,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void AuthenticationTokens_GetAllAsync_Passes()
+		public async Task AuthenticationTokens_GetAllAsync_Passes()
 		{
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
@@ -72,7 +73,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void AuthenticationTokens_GetAllByUserAsync_Passes()
+		public async Task AuthenticationTokens_GetAllByUserAsync_Passes()
 		{
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
@@ -115,7 +116,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void CreateDelete_Succeeds()
+		public async Task CreateDelete_Succeeds()
 		{
 			// Create
 			var newToken = await RundeckClient
@@ -149,7 +150,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Get_ExistingToken_Succeeds()
+		public async Task Get_ExistingToken_Succeeds()
 		{
 			// Create
 			var newToken = await RundeckClient

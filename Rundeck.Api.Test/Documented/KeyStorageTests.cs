@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +13,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void GetPathAsync_Root_Passes()
+		public async Task GetPathAsync_Root_Passes()
 		{
 			// Get the keys from the root
 			var keys = await RundeckClient
@@ -25,7 +26,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void CreatePrivateKey_Passes()
+		public async Task CreatePrivateKey_Passes()
 		{
 			var newKey = await RundeckClient
 				.Keys
@@ -51,7 +52,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void CreatePublicKey_Passes()
+		public async Task CreatePublicKey_Passes()
 		{
 			var newKey = await RundeckClient
 				.Keys
@@ -77,7 +78,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void CreatePasswordKey_Passes()
+		public async Task CreatePasswordKey_Passes()
 		{
 			var newKey = await RundeckClient
 				.Keys

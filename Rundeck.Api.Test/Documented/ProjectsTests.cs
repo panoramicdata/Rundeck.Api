@@ -39,7 +39,7 @@ namespace Rundeck.Api.Test.Documented
 					  .ConfigureAwait(false);
 
 		[Fact]
-		public async void Projects_CreateReadDelete_Ok()
+		public async Task Projects_CreateReadDelete_Ok()
 		{
 			try
 			{
@@ -87,7 +87,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Projects_GetProjectConfig_Ok()
+		public async Task Projects_GetProjectConfig_Ok()
 		{
 			var config = await RundeckClient
 				.Projects
@@ -99,7 +99,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Projects_GetProjectResources_Ok()
+		public async Task Projects_GetProjectResources_Ok()
 		{
 			var resources = await RundeckClient
 				.Projects
@@ -111,7 +111,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Projects_GetProjectSources_Ok()
+		public async Task Projects_GetProjectSources_Ok()
 		{
 			var sources = await RundeckClient
 				.Projects
@@ -123,7 +123,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Projects_RunAdhocCommand_Passes()
+		public async Task Projects_RunAdhocCommand_Passes()
 		{
 			// Arrange
 			var command = new AdhocCommand

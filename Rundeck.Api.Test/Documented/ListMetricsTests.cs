@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,7 +12,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Metrics_GetAsync_Passes()
+		public async Task Metrics_GetAsync_Passes()
 		{
 			var metrics = await RundeckClient
 				.Metrics
@@ -27,7 +28,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Metrics_GetMetricsAsync_Passes()
+		public async Task Metrics_GetMetricsAsync_Passes()
 		{
 			var metrics = await RundeckClient
 				.Metrics
@@ -42,7 +43,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Metrics_GetHealthCheckAsync_Passes()
+		public async Task Metrics_GetHealthCheckAsync_Passes()
 		{
 			var metrics = await RundeckClient
 				.Metrics
@@ -55,7 +56,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Metrics_Ping_Passes()
+		public async Task Metrics_Ping_Passes()
 		{
 			var ping = await RundeckClient
 				.Metrics

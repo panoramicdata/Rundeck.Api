@@ -15,7 +15,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void System_CycleExecutionModeAsync_Passes()
+		public async Task System_CycleExecutionModeAsync_Passes()
 		{
 			var executionMode = await RundeckClient
 				.System
