@@ -42,6 +42,10 @@ namespace Rundeck.Api.Test
 				});
 		}
 
+
+		public async Task<JobImportResult> ImportJobAsync()
+			=> await ImportJobAsync(JobUuidOption.Preserve).ConfigureAwait(false);
+
 		public async Task<JobImportResult> ImportJobAsync(JobUuidOption uuidOption = JobUuidOption.Preserve)
 		{
 			const string jobContents = @"
@@ -54,24 +58,24 @@ namespace Rundeck.Api.Test
   nodeFilterEditable: false
   options:
   - description: option description
-    name: myfile
-    type: file
+	name: myfile
+	type: file
   schedule:
-    month: '*'
-    time:
-      hour: '23'
-      minute: '18'
-      seconds: '0'
-    weekday:
-      day: '*'
-    year: '*'
+	month: '*'
+	time:
+	  hour: '23'
+	  minute: '18'
+	  seconds: '0'
+	weekday:
+	  day: '*'
+	year: '*'
   scheduleEnabled: false
   sequence:
-    commands:
-    - description: test step
-      exec: pwd
-    keepgoing: false
-    strategy: node-first
+	commands:
+	- description: test step
+	  exec: pwd
+	keepgoing: false
+	strategy: node-first
   uuid: a4fc12f7-a993-4cee-af01-4aececa0401d";
 
 			var jobImportResults = await RundeckClient

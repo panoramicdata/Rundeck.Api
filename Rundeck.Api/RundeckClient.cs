@@ -15,6 +15,9 @@ namespace Rundeck.Api
 		private readonly HttpClient _httpClient;
 		private readonly AuthenticatedBackingOffHttpClientHandler _httpClientHandler;
 
+
+		public RundeckClient(RundeckClientOptions options): this(options, NullLogger.Instance){}
+
 		public RundeckClient(RundeckClientOptions options, ILogger logger = default!)
 		{
 			if (options == null)
