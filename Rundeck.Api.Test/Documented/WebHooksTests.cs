@@ -212,7 +212,7 @@ namespace Rundeck.Api.Test.Documented
 			await CreateWebHookAsync(jobs[0].Id).ConfigureAwait(false);
 
 			// Get the webhook we just created
-			var webHooks = await RundeckClient
+			_ = await RundeckClient
 				.WebHooks
 				.GetAllAsync("Test")
 				.ConfigureAwait(false);

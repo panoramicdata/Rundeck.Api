@@ -63,7 +63,7 @@ namespace Rundeck.Api.Test.Documented
 				.ConfigureAwait(false);
 
 			// Act
-			var jobExecutionResult = await RundeckClient
+			 _ = await RundeckClient
 				.Jobs
 				.ExecuteAsync(jobImportResult.Id)
 				.ConfigureAwait(false);
