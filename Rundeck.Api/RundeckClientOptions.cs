@@ -11,7 +11,7 @@ namespace Rundeck.Api
 	public class RundeckClientOptions
 	{
 		// This is the version of the API we support
-		public const int SupportedApiVersion = 34;
+		public static readonly int SupportedApiVersion = 34;
 
 		/// <summary>
 		/// The API token
