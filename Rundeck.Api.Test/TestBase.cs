@@ -46,7 +46,7 @@ namespace Rundeck.Api.Test
 		public async Task<JobImportResult> ImportJobAsync()
 			=> await ImportJobAsync(JobUuidOption.Preserve).ConfigureAwait(false);
 
-		public async Task<JobImportResult> ImportJobAsync(JobUuidOption uuidOption = JobUuidOption.Preserve)
+		public async Task<JobImportResult> ImportJobAsync(JobUuidOption uuidOption)
 		{
 			const string jobContents = @"
 - defaultTab: nodes
