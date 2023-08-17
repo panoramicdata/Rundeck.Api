@@ -196,7 +196,7 @@ namespace Rundeck.Api.Test.Documented
 			{
 				{
 					"ids",
-					new List<int>()
+					new List<int>
 				{
 					executionResult.Executions[0].Id,
 					executionResult.Executions[1].Id

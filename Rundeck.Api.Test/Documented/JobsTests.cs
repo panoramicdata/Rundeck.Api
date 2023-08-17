@@ -185,7 +185,7 @@ namespace Rundeck.Api.Test.Documented
 			{
 				var bulkDeletionResult = await RundeckClient
 					.Jobs
-					.DeleteAsync(new List<string>()
+					.DeleteAsync(new List<string>
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
@@ -289,7 +289,7 @@ namespace Rundeck.Api.Test.Documented
 				// Enable 2 jobs
 				var bulkExecutionEnabledResult = await RundeckClient
 					.Jobs
-					.EnableExecutionsAsync(new List<string>()
+					.EnableExecutionsAsync(new List<string>
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
@@ -304,7 +304,7 @@ namespace Rundeck.Api.Test.Documented
 				// Disable 2 jobs
 				var bulkExecutionDisabledResult = await RundeckClient
 					.Jobs
-					.DisableExecutionsAsync(new List<string>()
+					.DisableExecutionsAsync(new List<string>
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
@@ -400,7 +400,7 @@ namespace Rundeck.Api.Test.Documented
 				// Enable Scheduling on the above created jobs
 				var bulkSchedulingEnabledResult = await RundeckClient
 					.Jobs
-					.EnableSchedulingAsync(new List<string>()
+					.EnableSchedulingAsync(new List<string>
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
@@ -415,7 +415,7 @@ namespace Rundeck.Api.Test.Documented
 				// Disable 2 jobs
 				var bulkSchedulingDisabledResult = await RundeckClient
 					.Jobs
-					.DisableSchedulingAsync(new List<string>()
+					.DisableSchedulingAsync(new List<string>
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
