@@ -39,7 +39,7 @@ namespace Rundeck.Api.Test.Documented
 					  .ConfigureAwait(false);
 
 		[Fact]
-		public async void Jobs_GetAll_Ok()
+		public async Task Jobs_GetAll_Ok()
 		{
 			var jobs = await RundeckClient
 				.Jobs
@@ -51,7 +51,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_Execute_Passes()
+		public async Task Jobs_Execute_Passes()
 		{
 			// Arrange
 			// Import a job
@@ -91,7 +91,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_Retry_Passes()
+		public async Task Jobs_Retry_Passes()
 		{
 			// Arrange
 			// Import a job
@@ -131,7 +131,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_Import_Ok()
+		public async Task Jobs_Import_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -149,7 +149,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_Delete_Ok()
+		public async Task Jobs_Delete_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -167,7 +167,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_BulkDelete_Ok()
+		public async Task Jobs_BulkDelete_Ok()
 		{
 			// Import 2 jobs to be able to test Bulk Delete
 			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
@@ -203,7 +203,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_GetJobDefinition_Ok()
+		public async Task Jobs_GetJobDefinition_Ok()
 		{
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
 			try
@@ -223,7 +223,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_EnableDisableExecutions_Ok()
+		public async Task Jobs_EnableDisableExecutions_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -270,7 +270,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_BulkExecutionToggle_Passes()
+		public async Task Jobs_BulkExecutionToggle_Passes()
 		{
 			// Import 2 jobs
 			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
@@ -334,7 +334,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_EnableDisableScheduling_Ok()
+		public async Task Jobs_EnableDisableScheduling_Ok()
 		{
 			await AssertJobsEmptyAsync("Test").ConfigureAwait(false);
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -381,7 +381,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_BulkSchedulesToggle_Passes()
+		public async Task Jobs_BulkSchedulesToggle_Passes()
 		{
 			// Import
 			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove).ConfigureAwait(false);
@@ -445,7 +445,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_GetMetadata_Passes()
+		public async Task Jobs_GetMetadata_Passes()
 		{
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
 
@@ -460,7 +460,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_UploadFileForJob_Passes()
+		public async Task Jobs_UploadFileForJob_Passes()
 		{
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
 
@@ -475,7 +475,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_ListUploadedFiles_Passes()
+		public async Task Jobs_ListUploadedFiles_Passes()
 		{
 			// Arrange
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -501,7 +501,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_GetUploadedOptionFileInfo_Passes()
+		public async Task Jobs_GetUploadedOptionFileInfo_Passes()
 		{
 			// Arrange
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -532,7 +532,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_GetForecast_Passes()
+		public async Task Jobs_GetForecast_Passes()
 		{
 			// Arrange
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
@@ -548,7 +548,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Jobs_GetWorkflow_Passes()
+		public async Task Jobs_GetWorkflow_Passes()
 		{
 			// Arrange
 			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);

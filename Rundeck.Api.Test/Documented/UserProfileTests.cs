@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Rundeck.Api.Models;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +13,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Users_GetAllAsync_Passes()
+		public async Task Users_GetAllAsync_Passes()
 		{
 			var users = await RundeckClient
 				.Users
@@ -23,7 +24,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Users_GetMeAsync_Passes()
+		public async Task Users_GetMeAsync_Passes()
 		{
 			var user = await RundeckClient
 				.Users
@@ -34,7 +35,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Users_GetAsync_Passes()
+		public async Task Users_GetAsync_Passes()
 		{
 			var users = await RundeckClient
 				.Users
@@ -53,7 +54,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Users_GetMyRoleSetAsync_Passes()
+		public async Task Users_GetMyRoleSetAsync_Passes()
 		{
 			var roles = await RundeckClient
 				.Users
@@ -65,7 +66,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Users_UpdateAsync_Passes()
+		public async Task Users_UpdateAsync_Passes()
 		{
 			var users = await RundeckClient
 				.Users

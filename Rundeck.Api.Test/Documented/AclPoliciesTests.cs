@@ -2,6 +2,7 @@
 using Rundeck.Api.Models;
 using Xunit;
 using Xunit.Abstractions;
+using System.Threading.Tasks;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -12,7 +13,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Policies_GetAll_Ok()
+		public async Task Policies_GetAll_Ok()
 		{
 			var policyListing = await RundeckClient
 				.Policies
@@ -25,7 +26,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Policies_BasicCrud_Ok()
+		public async Task Policies_BasicCrud_Ok()
 		{
 			// Arrange
 			// Make sure there are no policies

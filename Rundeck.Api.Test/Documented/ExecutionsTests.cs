@@ -39,7 +39,7 @@ namespace Rundeck.Api.Test.Documented
 					  .ConfigureAwait(false);
 
 		[Fact]
-		public async void Executions_GetAllForJob_Passes()
+		public async Task Executions_GetAllForJob_Passes()
 		{
 			// Arrange
 			// Ensure there are no executions
