@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +13,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void ListScheduledJobs_ForThisClusterServer_Passes()
+		public async Task ListScheduledJobs_ForThisClusterServer_Passes()
 		{
 			var jobs = await RundeckClient
 				.Cluster
@@ -26,11 +27,11 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void ListScheduledJobs_ForAnotherClusterServer_Passes()
+		public async Task ListScheduledJobs_ForAnotherClusterServer_Passes()
 		{
 			// Arrange
 			// Get SystemInfo to grab the current server's UUID
-			// Todo - 
+			// Todo -
 			var systemInfo = await RundeckClient
 							.System
 							.GetSystemInfoAsync()

@@ -15,7 +15,10 @@ namespace Rundeck.Api
 		private readonly HttpClient _httpClient;
 		private readonly AuthenticatedBackingOffHttpClientHandler _httpClientHandler;
 
-		public RundeckClient(RundeckClientOptions options, ILogger logger = default!)
+
+		public RundeckClient(RundeckClientOptions options): this(options, default!) {}
+
+		public RundeckClient(RundeckClientOptions options, ILogger logger)
 		{
 			if (options == null)
 			{
@@ -122,7 +125,7 @@ namespace Rundeck.Api
 		public ICluster Cluster { get; }
 
 		#region IDisposable Support
-		private bool _disposedValue = false; // To detect redundant calls
+		private bool _disposedValue; // To detect redundant calls
 
 		protected virtual void Dispose(bool disposing)
 		{

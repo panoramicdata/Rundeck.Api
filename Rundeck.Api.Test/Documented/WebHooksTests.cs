@@ -41,7 +41,7 @@ namespace Rundeck.Api.Test.Documented
 					  .DeleteAsync("Test");
 
 		[Fact]
-		public async void WebHooks_GetAll_Ok()
+		public async Task WebHooks_GetAll_Ok()
 		{
 			var webHooks = await RundeckClient
 				.WebHooks
@@ -53,7 +53,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void WebHooks_Create_Ok()
+		public async Task WebHooks_Create_Ok()
 		{
 			// Arrange
 			// Create a job as WebHook requires a job Id
@@ -84,7 +84,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void WebHooks_Update_Ok()
+		public async Task WebHooks_Update_Ok()
 		{
 			// Arrange
 			// Create a job as WebHook requires a job Id
@@ -128,7 +128,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void Webhooks_Delete_Ok()
+		public async Task Webhooks_Delete_Ok()
 		{
 			// Create a job as WebHook requires a job Id
 			await ImportJobAsync().ConfigureAwait(false);
@@ -164,7 +164,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void SendWebhookEvent_Passes()
+		public async Task SendWebhookEvent_Passes()
 		{
 			// Arrange
 			// Create a job as WebHook requires a job Id
@@ -196,7 +196,7 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async void SendWebhookEvent_InvalidAuthToken_NotAuthorized()
+		public async Task SendWebhookEvent_InvalidAuthToken_NotAuthorized()
 		{
 			// Arrange
 			// Create a job as WebHook requires a job Id
@@ -212,7 +212,7 @@ namespace Rundeck.Api.Test.Documented
 			await CreateWebHookAsync(jobs[0].Id).ConfigureAwait(false);
 
 			// Get the webhook we just created
-			var webHooks = await RundeckClient
+			_ = await RundeckClient
 				.WebHooks
 				.GetAllAsync("Test")
 				.ConfigureAwait(false);
