@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,7 +17,7 @@ namespace Rundeck.Api.Test.Documented
 			var logStorage = await RundeckClient
 				.System
 				.GetLogStorageAsync()
-				.ConfigureAwait(false);
+				;
 
 			logStorage.Should().NotBeNull();
 		}
@@ -28,7 +28,7 @@ namespace Rundeck.Api.Test.Documented
 			var logStorage = await RundeckClient
 				.System
 				.GetIncompleteLogStorageAsync()
-				.ConfigureAwait(false);
+				;
 
 			logStorage.Should().NotBeNull();
 		}
@@ -39,7 +39,7 @@ namespace Rundeck.Api.Test.Documented
 			var response = await RundeckClient
 				.System
 				.ResumeIncompleteLogStorageAsync()
-				.ConfigureAwait(false);
+				;
 
 			response.Resumed.Should().BeTrue();
 		}

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,7 +18,7 @@ namespace Rundeck.Api.Test.Documented
 			var policyListing = await RundeckClient
 				.Policies
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			policyListing.Should().NotBeNull();
 			policyListing.Policies.Should().NotBeNull();
@@ -33,7 +33,7 @@ namespace Rundeck.Api.Test.Documented
 			var policyListing = await RundeckClient
 				.Policies
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			policyListing.Should().NotBeNull();
 			policyListing.Policies.Should().NotBeNull();
@@ -53,7 +53,7 @@ namespace Rundeck.Api.Test.Documented
 							Contents = "description: \"my policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build"
 						}
 					)
-					.ConfigureAwait(false);
+					;
 
 				// Assert
 				policy.Should().NotBeNull();
@@ -62,7 +62,7 @@ namespace Rundeck.Api.Test.Documented
 				var allAfterCreate = await RundeckClient
 				.Policies
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 				allAfterCreate.Policies.Should().HaveCount(1);
 				allAfterCreate.Policies[0].Name.Should().Be(policyName);
@@ -70,7 +70,7 @@ namespace Rundeck.Api.Test.Documented
 				var policyByName = await RundeckClient
 				.Policies
 				.GetAsync(policyName)
-				.ConfigureAwait(false);
+				;
 
 				policyByName.Should().NotBeNull();
 				policyByName.Should().BeEquivalentTo(policy);
@@ -87,7 +87,7 @@ namespace Rundeck.Api.Test.Documented
 							Contents = newContents
 						}
 					)
-					.ConfigureAwait(false);
+					;
 
 				updatedPolicy.Should().NotBeNull();
 				updatedPolicy.Should().NotBeEquivalentTo(policy);
@@ -99,12 +99,12 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.Policies
 					.DeleteAsync(policyName)
-					.ConfigureAwait(false);
+					;
 
 				var allAfterDelete = await RundeckClient
 				.Policies
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 				allAfterDelete.Should().NotBeNull();
 				allAfterDelete.Policies.Should().NotBeNull();

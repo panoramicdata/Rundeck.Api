@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
@@ -19,7 +19,7 @@ namespace Rundeck.Api.Test.Documented
 			var keys = await RundeckClient
 				.Keys
 				.GetAsync("")
-				.ConfigureAwait(false);
+				;
 
 			keys.Should().NotBeNull();
 			keys.Resources.Should().NotBeNull().And.BeEmpty();
@@ -31,7 +31,7 @@ namespace Rundeck.Api.Test.Documented
 			var newKey = await RundeckClient
 				.Keys
 				.CreatePrivateKeyAsync("myprivatekey", "SomePrivateKeyText")
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -47,7 +47,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.Keys
 					.DeleteAsync("myprivatekey")
-					.ConfigureAwait(false);
+					;
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Rundeck.Api.Test.Documented
 			var newKey = await RundeckClient
 				.Keys
 				.CreatePublicKeyAsync("mypublickey", "SomePublicKeyText")
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -73,7 +73,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.Keys
 					.DeleteAsync("mypublickey")
-					.ConfigureAwait(false);
+					;
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Rundeck.Api.Test.Documented
 			var newKey = await RundeckClient
 				.Keys
 				.CreatePasswordAsync("mypasswordkey", "SomepasswordKeyText")
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -99,7 +99,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.Keys
 					.DeleteAsync("mypasswordkey")
-					.ConfigureAwait(false);
+					;
 			}
 		}
 	}

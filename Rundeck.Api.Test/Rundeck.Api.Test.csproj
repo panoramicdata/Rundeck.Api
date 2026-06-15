@@ -6,7 +6,7 @@
     <nullable>enable</nullable>
     <NeutralLanguage>en-US</NeutralLanguage>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>$(NoWarn);xUnit1030;CS1591;CS1573;CS1572</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;CS1573;CS1572</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Divergic.Logging.Xunit" />

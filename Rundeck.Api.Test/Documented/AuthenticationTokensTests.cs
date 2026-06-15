@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Rundeck.Api.Test.Documented
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
@@ -33,7 +33,7 @@ namespace Rundeck.Api.Test.Documented
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
 				})
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -41,7 +41,7 @@ namespace Rundeck.Api.Test.Documented
 				authenticationTokens = await RundeckClient
 				.AuthenticationTokens
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
 				authenticationTokens.Should().ContainSingle();
@@ -60,13 +60,13 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.AuthenticationTokens
 					.DeleteAsync(newToken.Id)
-					.ConfigureAwait(false);
+					;
 			}
 
 			authenticationTokens = await RundeckClient
 				.AuthenticationTokens
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
@@ -78,7 +78,7 @@ namespace Rundeck.Api.Test.Documented
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
 				.GetAllByUserAsync(TestConfig.Username)
-				.ConfigureAwait(false);
+				;
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
 
@@ -90,7 +90,7 @@ namespace Rundeck.Api.Test.Documented
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
 				})
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -98,7 +98,7 @@ namespace Rundeck.Api.Test.Documented
 				authenticationTokens = await RundeckClient
 				.AuthenticationTokens
 				.GetAllByUserAsync(TestConfig.Username)
-				.ConfigureAwait(false);
+				;
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
 
@@ -111,7 +111,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.AuthenticationTokens
 					.DeleteAsync(newToken.Id)
-					.ConfigureAwait(false);
+					;
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace Rundeck.Api.Test.Documented
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
 				})
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
@@ -145,7 +145,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.AuthenticationTokens
 					.DeleteAsync(newToken.Id)
-					.ConfigureAwait(false);
+					;
 			}
 		}
 
@@ -160,14 +160,14 @@ namespace Rundeck.Api.Test.Documented
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
 				})
-				.ConfigureAwait(false);
+				;
 
 			try
 			{
 				var existingToken = await RundeckClient
 				.AuthenticationTokens
 				.GetAsync(newToken.Id)
-				.ConfigureAwait(false);
+				;
 
 				existingToken.Should().NotBeNull();
 				existingToken.Id.Should().Be(newToken.Id);
@@ -186,7 +186,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					.AuthenticationTokens
 					.DeleteAsync(newToken.Id)
-					.ConfigureAwait(false);
+					;
 			}
 		}
 	}

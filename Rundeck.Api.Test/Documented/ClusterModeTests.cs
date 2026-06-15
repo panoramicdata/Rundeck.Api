@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,7 +18,7 @@ namespace Rundeck.Api.Test.Documented
 			var jobs = await RundeckClient
 				.Cluster
 				.GetAllJobsAsync()
-				.ConfigureAwait(false);
+				;
 
 			// Todo - create a Job here and check how that affects the Cluster
 
@@ -35,7 +35,7 @@ namespace Rundeck.Api.Test.Documented
 			var systemInfo = await RundeckClient
 							.System
 							.GetSystemInfoAsync()
-							.ConfigureAwait(false);
+							;
 
 			var uuid = systemInfo.System.Rundeck.ServerUUID;
 
@@ -43,7 +43,7 @@ namespace Rundeck.Api.Test.Documented
 			var jobs = await RundeckClient
 				.Cluster
 				.GetAllJobsAsync(uuid)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
 			jobs.Should().NotBeNull();

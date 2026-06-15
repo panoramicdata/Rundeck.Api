@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Rundeck.Api.Test.Documented
 					Url = "example.com",
 					Config = new Config()
 				}
-				).ConfigureAwait(false);
+				);
 
 			project.Should().NotBeNull();
 		}
@@ -36,20 +36,20 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 					  .Projects
 					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
+					  ;
 
 		[Fact]
 		public async Task Executions_GetAllForJob_Passes()
 		{
 			// Arrange
 			// Ensure there are no executions
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
 
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			await RunJobAsync(jobImportResult);
 
 			// wait for the job execution to complete
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			// Assert
 			executionResult.Executions.Should().ContainSingle();
@@ -61,12 +61,12 @@ namespace Rundeck.Api.Test.Documented
 		{
 			// Arrange
 			// Ensure there are no executions
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
+			await RunJobAsync(jobImportResult);
 
 			// wait for the job execution to complete
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			executionResult.Executions.Should().ContainSingle();
 
@@ -75,12 +75,12 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Jobs
 				.DeleteExecutionsAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 
 			var allAfterDelete = await RundeckClient
 				.Jobs
 				.GetExecutionsAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
 			allAfterDelete.Should().NotBeNull();
@@ -91,17 +91,17 @@ namespace Rundeck.Api.Test.Documented
 		public async Task Executions_GetInfo_Passes()
 		{
 			// Arrange
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
+			await RunJobAsync(jobImportResult);
 
 			// wait for the job execution to complete
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			// Act
 			var executionInfo = await RundeckClient
 				.Executions
 				.GetAsync(executionResult.Executions[0].Id)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
 			executionInfo.Should().NotBeNull();
@@ -112,13 +112,13 @@ namespace Rundeck.Api.Test.Documented
 		public async Task Executions_ListInputFiles_Passes()
 		{
 			// Arrange
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
 
 			const string fileContent = "test file";
 			var uploadJobOptionResult = await RundeckClient
 				.Jobs
 				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
-				.ConfigureAwait(false);
+				;
 
 			uploadJobOptionResult.Should().NotBeNull();
 
@@ -126,7 +126,7 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Jobs
 				.EnableExecutionsAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 
 			// Run the job with the uploaded file
 			var options = new Dictionary<string, Dictionary<string, string>>
@@ -136,16 +136,16 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Jobs
 				.ExecuteAsync(jobImportResult.Id, options)
-				.ConfigureAwait(false);
+				;
 
 			// wait for the job execution to complete
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			// Act
 			var files = await RundeckClient
 				.Executions
 				.GetFilesAsync(executionResult.Executions[0].Id)
-				.ConfigureAwait(false);
+				;
 
 			files.Files[0].Id.Should().Be(uploadJobOptionResult.Options["myfile"]);
 			files.Files[0].OptionName.Should().Be("myfile");
@@ -156,12 +156,12 @@ namespace Rundeck.Api.Test.Documented
 		{
 			// Arrange
 			// Ensure there are no executions
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
+			await RunJobAsync(jobImportResult);
 
 			// wait for the job execution to complete
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			executionResult.Executions.Should().ContainSingle();
 
@@ -169,10 +169,10 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Executions
 				.DeleteAsync(executionResult.Executions[0].Id)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
 		}
 
 		[Fact]
@@ -180,14 +180,14 @@ namespace Rundeck.Api.Test.Documented
 		{
 			// Arrange
 			// Ensure there are no executions
-			var jobImportResult = await ImportJobAsync().ConfigureAwait(false);
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+			var jobImportResult = await ImportJobAsync();
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
 
 			// Run the job twice
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
-			await GetExecutions(jobImportResult).ConfigureAwait(false);
-			await RunJobAsync(jobImportResult).ConfigureAwait(false);
-			var executionResult = await GetExecutions(jobImportResult).ConfigureAwait(false);
+			await RunJobAsync(jobImportResult);
+			await GetExecutions(jobImportResult);
+			await RunJobAsync(jobImportResult);
+			var executionResult = await GetExecutions(jobImportResult);
 
 			executionResult.Executions.Count.Should().Be(2);
 
@@ -207,10 +207,10 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Executions
 				.DeleteAsync(ids)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
-			await AssertExecutionsEmptyAsync(jobImportResult.Id).ConfigureAwait(false);
+			await AssertExecutionsEmptyAsync(jobImportResult.Id);
 		}
 
 		private async Task RunJobAsync(JobImportResult jobImportResult)
@@ -219,12 +219,12 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 				.Jobs
 				.EnableExecutionsAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 
 			await RundeckClient
 				.Jobs
 				.ExecuteAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 		}
 		private async Task<JobExecutionsListingResult> GetExecutions(JobImportResult jobImportResult)
 		{
@@ -234,13 +234,13 @@ namespace Rundeck.Api.Test.Documented
 				executionResult = await RundeckClient
 				.Jobs
 				.GetExecutionsAsync(jobImportResult.Id)
-				.ConfigureAwait(false);
+				;
 
 				// if there are no Executions or the Job is still running, try agin
 				// Todo - this loop never finishes if something goes wrong with running the Job
 				if (executionResult.Executions.Count == 0 || executionResult.Executions.Any(e => e.Status == JobExecutionStatus.Running))
 				{
-					await Task.Delay(100).ConfigureAwait(false);
+					await Task.Delay(100);
 					continue;
 				}
 
@@ -256,7 +256,7 @@ namespace Rundeck.Api.Test.Documented
 			var executions = await RundeckClient
 							.Jobs
 							.GetExecutionsAsync(jobId)
-							.ConfigureAwait(false);
+							;
 
 			executions.Should().NotBeNull();
 			executions.Executions.Should().BeEmpty();

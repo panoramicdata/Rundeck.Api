@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Refit;
 using Rundeck.Api.Models;
 using System;
@@ -20,24 +20,24 @@ namespace Rundeck.Api.Test.Documented
 			var executionMode = await RundeckClient
 				.System
 				.SetPassiveModeAsync()
-				.ConfigureAwait(false);
+				;
 
 			Func<Task> act = async () =>
 			{
 				executionMode = await RundeckClient
 				.System
 				.GetExecutionModeAsync()
-				.ConfigureAwait(false);
+				;
 			};
 			await act
 				.Should()
 				.ThrowAsync<ApiException>()
-				.ConfigureAwait(false);
+				;
 
 			executionMode = await RundeckClient
 				.System
 				.SetActiveModeAsync()
-				.ConfigureAwait(false);
+				;
 
 			executionMode.ExecutionModeEnum.Should().Be(ExecutionModeEnum.Active);
 		}

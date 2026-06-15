@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
@@ -26,7 +26,7 @@ namespace Rundeck.Api.Test.Documented
 					Url = "example.com",
 					Config = new Config()
 				}
-				).ConfigureAwait(false);
+				);
 
 			_project.Should().NotBeNull();
 		}
@@ -36,7 +36,7 @@ namespace Rundeck.Api.Test.Documented
 			await RundeckClient
 					  .Projects
 					  .DeleteAsync("Test")
-					  .ConfigureAwait(false);
+					  ;
 
 		[Fact]
 		public async Task Projects_CreateReadDelete_Ok()
@@ -54,7 +54,7 @@ namespace Rundeck.Api.Test.Documented
 							Config = new Config()
 						}
 						)
-						.ConfigureAwait(false);
+						;
 
 				project.Should().NotBeNull();
 				// Todo - test Project properties
@@ -62,7 +62,7 @@ namespace Rundeck.Api.Test.Documented
 				var projects = await RundeckClient
 					.Projects
 					.GetAllAsync()
-					.ConfigureAwait(false);
+					;
 
 				projects.Should().NotBeNullOrEmpty();
 				projects.Should().HaveCount(2);
@@ -71,7 +71,7 @@ namespace Rundeck.Api.Test.Documented
 				var testProject = await RundeckClient
 					.Projects
 					.GetAsync("Project")
-					.ConfigureAwait(false);
+					;
 
 				testProject.Should().NotBeNull();
 				testProject.Should().BeEquivalentTo(project);
@@ -82,7 +82,7 @@ namespace Rundeck.Api.Test.Documented
 				await RundeckClient
 					  .Projects
 					  .DeleteAsync("Project")
-					  .ConfigureAwait(false);
+					  ;
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace Rundeck.Api.Test.Documented
 			var config = await RundeckClient
 				.Projects
 				.GetConfigAsync(_project!.Name)
-				.ConfigureAwait(false);
+				;
 
 			config.Should().NotBeNull();
 			config.Should().BeEquivalentTo(_project!.Config);
@@ -104,7 +104,7 @@ namespace Rundeck.Api.Test.Documented
 			var resources = await RundeckClient
 				.Projects
 				.GetResourcesAsync(_project!.Name)
-				.ConfigureAwait(false);
+				;
 
 			resources.Should().NotBeNull();
 			// Todo - check Resource properties
@@ -116,7 +116,7 @@ namespace Rundeck.Api.Test.Documented
 			var sources = await RundeckClient
 				.Projects
 				.GetSourcesAsync(_project!.Name)
-				.ConfigureAwait(false);
+				;
 
 			sources.Should().NotBeNull();
 			// Todo - check Source properties
@@ -136,7 +136,7 @@ namespace Rundeck.Api.Test.Documented
 			var response = await RundeckClient
 				.Projects
 				.RunCommandAsync(_project!.Name, command)
-				.ConfigureAwait(false);
+				;
 
 			// Assert
 			response.Should().NotBeNull();

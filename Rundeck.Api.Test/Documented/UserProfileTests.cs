@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,7 +18,7 @@ namespace Rundeck.Api.Test.Documented
 			var users = await RundeckClient
 				.Users
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			users.Should().NotBeNullOrEmpty();
 		}
@@ -29,7 +29,7 @@ namespace Rundeck.Api.Test.Documented
 			var user = await RundeckClient
 				.Users
 				.GetMeAsync()
-				.ConfigureAwait(false);
+				;
 
 			user.Should().NotBeNull();
 		}
@@ -40,14 +40,14 @@ namespace Rundeck.Api.Test.Documented
 			var users = await RundeckClient
 				.Users
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
 				.GetAsync(users[0].Login)
-				.ConfigureAwait(false);
+				;
 
 			user.Should().NotBeNull();
 			user.Login.Should().BeEquivalentTo(users[0].Login);
@@ -59,7 +59,7 @@ namespace Rundeck.Api.Test.Documented
 			var roles = await RundeckClient
 				.Users
 				.GetMyRoleSetAsync()
-				.ConfigureAwait(false);
+				;
 
 			roles.Should().NotBeNull();
 			roles.Roles.Should().NotBeNullOrEmpty();
@@ -71,14 +71,14 @@ namespace Rundeck.Api.Test.Documented
 			var users = await RundeckClient
 				.Users
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
 				.GetAsync(users[0].Login)
-				.ConfigureAwait(false);
+				;
 
 			var updatedUser = await RundeckClient
 			.Users
@@ -88,7 +88,7 @@ namespace Rundeck.Api.Test.Documented
 				LastName = "Smith",
 				Email = "john.smith@example.com"
 			})
-			.ConfigureAwait(false);
+			;
 
 			updatedUser.Should().NotBeNull();
 			updatedUser.Login.Should().Be(user.Login);

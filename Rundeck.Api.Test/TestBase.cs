@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Rundeck.Api.Models;
@@ -44,7 +44,7 @@ namespace Rundeck.Api.Test
 
 
 		public async Task<JobImportResult> ImportJobAsync()
-			=> await ImportJobAsync(JobUuidOption.Preserve).ConfigureAwait(false);
+			=> await ImportJobAsync(JobUuidOption.Preserve);
 
 		public async Task<JobImportResult> ImportJobAsync(JobUuidOption uuidOption)
 		{
@@ -81,7 +81,7 @@ namespace Rundeck.Api.Test
 			var jobImportResults = await RundeckClient
 				.Jobs
 				.ImportAsync("Test", jobContents, JobFileFormat.YAML, uuidOption)
-				.ConfigureAwait(false);
+				;
 
 			jobImportResults.Succeeded.Should().ContainSingle();
 			jobImportResults.Failed.Should().BeEmpty();

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,7 +17,7 @@ namespace Rundeck.Api.Test.Documented
 			var plugins = await RundeckClient
 				.Plugins
 				.GetAllAsync()
-				.ConfigureAwait(false);
+				;
 
 			plugins.Should().NotBeNull();
 		}
