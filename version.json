@@ -1,6 +1,8 @@
 {
-	"version": "34.0",
-	"publicReleaseRefSpec": [
-		"^refs/heads/master$"
-	]
+  "version": "34.0",
+  "publicReleaseRefSpec": [
+    "^refs/heads/master$",
+    "^refs/heads/main$",
+    "^refs/tags/\\d\u002B\\.\\d\u002B\\.\\d\u002B$"
+  ]
 }

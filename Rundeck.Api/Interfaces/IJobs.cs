@@ -105,7 +105,7 @@ namespace Rundeck.Api.Interfaces
 		[Headers("Content-Type: application/json")]
 		Task<string> ExecuteAsync(
 			string id,
-			[Body] Dictionary<string, Dictionary<string, string>> executionOptions = null,
+			[Body] Dictionary<string, Dictionary<string, string>>? executionOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>

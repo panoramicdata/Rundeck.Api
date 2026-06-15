@@ -223,7 +223,7 @@ namespace Rundeck.Api.Test.Documented
 				.SendEventAsync("invalid_auth_token")
 				.ConfigureAwait(false);
 
-			act.Should().Throw<NotAuthorizedException>();
+			await act.Should().ThrowAsync<NotAuthorizedException>();
 		}
 
 		private Task<string> CreateWebHookAsync(string jobId)

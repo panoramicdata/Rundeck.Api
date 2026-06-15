@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Dockerfiles/tokens.properties" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="RestartDocker.ps1" />
+    <File Path="RestartDockerAndTest.ps1" />
+    <File Path="Rundeck.Api.sln.vsspell" />
+    <File Path="StartDocker.ps1" />
+    <File Path="StartDockerAndTest.ps1" />
+    <File Path="StopDocker.ps1" />
+    <File Path="version.json" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Publish.ps1" />
+    <File Path="SECURITY.md" />
+  </Folder>
+  <Project Path="Rundeck.Api.Test/Rundeck.Api.Test.csproj" />
+  <Project Path="Rundeck.Api/Rundeck.Api.csproj" />
+</Solution>

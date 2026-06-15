@@ -91,11 +91,11 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var config = await RundeckClient
 				.Projects
-				.GetConfigAsync(_project.Name)
+				.GetConfigAsync(_project!.Name)
 				.ConfigureAwait(false);
 
 			config.Should().NotBeNull();
-			config.Should().BeEquivalentTo(_project.Config);
+			config.Should().BeEquivalentTo(_project!.Config);
 		}
 
 		[Fact]
@@ -103,7 +103,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var resources = await RundeckClient
 				.Projects
-				.GetResourcesAsync(_project.Name)
+				.GetResourcesAsync(_project!.Name)
 				.ConfigureAwait(false);
 
 			resources.Should().NotBeNull();
@@ -115,7 +115,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var sources = await RundeckClient
 				.Projects
-				.GetSourcesAsync(_project.Name)
+				.GetSourcesAsync(_project!.Name)
 				.ConfigureAwait(false);
 
 			sources.Should().NotBeNull();
@@ -128,14 +128,14 @@ namespace Rundeck.Api.Test.Documented
 			// Arrange
 			var command = new AdhocCommand
 			{
-				Project = _project.Name,
+				Project = _project!.Name,
 				Exec = "echo hello world",
 			};
 
 			// Act
 			var response = await RundeckClient
 				.Projects
-				.RunCommandAsync(_project.Name, command)
+				.RunCommandAsync(_project!.Name, command)
 				.ConfigureAwait(false);
 
 			// Assert

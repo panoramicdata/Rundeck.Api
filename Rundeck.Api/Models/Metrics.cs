@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -6,6 +7,7 @@ namespace Rundeck.Api.Models
 	/// Metrics
 	/// </summary>
 	[DataContract]
+	[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Existing public API name")]
 	public class Metrics
 	{
 		/// <summary>

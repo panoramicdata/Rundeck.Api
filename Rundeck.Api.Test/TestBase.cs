@@ -31,7 +31,7 @@ namespace Rundeck.Api.Test
 			Logger = output.BuildLogger();
 			Logger.LogInformation(Resources.TestStarted);
 
-			TestConfig = JsonConvert.DeserializeObject<TestConfig>(File.ReadAllText("../../../appsettings.json"));
+			TestConfig = JsonConvert.DeserializeObject<TestConfig>(File.ReadAllText("../../../appsettings.json"))!;
 
 			RundeckClient = new RundeckClient(
 				new RundeckClientOptions

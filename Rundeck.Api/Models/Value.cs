@@ -12,6 +12,6 @@ namespace Rundeck.Api.Models
 		public T Value { get; set; } = default;
 
 		public override string ToString()
-			=> Value.ToString();
+			=> Value.ToString() ?? string.Empty;
 	}
 }

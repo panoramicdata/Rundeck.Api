@@ -27,11 +27,11 @@ namespace Rundeck.Api
 			options.Validate();
 			_logger = logger ?? NullLogger.Instance;
 			_httpClientHandler = new AuthenticatedBackingOffHttpClientHandler(options ?? throw new ArgumentNullException(nameof(options)));
-			_httpClient = new HttpClient(_httpClientHandler) { BaseAddress = new Uri(options.Uri, $"/api/{options.ApiVersion}") };
+			_httpClient = new HttpClient(_httpClientHandler) { BaseAddress = new Uri(options.Uri!, $"/api/{options.ApiVersion}") };
 
 			var refitSettings = new RefitSettings
 			{
-				ContentSerializer = new JsonContentSerializer(
+				ContentSerializer = new NewtonsoftJsonContentSerializer(
 					new JsonSerializerSettings
 					{
 						NullValueHandling = NullValueHandling.Ignore

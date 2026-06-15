@@ -49,7 +49,7 @@ namespace Rundeck.Api
 					_logger.Log(_levelToLogAt, $"Request\r\n{request}");
 					if (request.Content != null)
 					{
-						_logger.Log(_levelToLogAt, "RequestContent\r\n" + await request.Content.ReadAsStringAsync().ConfigureAwait(false));
+						_logger.Log(_levelToLogAt, "RequestContent\r\n" + await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
 					}
 				}
 
@@ -62,7 +62,7 @@ namespace Rundeck.Api
 					_logger.Log(_levelToLogAt, $"Response\r\n{httpResponseMessage}");
 					if (httpResponseMessage.Content != null)
 					{
-						_logger.Log(_levelToLogAt, "ResponseContent\r\n" + await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false));
+						_logger.Log(_levelToLogAt, "ResponseContent\r\n" + await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
 					}
 				}
 
@@ -70,11 +70,11 @@ namespace Rundeck.Api
 				{
 					case 400:
 						throw new RundeckException(httpResponseMessage.Content != null
-							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false))
+							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)) ?? new RundeckError { Message = Resources.NoContentBody }
 							: new RundeckError { Message = Resources.NoContentBody });
 					case 500:
 						throw new RundeckException(httpResponseMessage.Content != null
-							? await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false)
+							? await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
 							: Resources.NoContentBody);
 					case 429:
 						// We have a 429.  Back off by increasing amounts with subsequent attempts, with a configurable maximum.
@@ -84,7 +84,7 @@ namespace Rundeck.Api
 						continue;
 					case 403:
 						throw new NotAuthorizedException(httpResponseMessage.Content != null
-							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false))
+							? JsonConvert.DeserializeObject<RundeckError>(await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)) ?? new RundeckError { Message = Resources.NoContentBody }
 							: new RundeckError { Message = Resources.NoContentBody });
 					default:
 						return httpResponseMessage;
