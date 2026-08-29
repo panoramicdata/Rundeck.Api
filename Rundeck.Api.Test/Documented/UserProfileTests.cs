@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;

@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using Rundeck.Api.Models;
 using Xunit;
 using Xunit.Abstractions;

@@ -10,8 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Divergic.Logging.Xunit" />
-    <PackageReference Include="FluentAssertions" />
-    <PackageReference Include="FluentAssertions.Analyzers" />
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="AwesomeAssertions.Analyzers" />
 <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>

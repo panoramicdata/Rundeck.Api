@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using Refit;
 using Rundeck.Api.Models;
 using System;

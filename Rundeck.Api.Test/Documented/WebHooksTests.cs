@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using AwesomeAssertions;
 using Rundeck.Api.Exceptions;
 using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
