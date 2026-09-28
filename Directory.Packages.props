@@ -13,7 +13,7 @@
     <PackageVersion Include="Neovolve.Logging.Xunit.v3" Version="7.2.0" />
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.10.94" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageVersion Include="Refit" Version="15.2.0" />
+    <PackageVersion Include="Refit" Version="16.3.0" />
     <PackageVersion Include="Refit.Newtonsoft.Json" Version="15.2.0" />
     <PackageVersion Include="xunit.v3" Version="4.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
