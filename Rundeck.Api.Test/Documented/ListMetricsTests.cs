@@ -1,7 +1,6 @@
 ﻿using AwesomeAssertions;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -16,8 +15,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var metrics = await RundeckClient
 				.Metrics
-				.GetAsync()
-				;
+				.GetAsync(TestContext.Current.CancellationToken);
 
 			metrics.Should().NotBeNull();
 			metrics.Links.Should().NotBeNull();
@@ -32,8 +30,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var metrics = await RundeckClient
 				.Metrics
-				.GetMetricsAsync()
-				;
+				.GetMetricsAsync(TestContext.Current.CancellationToken);
 
 			metrics.Should().NotBeNull();
 			metrics.Histograms.Should().NotBeNull();
@@ -47,8 +44,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var metrics = await RundeckClient
 				.Metrics
-				.GetHealthCheckAsync()
-				;
+				.GetHealthCheckAsync(TestContext.Current.CancellationToken);
 
 			metrics.Should().NotBeNull();
 			metrics.DataSourceConnectionTime.Should().NotBeNull();
@@ -60,8 +56,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var ping = await RundeckClient
 				.Metrics
-				.PingAsync()
-				;
+				.PingAsync(TestContext.Current.CancellationToken);
 
 			ping.Trim().Should().Be("pong");
 		}

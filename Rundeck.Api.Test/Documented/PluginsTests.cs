@@ -1,7 +1,6 @@
 ﻿using AwesomeAssertions;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -16,8 +15,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var plugins = await RundeckClient
 				.Plugins
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			plugins.Should().NotBeNull();
 		}

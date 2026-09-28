@@ -4,7 +4,6 @@ using Rundeck.Api.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -15,7 +14,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 		}
 
-		public async Task InitializeAsync()
+		public async ValueTask InitializeAsync()
 		{
 			var project = await RundeckClient
 				.Projects
@@ -31,7 +30,7 @@ namespace Rundeck.Api.Test.Documented
 			project.Should().NotBeNull();
 		}
 
-		public async Task DisposeAsync() =>
+		public async ValueTask DisposeAsync() =>
 			// Remove the Project
 			await RundeckClient
 					  .Projects
@@ -43,8 +42,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().BeEmpty();
@@ -59,14 +57,12 @@ namespace Rundeck.Api.Test.Documented
 			// Enable Execution on the Job
 			await RundeckClient
 				.Jobs
-				.EnableExecutionsAsync(jobImportResult.Id)
-				;
+				.EnableExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Act
 			 _ = await RundeckClient
 				.Jobs
-				.ExecuteAsync(jobImportResult.Id)
-				;
+				.ExecuteAsync(jobImportResult.Id, cancellationToken: TestContext.Current.CancellationToken);
 
 			// wait for the job execution to complete
 			JobExecutionsListingResult executionResult;
@@ -74,12 +70,11 @@ namespace Rundeck.Api.Test.Documented
 			{
 				executionResult = await RundeckClient
 				.Jobs
-				.GetExecutionsAsync(jobImportResult.Id)
-				;
+				.GetExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
 				{
-					await Task.Delay(100);
+					await Task.Delay(100, TestContext.Current.CancellationToken);
 					continue;
 				}
 
@@ -99,14 +94,12 @@ namespace Rundeck.Api.Test.Documented
 			// Enable Execution on the Job
 			await RundeckClient
 				.Jobs
-				.EnableExecutionsAsync(jobImportResult.Id)
-				;
+				.EnableExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Act
 			var jobExecutionResult = await RundeckClient
 				.Jobs
-				.ExecuteAsync(jobImportResult.Id)
-				;
+				.ExecuteAsync(jobImportResult.Id, cancellationToken: TestContext.Current.CancellationToken);
 
 			// wait for the job execution to complete
 			JobExecutionsListingResult executionResult;
@@ -114,12 +107,11 @@ namespace Rundeck.Api.Test.Documented
 			{
 				executionResult = await RundeckClient
 				.Jobs
-				.GetExecutionsAsync(jobImportResult.Id)
-				;
+				.GetExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
 				{
-					await Task.Delay(100);
+					await Task.Delay(100, TestContext.Current.CancellationToken);
 					continue;
 				}
 
@@ -138,8 +130,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().ContainSingle();
@@ -156,8 +147,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().ContainSingle();
@@ -175,8 +165,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().HaveCount(2);
@@ -189,9 +178,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				bulkDeletionResult.RequestCount.Should().Be(2);
 				bulkDeletionResult.Succeeded.Should().HaveCount(2);
@@ -210,8 +197,7 @@ namespace Rundeck.Api.Test.Documented
 			{
 				var jobDefinition = await RundeckClient
 					.Jobs
-					.GetAsync(jobImportResult.Id, JobFileFormat.YAML)
-					;
+					.GetAsync(jobImportResult.Id, JobFileFormat.YAML, TestContext.Current.CancellationToken);
 
 				jobDefinition.Should().NotBeNullOrEmpty();
 			}
@@ -231,8 +217,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().ContainSingle();
@@ -241,30 +226,26 @@ namespace Rundeck.Api.Test.Documented
 
 			var enableExecutionsResult = await RundeckClient
 				.Jobs
-				.EnableExecutionsAsync(jobs[0].Id)
-				;
+				.EnableExecutionsAsync(jobs[0].Id, TestContext.Current.CancellationToken);
 
 			enableExecutionsResult.Success.Should().BeTrue();
 
 			// check that the job has been enabled
 			jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs[0].Enabled.Should().BeTrue();
 
 			var disableExecutionsResult = await RundeckClient
 				.Jobs
-				.DisableExecutionsAsync(jobs[0].Id)
-				;
+				.DisableExecutionsAsync(jobs[0].Id, TestContext.Current.CancellationToken);
 			disableExecutionsResult.Success.Should().BeTrue();
 
 			// check that the job has been disabled
 			jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs[0].Enabled.Should().BeFalse();
 		}
@@ -278,8 +259,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().HaveCount(2);
@@ -293,9 +273,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				bulkExecutionEnabledResult.Should().NotBeNull();
 				bulkExecutionEnabledResult.Enabled.Should().BeTrue();
@@ -308,9 +286,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				bulkExecutionDisabledResult.RequestCount.Should().Be(2);
 				bulkExecutionDisabledResult.Enabled.Should().BeFalse();
@@ -325,9 +301,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				await AssertJobsEmptyAsync("Test");
 			}
@@ -342,8 +316,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().ContainSingle();
@@ -352,30 +325,26 @@ namespace Rundeck.Api.Test.Documented
 
 			var enableSchedulingResult = await RundeckClient
 				.Jobs
-				.EnableSchedulingAsync(jobs[0].Id)
-				;
+				.EnableSchedulingAsync(jobs[0].Id, TestContext.Current.CancellationToken);
 
 			enableSchedulingResult.Success.Should().BeTrue();
 
 			// check that the job has been enabled
 			jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs[0].ScheduleEnabled.Should().BeTrue();
 
 			var disableSchedulingResult = await RundeckClient
 				.Jobs
-				.DisableSchedulingAsync(jobs[0].Id)
-				;
+				.DisableSchedulingAsync(jobs[0].Id, TestContext.Current.CancellationToken);
 			disableSchedulingResult.Success.Should().BeTrue();
 
 			// check that the job has been disabled
 			jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs[0].ScheduleEnabled.Should().BeFalse();
 		}
@@ -389,8 +358,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobs = await RundeckClient
 				.Jobs
-				.GetAllAsync("Test")
-				;
+				.GetAllAsync("Test", TestContext.Current.CancellationToken);
 
 			jobs.Should().NotBeNull();
 			jobs.Should().HaveCount(2);
@@ -404,9 +372,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				bulkSchedulingEnabledResult.RequestCount.Should().Be(2);
 				bulkSchedulingEnabledResult.Enabled.Should().BeTrue();
@@ -419,9 +385,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				bulkSchedulingDisabledResult.RequestCount.Should().Be(2);
 				bulkSchedulingDisabledResult.Enabled.Should().BeFalse();
@@ -436,9 +400,7 @@ namespace Rundeck.Api.Test.Documented
 						{
 							jobImportResult.Id,
 							jobImportResult2.Id
-						}
-					)
-					;
+						}, TestContext.Current.CancellationToken);
 
 				await AssertJobsEmptyAsync("Test");
 			}
@@ -451,8 +413,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var jobMetadata = await RundeckClient
 				.Jobs
-				.GetMetadataAsync(jobImportResult.Id)
-				;
+				.GetMetadataAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			jobMetadata.Should().NotBeNull();
 			jobMetadata.Id.Should().BeEquivalentTo(jobImportResult.Id);
@@ -467,8 +428,7 @@ namespace Rundeck.Api.Test.Documented
 			const string fileContent = "test file";
 			var uploadJobOptionResult = await RundeckClient
 				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
-				;
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
 
 			uploadJobOptionResult.Should().NotBeNull();
 			uploadJobOptionResult.Total.Should().Be(1);
@@ -483,16 +443,14 @@ namespace Rundeck.Api.Test.Documented
 			const string fileContent = "test file";
 			var uploadJobOptionResult = await RundeckClient
 				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
-				;
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
 
 			uploadJobOptionResult.Should().NotBeNull();
 
 			// Act
 			var files = await RundeckClient
 				.Jobs
-				.GetFilesAsync(jobImportResult.Id)
-				;
+				.GetFilesAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			files.Should().NotBeNull();
@@ -509,21 +467,18 @@ namespace Rundeck.Api.Test.Documented
 			const string fileContent = "test file";
 			var uploadJobOptionResult = await RundeckClient
 				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
-				;
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
 
 			uploadJobOptionResult.Should().NotBeNull();
 
 			var files = await RundeckClient
 				.Jobs
-				.GetFilesAsync(jobImportResult.Id)
-				;
+				.GetFilesAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Act
 			var fileInfo = await RundeckClient
 				.Jobs
-				.GetFileInfoAsync(files.Files[0].Id)
-				;
+				.GetFileInfoAsync(files.Files[0].Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			fileInfo.Should().NotBeNull();
@@ -539,8 +494,7 @@ namespace Rundeck.Api.Test.Documented
 
 			var forecast = await RundeckClient
 				.Jobs
-				.GetForecastAsync(jobImportResult.Id)
-				;
+				.GetForecastAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			forecast.Should().NotBeNull();
 			forecast.Id.Should().Be(jobImportResult.Id);
@@ -556,8 +510,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			var workflow = await RundeckClient
 				.Jobs
-				.GetWorkflowAsync(jobImportResult.Id)
-				;
+				.GetWorkflowAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			workflow.Should().NotBeNull();

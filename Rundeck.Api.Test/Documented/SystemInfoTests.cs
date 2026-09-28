@@ -1,7 +1,6 @@
 ﻿using AwesomeAssertions;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -16,8 +15,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var systemInfo = await RundeckClient
 				.System
-				.GetSystemInfoAsync()
-				;
+				.GetSystemInfoAsync(TestContext.Current.CancellationToken);
 
 			systemInfo.Should().NotBeNull();
 			// Todo - Add assertions to check systemInfo properties

@@ -2,7 +2,6 @@
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -17,8 +16,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var users = await RundeckClient
 				.Users
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			users.Should().NotBeNullOrEmpty();
 		}
@@ -28,8 +26,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var user = await RundeckClient
 				.Users
-				.GetMeAsync()
-				;
+				.GetMeAsync(TestContext.Current.CancellationToken);
 
 			user.Should().NotBeNull();
 		}
@@ -39,15 +36,13 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var users = await RundeckClient
 				.Users
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
-				.GetAsync(users[0].Login)
-				;
+				.GetAsync(users[0].Login, TestContext.Current.CancellationToken);
 
 			user.Should().NotBeNull();
 			user.Login.Should().BeEquivalentTo(users[0].Login);
@@ -58,8 +53,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var roles = await RundeckClient
 				.Users
-				.GetMyRoleSetAsync()
-				;
+				.GetMyRoleSetAsync(TestContext.Current.CancellationToken);
 
 			roles.Should().NotBeNull();
 			roles.Roles.Should().NotBeNullOrEmpty();
@@ -70,15 +64,13 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var users = await RundeckClient
 				.Users
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			users.Should().NotBeNullOrEmpty();
 
 			var user = await RundeckClient
 				.Users
-				.GetAsync(users[0].Login)
-				;
+				.GetAsync(users[0].Login, TestContext.Current.CancellationToken);
 
 			var updatedUser = await RundeckClient
 			.Users
@@ -87,8 +79,7 @@ namespace Rundeck.Api.Test.Documented
 				FirstName = "John",
 				LastName = "Smith",
 				Email = "john.smith@example.com"
-			})
-			;
+			}, TestContext.Current.CancellationToken);
 
 			updatedUser.Should().NotBeNull();
 			updatedUser.Login.Should().Be(user.Login);
