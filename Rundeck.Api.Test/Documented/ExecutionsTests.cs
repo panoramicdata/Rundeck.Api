@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -15,7 +14,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 		}
 
-		public async Task InitializeAsync()
+		public async ValueTask InitializeAsync()
 		{
 			var project = await RundeckClient
 				.Projects
@@ -31,7 +30,7 @@ namespace Rundeck.Api.Test.Documented
 			project.Should().NotBeNull();
 		}
 
-		public async Task DisposeAsync() =>
+		public async ValueTask DisposeAsync() =>
 			// Remove the Project
 			await RundeckClient
 					  .Projects
@@ -74,13 +73,11 @@ namespace Rundeck.Api.Test.Documented
 			// Delete all executions for the job
 			await RundeckClient
 				.Jobs
-				.DeleteExecutionsAsync(jobImportResult.Id)
-				;
+				.DeleteExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			var allAfterDelete = await RundeckClient
 				.Jobs
-				.GetExecutionsAsync(jobImportResult.Id)
-				;
+				.GetExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			allAfterDelete.Should().NotBeNull();
@@ -100,8 +97,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			var executionInfo = await RundeckClient
 				.Executions
-				.GetAsync(executionResult.Executions[0].Id)
-				;
+				.GetAsync(executionResult.Executions[0].Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			executionInfo.Should().NotBeNull();
@@ -117,16 +113,14 @@ namespace Rundeck.Api.Test.Documented
 			const string fileContent = "test file";
 			var uploadJobOptionResult = await RundeckClient
 				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent)
-				;
+				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
 
 			uploadJobOptionResult.Should().NotBeNull();
 
 			// Enable execution on the Job and then run it
 			await RundeckClient
 				.Jobs
-				.EnableExecutionsAsync(jobImportResult.Id)
-				;
+				.EnableExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
 			// Run the job with the uploaded file
 			var options = new Dictionary<string, Dictionary<string, string>>
@@ -135,8 +129,7 @@ namespace Rundeck.Api.Test.Documented
 			};
 			await RundeckClient
 				.Jobs
-				.ExecuteAsync(jobImportResult.Id, options)
-				;
+				.ExecuteAsync(jobImportResult.Id, options, TestContext.Current.CancellationToken);
 
 			// wait for the job execution to complete
 			var executionResult = await GetExecutions(jobImportResult);
@@ -144,8 +137,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			var files = await RundeckClient
 				.Executions
-				.GetFilesAsync(executionResult.Executions[0].Id)
-				;
+				.GetFilesAsync(executionResult.Executions[0].Id, TestContext.Current.CancellationToken);
 
 			files.Files[0].Id.Should().Be(uploadJobOptionResult.Options["myfile"]);
 			files.Files[0].OptionName.Should().Be("myfile");
@@ -168,8 +160,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			await RundeckClient
 				.Executions
-				.DeleteAsync(executionResult.Executions[0].Id)
-				;
+				.DeleteAsync(executionResult.Executions[0].Id, TestContext.Current.CancellationToken);
 
 			// Assert
 			await AssertExecutionsEmptyAsync(jobImportResult.Id);
@@ -206,8 +197,7 @@ namespace Rundeck.Api.Test.Documented
 
 			await RundeckClient
 				.Executions
-				.DeleteAsync(ids)
-				;
+				.DeleteAsync(ids, TestContext.Current.CancellationToken);
 
 			// Assert
 			await AssertExecutionsEmptyAsync(jobImportResult.Id);

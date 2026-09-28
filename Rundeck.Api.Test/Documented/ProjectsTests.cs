@@ -2,7 +2,6 @@
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -15,7 +14,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 		}
 
-		public async Task InitializeAsync()
+		public async ValueTask InitializeAsync()
 		{
 			_project = await RundeckClient
 				.Projects
@@ -31,7 +30,7 @@ namespace Rundeck.Api.Test.Documented
 			_project.Should().NotBeNull();
 		}
 
-		public async Task DisposeAsync() =>
+		public async ValueTask DisposeAsync() =>
 			// Remove the Project
 			await RundeckClient
 					  .Projects
@@ -52,17 +51,14 @@ namespace Rundeck.Api.Test.Documented
 							Name = "Project",
 							Url = "example.com",
 							Config = new Config()
-						}
-						)
-						;
+						}, TestContext.Current.CancellationToken);
 
 				project.Should().NotBeNull();
 				// Todo - test Project properties
 
 				var projects = await RundeckClient
 					.Projects
-					.GetAllAsync()
-					;
+					.GetAllAsync(TestContext.Current.CancellationToken);
 
 				projects.Should().NotBeNullOrEmpty();
 				projects.Should().HaveCount(2);
@@ -70,8 +66,7 @@ namespace Rundeck.Api.Test.Documented
 				// Get a Project by name
 				var testProject = await RundeckClient
 					.Projects
-					.GetAsync("Project")
-					;
+					.GetAsync("Project", TestContext.Current.CancellationToken);
 
 				testProject.Should().NotBeNull();
 				testProject.Should().BeEquivalentTo(project);
@@ -81,8 +76,7 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup
 				await RundeckClient
 					  .Projects
-					  .DeleteAsync("Project")
-					  ;
+					  .DeleteAsync("Project", TestContext.Current.CancellationToken);
 			}
 		}
 
@@ -91,8 +85,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var config = await RundeckClient
 				.Projects
-				.GetConfigAsync(_project!.Name)
-				;
+				.GetConfigAsync(_project!.Name, TestContext.Current.CancellationToken);
 
 			config.Should().NotBeNull();
 			config.Should().BeEquivalentTo(_project!.Config);
@@ -103,8 +96,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var resources = await RundeckClient
 				.Projects
-				.GetResourcesAsync(_project!.Name)
-				;
+				.GetResourcesAsync(_project!.Name, TestContext.Current.CancellationToken);
 
 			resources.Should().NotBeNull();
 			// Todo - check Resource properties
@@ -115,8 +107,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var sources = await RundeckClient
 				.Projects
-				.GetSourcesAsync(_project!.Name)
-				;
+				.GetSourcesAsync(_project!.Name, TestContext.Current.CancellationToken);
 
 			sources.Should().NotBeNull();
 			// Todo - check Source properties
@@ -135,8 +126,7 @@ namespace Rundeck.Api.Test.Documented
 			// Act
 			var response = await RundeckClient
 				.Projects
-				.RunCommandAsync(_project!.Name, command)
-				;
+				.RunCommandAsync(_project!.Name, command, TestContext.Current.CancellationToken);
 
 			// Assert
 			response.Should().NotBeNull();

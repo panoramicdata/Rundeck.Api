@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -19,8 +18,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
@@ -32,16 +30,14 @@ namespace Rundeck.Api.Test.Documented
 				{
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
-				})
-				;
+				}, TestContext.Current.CancellationToken);
 
 			try
 			{
 				// Get all tokens and confirm we got one
 				authenticationTokens = await RundeckClient
 				.AuthenticationTokens
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
 				authenticationTokens.Should().ContainSingle();
@@ -59,14 +55,12 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup token
 				await RundeckClient
 					.AuthenticationTokens
-					.DeleteAsync(newToken.Id)
-					;
+					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
 			}
 
 			authenticationTokens = await RundeckClient
 				.AuthenticationTokens
-				.GetAllAsync()
-				;
+				.GetAllAsync(TestContext.Current.CancellationToken);
 
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
@@ -77,8 +71,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var authenticationTokens = await RundeckClient
 				.AuthenticationTokens
-				.GetAllByUserAsync(TestConfig.Username)
-				;
+				.GetAllByUserAsync(TestConfig.Username, TestContext.Current.CancellationToken);
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
 
@@ -89,16 +82,14 @@ namespace Rundeck.Api.Test.Documented
 				{
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
-				})
-				;
+				}, TestContext.Current.CancellationToken);
 
 			try
 			{
 				// Re-fetch the tokens by user
 				authenticationTokens = await RundeckClient
 				.AuthenticationTokens
-				.GetAllByUserAsync(TestConfig.Username)
-				;
+				.GetAllByUserAsync(TestConfig.Username, TestContext.Current.CancellationToken);
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
 
@@ -110,8 +101,7 @@ namespace Rundeck.Api.Test.Documented
 				// Delete
 				await RundeckClient
 					.AuthenticationTokens
-					.DeleteAsync(newToken.Id)
-					;
+					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
 			}
 		}
 
@@ -125,8 +115,7 @@ namespace Rundeck.Api.Test.Documented
 				{
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
-				})
-				;
+				}, TestContext.Current.CancellationToken);
 
 			try
 			{
@@ -144,8 +133,7 @@ namespace Rundeck.Api.Test.Documented
 				// Delete
 				await RundeckClient
 					.AuthenticationTokens
-					.DeleteAsync(newToken.Id)
-					;
+					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
 			}
 		}
 
@@ -159,15 +147,13 @@ namespace Rundeck.Api.Test.Documented
 				{
 					User = TestConfig.Username,
 					Roles = new List<string> { "*" }
-				})
-				;
+				}, TestContext.Current.CancellationToken);
 
 			try
 			{
 				var existingToken = await RundeckClient
 				.AuthenticationTokens
-				.GetAsync(newToken.Id)
-				;
+				.GetAsync(newToken.Id, TestContext.Current.CancellationToken);
 
 				existingToken.Should().NotBeNull();
 				existingToken.Id.Should().Be(newToken.Id);
@@ -185,8 +171,7 @@ namespace Rundeck.Api.Test.Documented
 				// Delete
 				await RundeckClient
 					.AuthenticationTokens
-					.DeleteAsync(newToken.Id)
-					;
+					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
 			}
 		}
 	}

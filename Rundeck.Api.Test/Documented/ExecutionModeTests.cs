@@ -4,7 +4,6 @@ using Rundeck.Api.Models;
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -19,8 +18,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var executionMode = await RundeckClient
 				.System
-				.SetPassiveModeAsync()
-				;
+				.SetPassiveModeAsync(TestContext.Current.CancellationToken);
 
 			Func<Task> act = async () =>
 			{
@@ -36,8 +34,7 @@ namespace Rundeck.Api.Test.Documented
 
 			executionMode = await RundeckClient
 				.System
-				.SetActiveModeAsync()
-				;
+				.SetActiveModeAsync(TestContext.Current.CancellationToken);
 
 			executionMode.ExecutionModeEnum.Should().Be(ExecutionModeEnum.Active);
 		}

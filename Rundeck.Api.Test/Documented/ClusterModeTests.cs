@@ -1,7 +1,6 @@
 ﻿using AwesomeAssertions;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -17,8 +16,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var jobs = await RundeckClient
 				.Cluster
-				.GetAllJobsAsync()
-				;
+				.GetAllJobsAsync(TestContext.Current.CancellationToken);
 
 			// Todo - create a Job here and check how that affects the Cluster
 
@@ -34,16 +32,14 @@ namespace Rundeck.Api.Test.Documented
 			// Todo -
 			var systemInfo = await RundeckClient
 							.System
-							.GetSystemInfoAsync()
-							;
+							.GetSystemInfoAsync(TestContext.Current.CancellationToken);
 
 			var uuid = systemInfo.System.Rundeck.ServerUUID;
 
 			// Act
 			var jobs = await RundeckClient
 				.Cluster
-				.GetAllJobsAsync(uuid)
-				;
+				.GetAllJobsAsync(uuid, TestContext.Current.CancellationToken);
 
 			// Assert
 			jobs.Should().NotBeNull();

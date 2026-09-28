@@ -2,7 +2,6 @@
 using Rundeck.Api.Models;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Rundeck.Api.Test.Documented
 {
@@ -18,8 +17,7 @@ namespace Rundeck.Api.Test.Documented
 			// Get the keys from the root
 			var keys = await RundeckClient
 				.Keys
-				.GetAsync("")
-				;
+				.GetAsync("", TestContext.Current.CancellationToken);
 
 			keys.Should().NotBeNull();
 			keys.Resources.Should().NotBeNull().And.BeEmpty();
@@ -30,8 +28,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var newKey = await RundeckClient
 				.Keys
-				.CreatePrivateKeyAsync("myprivatekey", "SomePrivateKeyText")
-				;
+				.CreatePrivateKeyAsync("myprivatekey", "SomePrivateKeyText", TestContext.Current.CancellationToken);
 
 			try
 			{
@@ -46,8 +43,7 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup
 				await RundeckClient
 					.Keys
-					.DeleteAsync("myprivatekey")
-					;
+					.DeleteAsync("myprivatekey", TestContext.Current.CancellationToken);
 			}
 		}
 
@@ -56,8 +52,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var newKey = await RundeckClient
 				.Keys
-				.CreatePublicKeyAsync("mypublickey", "SomePublicKeyText")
-				;
+				.CreatePublicKeyAsync("mypublickey", "SomePublicKeyText", TestContext.Current.CancellationToken);
 
 			try
 			{
@@ -72,8 +67,7 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup
 				await RundeckClient
 					.Keys
-					.DeleteAsync("mypublickey")
-					;
+					.DeleteAsync("mypublickey", TestContext.Current.CancellationToken);
 			}
 		}
 
@@ -82,8 +76,7 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var newKey = await RundeckClient
 				.Keys
-				.CreatePasswordAsync("mypasswordkey", "SomepasswordKeyText")
-				;
+				.CreatePasswordAsync("mypasswordkey", "SomepasswordKeyText", TestContext.Current.CancellationToken);
 
 			try
 			{
@@ -98,8 +91,7 @@ namespace Rundeck.Api.Test.Documented
 				// Cleanup
 				await RundeckClient
 					.Keys
-					.DeleteAsync("mypasswordkey")
-					;
+					.DeleteAsync("mypasswordkey", TestContext.Current.CancellationToken);
 			}
 		}
 	}
