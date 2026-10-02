@@ -1,0 +1,11 @@
+{
+	"version": 1,
+	"projects": {
+		// Every test in Rundeck.Api.Test calls a live Rundeck, and CI has no Rundeck (see the note in
+		// .github/workflows/ci.yml). "None" tells the NuGet management tooling these tests cannot run
+		// unattended, so it does not ask for a coverage job that could only fail.
+		"Rundeck.Api.Test/Rundeck.Api.Test.csproj": {
+			"defaultTestingLevel": "None"
+		}
+	}
+}
