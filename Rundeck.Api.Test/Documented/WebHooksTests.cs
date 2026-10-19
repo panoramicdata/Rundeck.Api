@@ -103,9 +103,15 @@ namespace Rundeck.Api.Test.Documented
 				.WebHooks
 				.UpdateAsync("Test", webHooks[0].Id, new WebHook
 				{
+					// Rundeck 6 finds the webhook by uuid and rejects an update missing user, roles or eventPlugin
 					Id = webHooks[0].Id,
+					Uuid = webHooks[0].Uuid,
 					Project = "Test",
 					Name = "Updated webhook",
+					User = webHooks[0].User,
+					Roles = webHooks[0].Roles,
+					EventPlugin = webHooks[0].EventPlugin,
+					Enabled = webHooks[0].Enabled,
 					Config = new WebHookConfig
 					{
 						JobId = webHooks[0].Config.JobId

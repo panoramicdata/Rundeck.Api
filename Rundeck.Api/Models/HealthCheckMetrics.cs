@@ -19,5 +19,11 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "quartz.scheduler.threadPool")]
 		public Health QuartzSchedulerThreadPool { get; set; } = new Health();
+
+		/// <summary>
+		/// Overall Rundeck health, reported by Rundeck 5 and later in place of the checks above
+		/// </summary>
+		[DataMember(Name = "rundeck")]
+		public Health Rundeck { get; set; } = new Health();
 	}
 }

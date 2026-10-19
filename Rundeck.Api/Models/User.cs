@@ -46,6 +46,12 @@ namespace Rundeck.Api.Models
 		public DateTimeOffset? Updated { get; set; }
 
 		/// <summary>
+		/// Time of the user's last job execution, if any
+		/// </summary>
+		[DataMember(Name = "lastJob")]
+		public DateTimeOffset? LastJob { get; set; }
+
+		/// <summary>
 		/// The number of tokens
 		/// </summary>
 		[DataMember(Name = "tokens")]

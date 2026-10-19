@@ -47,7 +47,7 @@ namespace Rundeck.Api.Models
 		public bool Expired { get; set; }
 
 		/// <summary>
-		/// Token
+		/// Token. Rundeck 3.3 and later return it only in the response that creates the token.
 		/// </summary>
 		[DataMember(Name = "token")]
 		public string Token { get; set; } = string.Empty;

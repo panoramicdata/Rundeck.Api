@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -6,6 +8,7 @@ namespace Rundeck.Api.Models
 	/// Meters
 	/// </summary>
 	[DataContract]
+	[JsonObject(MemberSerialization.OptIn, MissingMemberHandling = MissingMemberHandling.Ignore)]
 	public class Meters
 	{
 		/// <summary>
@@ -49,5 +52,11 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "rundeck.services.ExecutionService.executionSuccessMeter")]
 		public Meter RundeckServicesExecutionServiceExecutionSuccessMeter { get; set; } = new Meter();
+
+		/// <summary>
+		/// Meters not named above; the names vary by server version and usage
+		/// </summary>
+		[JsonExtensionData]
+		public IDictionary<string, object> AdditionalMetrics { get; set; } = new Dictionary<string, object>();
 	}
 }

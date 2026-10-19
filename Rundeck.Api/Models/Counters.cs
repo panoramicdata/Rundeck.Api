@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -6,6 +8,7 @@ namespace Rundeck.Api.Models
 	/// Counters
 	/// </summary>
 	[DataContract]
+	[JsonObject(MemberSerialization.OptIn, MissingMemberHandling = MissingMemberHandling.Ignore)]
 	public class Counters
 	{
 		/// <summary>
@@ -55,5 +58,11 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.total")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsTotal { get; set; } = new Counter();
+
+		/// <summary>
+		/// Counters not named above; the names vary by server version and usage
+		/// </summary>
+		[JsonExtensionData]
+		public IDictionary<string, object> AdditionalMetrics { get; set; } = new Dictionary<string, object>();
 	}
 }
