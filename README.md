@@ -11,7 +11,7 @@ API for Rundeck
 ## Running the tests
 
 Every test calls a live Rundeck, so the tests run locally, not in CI. The repository includes a disposable
-Rundeck 3.2.3 in Docker whose API token is in `Dockerfiles/tokens.properties`. It is a local test server
+Rundeck 6.2.1 in Docker whose API token is in `Dockerfiles/tokens.properties`. It is a local test server
 with no production data.
 
 1. Tell the tests where the server is. Settings come from [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets)

@@ -37,5 +37,17 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "user")]
 		public string User { get; set; } = default!;
+
+		/// <summary>
+		/// Whether callers must send the auth token in the Authorization header
+		/// </summary>
+		[DataMember(Name = "useAuth")]
+		public bool? UseAuth { get; set; }
+
+		/// <summary>
+		/// Whether to generate a new Authorization header secret
+		/// </summary>
+		[DataMember(Name = "regenAuth")]
+		public bool? RegenAuth { get; set; }
 	}
 }

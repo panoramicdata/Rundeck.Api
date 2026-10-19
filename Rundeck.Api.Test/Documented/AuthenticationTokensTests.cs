@@ -163,8 +163,9 @@ namespace Rundeck.Api.Test.Documented
 				existingToken.Expiration.Should().Be(newToken.Expiration);
 				existingToken.Roles.Should().NotBeEmpty();
 				existingToken.Roles.Should().BeEquivalentTo(newToken.Roles);
-				existingToken.Token.Should().NotBeEmpty();
-				existingToken.Token.Should().Be(newToken.Token);
+				// Rundeck 3.3+ returns the token value only when it is created
+				newToken.Token.Should().NotBeNullOrEmpty();
+				existingToken.Token.Should().BeEmpty();
 			}
 			finally
 			{

@@ -83,9 +83,15 @@ namespace Rundeck.Api.Test.Documented
 
 			updatedUser.Should().NotBeNull();
 			updatedUser.Login.Should().Be(user.Login);
-			updatedUser.FirstName.Should().Be("John");
-			updatedUser.LastName.Should().Be("Smith");
-			updatedUser.Email.Should().Be("john.smith@example.com");
+
+			// Rundeck 6 answers the update with the profile as it was before the change, so read it back
+			var refetchedUser = await RundeckClient
+				.Users
+				.GetAsync(user.Login, TestContext.Current.CancellationToken);
+
+			refetchedUser.FirstName.Should().Be("John");
+			refetchedUser.LastName.Should().Be("Smith");
+			refetchedUser.Email.Should().Be("john.smith@example.com");
 		}
 	}
 }

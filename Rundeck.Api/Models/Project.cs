@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -26,6 +27,12 @@ namespace Rundeck.Api.Models
 		/// </summary>
 		[DataMember(Name = "url")]
 		public string Url { get; set; } = default!;
+
+		/// <summary>
+		/// Created
+		/// </summary>
+		[DataMember(Name = "created")]
+		public DateTimeOffset Created { get; set; }
 
 		/// <summary>
 		/// Project configuration.  For more details, see:

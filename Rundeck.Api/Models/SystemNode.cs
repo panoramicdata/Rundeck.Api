@@ -63,6 +63,12 @@ namespace Rundeck.Api.Models
 		public Link Healthcheck { get; set; } = new Link();
 
 		/// <summary>
+		/// Extended system information, when the server provides it
+		/// </summary>
+		[DataMember(Name = "extended")]
+		public object? Extended { get; set; }
+
+		/// <summary>
 		/// Ping link
 		/// </summary>
 		[DataMember(Name = "ping")]

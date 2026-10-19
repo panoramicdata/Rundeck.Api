@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Rundeck.Api.Models.Dtos
 {
@@ -15,11 +14,5 @@ namespace Rundeck.Api.Models.Dtos
 		/// </summary>
 		[DataMember(Name = "label")]
 		public string Label { get; set; } = default!;
-
-		/// <summary>
-		/// Created
-		/// </summary>
-		[DataMember(Name = "created")]
-		public DateTimeOffset Created { get; set; }
 	}
 }

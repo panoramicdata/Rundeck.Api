@@ -77,5 +77,11 @@ namespace Rundeck.Api.Models
 
 		[DataMember(Name = "successfulNodes")]
 		public IList<string> SuccessfulNodes { get; set; } = default!;
+
+		/// <summary>
+		/// Whether the execution's job has since been deleted
+		/// </summary>
+		[DataMember(Name = "jobDeleted")]
+		public bool? JobDeleted { get; set; }
 	}
 }
