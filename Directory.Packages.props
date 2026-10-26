@@ -9,7 +9,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.13" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.13" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.14" />
     <PackageVersion Include="Neovolve.Logging.Xunit.v3" Version="7.2.0" />
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.10.94" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
