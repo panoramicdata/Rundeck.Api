@@ -32,6 +32,14 @@ namespace Rundeck.Api
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
+				if (_options.IsReadOnly
+					&& request.Method != HttpMethod.Get
+					&& request.Method != HttpMethod.Head
+					&& request.Method != HttpMethod.Options)
+				{
+					throw new InvalidOperationException($"The client is read-only; {request.Method} {request.RequestUri?.AbsolutePath} would change the server.");
+				}
+
 				// Ensure the API token is set
 				if (_options.ApiToken?.Length == 0)
 				{
