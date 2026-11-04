@@ -43,6 +43,11 @@ namespace Rundeck.Api
 		public ILogger Logger { get; set; } = new NullLogger<RundeckClientOptions>();
 
 		/// <summary>
+		/// When true, the client refuses every request other than GET, HEAD and OPTIONS before sending it.
+		/// </summary>
+		public bool IsReadOnly { get; set; }
+
+		/// <summary>
 		/// Validates the options provided are valid.  If not, a ConfigruationException is thrown.
 		/// </summary>
 		public void Validate()
