@@ -6,6 +6,8 @@
 
 API for Rundeck
 
+Supports .NET 11.0.
+
 [![Nuget](https://img.shields.io/nuget/v/Rundeck.Api)](https://www.nuget.org/packages/Rundeck.Api/)
 
 ## Running the tests
