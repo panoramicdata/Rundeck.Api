@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions;
+using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -16,28 +17,13 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task AuthenticationTokens_GetAllAsync_Passes()
 		{
-			var authenticationTokens = await RundeckClient
-				.AuthenticationTokens
-				.GetAllAsync(TestContext.Current.CancellationToken);
+			await AssertNoTokensAsync();
 
-			authenticationTokens.Should().NotBeNull();
-			authenticationTokens.Should().BeEmpty();
-
-			// Create a token
-			var newToken = await RundeckClient
-				.AuthenticationTokens
-				.CreateAsync(new AuthenticationTokenCreationDto
-				{
-					User = TestConfig.Username,
-					Roles = new List<string> { "*" }
-				}, TestContext.Current.CancellationToken);
-
-			try
+			await WithNewTokenAsync(async newToken =>
 			{
-				// Get all tokens and confirm we got one
-				authenticationTokens = await RundeckClient
-				.AuthenticationTokens
-				.GetAllAsync(TestContext.Current.CancellationToken);
+				var authenticationTokens = await RundeckClient
+					.AuthenticationTokens
+					.GetAllAsync(TestContext.Current.CancellationToken);
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
 				authenticationTokens.Should().ContainSingle();
@@ -49,75 +35,31 @@ namespace Rundeck.Api.Test.Documented
 				authenticationTokens[0].Roles.Should().NotBeNullOrEmpty();
 				// Token lists don't return the actual token, use Get with an Id
 				authenticationTokens[0].Token.Should().BeEmpty();
-			}
-			finally
-			{
-				// Cleanup token
-				await RundeckClient
-					.AuthenticationTokens
-					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
-			}
+			});
 
-			authenticationTokens = await RundeckClient
-				.AuthenticationTokens
-				.GetAllAsync(TestContext.Current.CancellationToken);
-
-			authenticationTokens.Should().NotBeNull();
-			authenticationTokens.Should().BeEmpty();
+			await AssertNoTokensAsync();
 		}
 
 		[Fact]
 		public async Task AuthenticationTokens_GetAllByUserAsync_Passes()
 		{
-			var authenticationTokens = await RundeckClient
-				.AuthenticationTokens
-				.GetAllByUserAsync(TestConfig.Username, TestContext.Current.CancellationToken);
+			var authenticationTokens = await GetAllByUserAsync();
 			authenticationTokens.Should().NotBeNull();
 			authenticationTokens.Should().BeEmpty();
 
-			// Create
-			var newToken = await RundeckClient
-				.AuthenticationTokens
-				.CreateAsync(new AuthenticationTokenCreationDto
-				{
-					User = TestConfig.Username,
-					Roles = new List<string> { "*" }
-				}, TestContext.Current.CancellationToken);
-
-			try
+			await WithNewTokenAsync(async newToken =>
 			{
-				// Re-fetch the tokens by user
-				authenticationTokens = await RundeckClient
-				.AuthenticationTokens
-				.GetAllByUserAsync(TestConfig.Username, TestContext.Current.CancellationToken);
+				authenticationTokens = await GetAllByUserAsync();
 
 				authenticationTokens.Should().NotBeNullOrEmpty();
-
 				authenticationTokens[0].Id.Should().Be(newToken.Id);
 				authenticationTokens[0].Token.Should().BeEmpty();
-			}
-			finally
-			{
-				// Delete
-				await RundeckClient
-					.AuthenticationTokens
-					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
-			}
+			});
 		}
 
 		[Fact]
-		public async Task CreateDelete_Succeeds()
-		{
-			// Create
-			var newToken = await RundeckClient
-				.AuthenticationTokens
-				.CreateAsync(new AuthenticationTokenCreationDto
-				{
-					User = TestConfig.Username,
-					Roles = new List<string> { "*" }
-				}, TestContext.Current.CancellationToken);
-
-			try
+		public Task CreateDelete_Succeeds()
+			=> WithNewTokenAsync(newToken =>
 			{
 				newToken.Should().NotBeNull();
 				newToken.Id.Should().NotBeNull();
@@ -127,33 +69,16 @@ namespace Rundeck.Api.Test.Documented
 				newToken.Expiration.Should().BeAfter(DateTimeOffset.UtcNow);
 				newToken.Roles.Should().NotBeNullOrEmpty();
 				newToken.Token.Should().NotBeNullOrEmpty();
-			}
-			finally
-			{
-				// Delete
-				await RundeckClient
-					.AuthenticationTokens
-					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);
-			}
-		}
+				return Task.CompletedTask;
+			});
 
 		[Fact]
-		public async Task Get_ExistingToken_Succeeds()
-		{
-			// Create
-			var newToken = await RundeckClient
-				.AuthenticationTokens
-				.CreateAsync(new AuthenticationTokenCreationDto
-				{
-					User = TestConfig.Username,
-					Roles = new List<string> { "*" }
-				}, TestContext.Current.CancellationToken);
-
-			try
+		public Task Get_ExistingToken_Succeeds()
+			=> WithNewTokenAsync(async newToken =>
 			{
 				var existingToken = await RundeckClient
-				.AuthenticationTokens
-				.GetAsync(newToken.Id, TestContext.Current.CancellationToken);
+					.AuthenticationTokens
+					.GetAsync(newToken.Id, TestContext.Current.CancellationToken);
 
 				existingToken.Should().NotBeNull();
 				existingToken.Id.Should().Be(newToken.Id);
@@ -166,10 +91,39 @@ namespace Rundeck.Api.Test.Documented
 				// Rundeck 3.3+ returns the token value only when it is created
 				newToken.Token.Should().NotBeNullOrEmpty();
 				existingToken.Token.Should().BeEmpty();
+			});
+
+		private Task<List<AuthenticationToken>> GetAllByUserAsync()
+			=> RundeckClient
+				.AuthenticationTokens
+				.GetAllByUserAsync(TestConfig.Username, TestContext.Current.CancellationToken);
+
+		private async Task AssertNoTokensAsync()
+		{
+			var authenticationTokens = await RundeckClient
+				.AuthenticationTokens
+				.GetAllAsync(TestContext.Current.CancellationToken);
+
+			authenticationTokens.Should().NotBeNull();
+			authenticationTokens.Should().BeEmpty();
+		}
+
+		private async Task WithNewTokenAsync(Func<AuthenticationToken, Task> check)
+		{
+			var newToken = await RundeckClient
+				.AuthenticationTokens
+				.CreateAsync(new AuthenticationTokenCreationDto
+				{
+					User = TestConfig.Username,
+					Roles = ["*"]
+				}, TestContext.Current.CancellationToken);
+
+			try
+			{
+				await check(newToken);
 			}
 			finally
 			{
-				// Delete
 				await RundeckClient
 					.AuthenticationTokens
 					.DeleteAsync(newToken.Id, TestContext.Current.CancellationToken);

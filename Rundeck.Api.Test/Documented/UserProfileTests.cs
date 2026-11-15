@@ -34,18 +34,14 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task Users_GetAsync_Passes()
 		{
-			var users = await RundeckClient
-				.Users
-				.GetAllAsync(TestContext.Current.CancellationToken);
-
-			users.Should().NotBeNullOrEmpty();
+			var firstUser = await GetFirstUserAsync();
 
 			var user = await RundeckClient
 				.Users
-				.GetAsync(users[0].Login, TestContext.Current.CancellationToken);
+				.GetAsync(firstUser.Login, TestContext.Current.CancellationToken);
 
 			user.Should().NotBeNull();
-			user.Login.Should().BeEquivalentTo(users[0].Login);
+			user.Login.Should().BeEquivalentTo(firstUser.Login);
 		}
 
 		[Fact]
@@ -62,24 +58,16 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task Users_UpdateAsync_Passes()
 		{
-			var users = await RundeckClient
-				.Users
-				.GetAllAsync(TestContext.Current.CancellationToken);
-
-			users.Should().NotBeNullOrEmpty();
-
-			var user = await RundeckClient
-				.Users
-				.GetAsync(users[0].Login, TestContext.Current.CancellationToken);
+			var user = await GetFirstUserAsync();
 
 			var updatedUser = await RundeckClient
-			.Users
-			.UpdateAsync(user.Login, new User
-			{
-				FirstName = "John",
-				LastName = "Smith",
-				Email = "john.smith@example.com"
-			}, TestContext.Current.CancellationToken);
+				.Users
+				.UpdateAsync(user.Login, new User
+				{
+					FirstName = "John",
+					LastName = "Smith",
+					Email = "john.smith@example.com"
+				}, TestContext.Current.CancellationToken);
 
 			updatedUser.Should().NotBeNull();
 			updatedUser.Login.Should().Be(user.Login);
@@ -92,6 +80,19 @@ namespace Rundeck.Api.Test.Documented
 			refetchedUser.FirstName.Should().Be("John");
 			refetchedUser.LastName.Should().Be("Smith");
 			refetchedUser.Email.Should().Be("john.smith@example.com");
+		}
+
+		private async Task<User> GetFirstUserAsync()
+		{
+			var users = await RundeckClient
+				.Users
+				.GetAllAsync(TestContext.Current.CancellationToken);
+
+			users.Should().NotBeNullOrEmpty();
+
+			return await RundeckClient
+				.Users
+				.GetAsync(users[0].Login, TestContext.Current.CancellationToken);
 		}
 	}
 }

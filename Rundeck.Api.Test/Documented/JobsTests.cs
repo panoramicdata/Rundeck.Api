@@ -1,191 +1,62 @@
 ﻿using AwesomeAssertions;
-using Microsoft.VisualBasic;
 using Rundeck.Api.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Rundeck.Api.Test.Documented
 {
 	[Collection("ProjectTests")]
-	public class JobsTests : TestBase, IAsyncLifetime
+	public class JobsTests : ProjectTestBase
 	{
 		public JobsTests(ITestOutputHelper output) : base(output)
 		{
 		}
 
-		public async ValueTask InitializeAsync()
-		{
-			var project = await RundeckClient
-				.Projects
-				.CreateAsync(new Project
-				{
-					Description = "Test project",
-					Name = "Test",
-					Url = "example.com",
-					Config = new Config()
-				}
-				);
-
-			project.Should().NotBeNull();
-		}
-
-		public async ValueTask DisposeAsync() =>
-			// Remove the Project
-			await RundeckClient
-					  .Projects
-					  .DeleteAsync("Test")
-					  ;
-
 		[Fact]
 		public async Task Jobs_GetAll_Ok()
 		{
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
+			var jobs = await GetJobsAsync();
 
 			jobs.Should().NotBeNull();
 			jobs.Should().BeEmpty();
 		}
 
 		[Fact]
-		public async Task Jobs_Execute_Passes()
-		{
-			// Arrange
-			// Import a job
-			var jobImportResult = await ImportJobAsync();
-			// Enable Execution on the Job
-			await RundeckClient
-				.Jobs
-				.EnableExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
-
-			// Act
-			 _ = await RundeckClient
-				.Jobs
-				.ExecuteAsync(jobImportResult.Id, cancellationToken: TestContext.Current.CancellationToken);
-
-			// wait for the job execution to complete
-			JobExecutionsListingResult executionResult;
-			while (true)
-			{
-				executionResult = await RundeckClient
-				.Jobs
-				.GetExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
-
-				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
-				{
-					await Task.Delay(100, TestContext.Current.CancellationToken);
-					continue;
-				}
-
-				break;
-			}
-
-			executionResult.Executions.Should().ContainSingle();
-			executionResult.Executions[0].Status.Should().Be(JobExecutionStatus.Succeeded);
-		}
+		public Task Jobs_Execute_Passes()
+			=> AssertImportedJobExecutesAsync();
 
 		[Fact]
-		public async Task Jobs_Retry_Passes()
-		{
-			// Arrange
-			// Import a job
-			var jobImportResult = await ImportJobAsync();
-			// Enable Execution on the Job
-			await RundeckClient
-				.Jobs
-				.EnableExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
-
-			// Act
-			var jobExecutionResult = await RundeckClient
-				.Jobs
-				.ExecuteAsync(jobImportResult.Id, cancellationToken: TestContext.Current.CancellationToken);
-
-			// wait for the job execution to complete
-			JobExecutionsListingResult executionResult;
-			while (true)
-			{
-				executionResult = await RundeckClient
-				.Jobs
-				.GetExecutionsAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
-
-				if (executionResult.Executions.Count == 0 || executionResult.Executions[0].Status == JobExecutionStatus.Running)
-				{
-					await Task.Delay(100, TestContext.Current.CancellationToken);
-					continue;
-				}
-
-				break;
-			}
-
-			executionResult.Executions.Should().ContainSingle();
-			executionResult.Executions[0].Status.Should().Be(JobExecutionStatus.Succeeded);
-		}
+		public Task Jobs_Retry_Passes()
+			=> AssertImportedJobExecutesAsync();
 
 		[Fact]
-		public async Task Jobs_Import_Ok()
-		{
-			await AssertJobsEmptyAsync("Test");
-			var jobImportResult = await ImportJobAsync();
-
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().ContainSingle();
-
-			await DeleteJobAsync(jobImportResult.Id);
-			await AssertJobsEmptyAsync("Test");
-		}
+		public Task Jobs_Import_Ok()
+			=> AssertImportAndDeleteAsync();
 
 		[Fact]
-		public async Task Jobs_Delete_Ok()
-		{
-			await AssertJobsEmptyAsync("Test");
-			var jobImportResult = await ImportJobAsync();
-
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().ContainSingle();
-
-			await DeleteJobAsync(jobImportResult.Id);
-			await AssertJobsEmptyAsync("Test");
-		}
+		public Task Jobs_Delete_Ok()
+			=> AssertImportAndDeleteAsync();
 
 		[Fact]
 		public async Task Jobs_BulkDelete_Ok()
 		{
-			// Import 2 jobs to be able to test Bulk Delete
-			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove);
-			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove);
-
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().HaveCount(2);
+			var ids = await ImportTwoJobsAsync();
 
 			try
 			{
 				var bulkDeletionResult = await RundeckClient
 					.Jobs
-					.DeleteAsync(new List<string>
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
+					.DeleteAsync(ids, TestContext.Current.CancellationToken);
 
 				bulkDeletionResult.RequestCount.Should().Be(2);
 				bulkDeletionResult.Succeeded.Should().HaveCount(2);
 			}
 			finally
 			{
-				await AssertJobsEmptyAsync("Test");
+				await AssertJobsEmptyAsync();
 			}
 		}
 
@@ -203,7 +74,6 @@ namespace Rundeck.Api.Test.Documented
 			}
 			finally
 			{
-				// Cleanup
 				await DeleteJobAsync(jobImportResult.Id);
 			}
 		}
@@ -211,199 +81,43 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task Jobs_EnableDisableExecutions_Ok()
 		{
-			await AssertJobsEmptyAsync("Test");
-			var jobImportResult = await ImportJobAsync();
-			jobImportResult.Should().NotBeNull();
+			var jobs = RundeckClient.Jobs;
 
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().ContainSingle();
-
-			jobs[0].Enabled.Should().BeFalse();
-
-			var enableExecutionsResult = await RundeckClient
-				.Jobs
-				.EnableExecutionsAsync(jobs[0].Id, TestContext.Current.CancellationToken);
-
-			enableExecutionsResult.Success.Should().BeTrue();
-
-			// check that the job has been enabled
-			jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs[0].Enabled.Should().BeTrue();
-
-			var disableExecutionsResult = await RundeckClient
-				.Jobs
-				.DisableExecutionsAsync(jobs[0].Id, TestContext.Current.CancellationToken);
-			disableExecutionsResult.Success.Should().BeTrue();
-
-			// check that the job has been disabled
-			jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs[0].Enabled.Should().BeFalse();
-		}
-
-		[Fact]
-		public async Task Jobs_BulkExecutionToggle_Passes()
-		{
-			// Import 2 jobs
-			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove);
-			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove);
-
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().HaveCount(2);
-
-			try
-			{
-				// Enable 2 jobs
-				var bulkExecutionEnabledResult = await RundeckClient
-					.Jobs
-					.EnableExecutionsAsync(new List<string>
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				bulkExecutionEnabledResult.Should().NotBeNull();
-				bulkExecutionEnabledResult.Enabled.Should().BeTrue();
-				bulkExecutionEnabledResult.Succeeded.Should().HaveCount(2);
-
-				// Disable 2 jobs
-				var bulkExecutionDisabledResult = await RundeckClient
-					.Jobs
-					.DisableExecutionsAsync(new List<string>
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				bulkExecutionDisabledResult.RequestCount.Should().Be(2);
-				bulkExecutionDisabledResult.Enabled.Should().BeFalse();
-				bulkExecutionDisabledResult.Succeeded.Should().HaveCount(2);
-			}
-			finally
-			{
-				// Cleanup jobs
-				await RundeckClient
-					.Jobs
-					.DeleteAsync(new List<string>()
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				await AssertJobsEmptyAsync("Test");
-			}
+			await AssertToggleAsync(
+				jobs.EnableExecutionsAsync,
+				jobs.DisableExecutionsAsync,
+				job => job.Enabled);
 		}
 
 		[Fact]
 		public async Task Jobs_EnableDisableScheduling_Ok()
 		{
-			await AssertJobsEmptyAsync("Test");
-			var jobImportResult = await ImportJobAsync();
-			jobImportResult.Should().NotBeNull();
+			var jobs = RundeckClient.Jobs;
 
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
+			await AssertToggleAsync(
+				jobs.EnableSchedulingAsync,
+				jobs.DisableSchedulingAsync,
+				job => job.ScheduleEnabled);
+		}
 
-			jobs.Should().NotBeNull();
-			jobs.Should().ContainSingle();
+		[Fact]
+		public async Task Jobs_BulkExecutionToggle_Passes()
+		{
+			var jobs = RundeckClient.Jobs;
 
-			jobs[0].Enabled.Should().BeFalse();
-
-			var enableSchedulingResult = await RundeckClient
-				.Jobs
-				.EnableSchedulingAsync(jobs[0].Id, TestContext.Current.CancellationToken);
-
-			enableSchedulingResult.Success.Should().BeTrue();
-
-			// check that the job has been enabled
-			jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs[0].ScheduleEnabled.Should().BeTrue();
-
-			var disableSchedulingResult = await RundeckClient
-				.Jobs
-				.DisableSchedulingAsync(jobs[0].Id, TestContext.Current.CancellationToken);
-			disableSchedulingResult.Success.Should().BeTrue();
-
-			// check that the job has been disabled
-			jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs[0].ScheduleEnabled.Should().BeFalse();
+			await AssertBulkToggleAsync(
+				jobs.EnableExecutionsAsync,
+				jobs.DisableExecutionsAsync);
 		}
 
 		[Fact]
 		public async Task Jobs_BulkSchedulesToggle_Passes()
 		{
-			// Import
-			var jobImportResult = await ImportJobAsync(JobUuidOption.Remove);
-			var jobImportResult2 = await ImportJobAsync(JobUuidOption.Remove);
+			var jobs = RundeckClient.Jobs;
 
-			var jobs = await RundeckClient
-				.Jobs
-				.GetAllAsync("Test", TestContext.Current.CancellationToken);
-
-			jobs.Should().NotBeNull();
-			jobs.Should().HaveCount(2);
-
-			try
-			{
-				// Enable Scheduling on the above created jobs
-				var bulkSchedulingEnabledResult = await RundeckClient
-					.Jobs
-					.EnableSchedulingAsync(new List<string>
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				bulkSchedulingEnabledResult.RequestCount.Should().Be(2);
-				bulkSchedulingEnabledResult.Enabled.Should().BeTrue();
-				bulkSchedulingEnabledResult.Succeeded.Should().HaveCount(2);
-
-				// Disable 2 jobs
-				var bulkSchedulingDisabledResult = await RundeckClient
-					.Jobs
-					.DisableSchedulingAsync(new List<string>
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				bulkSchedulingDisabledResult.RequestCount.Should().Be(2);
-				bulkSchedulingDisabledResult.Enabled.Should().BeFalse();
-				bulkSchedulingDisabledResult.Succeeded.Should().HaveCount(2);
-			}
-			finally
-			{
-				// Cleanup jobs
-				await RundeckClient
-					.Jobs
-					.DeleteAsync(new List<string>()
-						{
-							jobImportResult.Id,
-							jobImportResult2.Id
-						}, TestContext.Current.CancellationToken);
-
-				await AssertJobsEmptyAsync("Test");
-			}
+			await AssertBulkToggleAsync(
+				jobs.EnableSchedulingAsync,
+				jobs.DisableSchedulingAsync);
 		}
 
 		[Fact]
@@ -417,7 +131,6 @@ namespace Rundeck.Api.Test.Documented
 
 			jobMetadata.Should().NotBeNull();
 			jobMetadata.Id.Should().BeEquivalentTo(jobImportResult.Id);
-			// Todo: Add more tests to JobMetadata
 		}
 
 		[Fact]
@@ -425,34 +138,21 @@ namespace Rundeck.Api.Test.Documented
 		{
 			var jobImportResult = await ImportJobAsync();
 
-			const string fileContent = "test file";
-			var uploadJobOptionResult = await RundeckClient
-				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
+			var uploadJobOptionResult = await UploadOptionFileAsync(jobImportResult.Id);
 
-			uploadJobOptionResult.Should().NotBeNull();
 			uploadJobOptionResult.Total.Should().Be(1);
 		}
 
 		[Fact]
 		public async Task Jobs_ListUploadedFiles_Passes()
 		{
-			// Arrange
 			var jobImportResult = await ImportJobAsync();
+			await UploadOptionFileAsync(jobImportResult.Id);
 
-			const string fileContent = "test file";
-			var uploadJobOptionResult = await RundeckClient
-				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
-
-			uploadJobOptionResult.Should().NotBeNull();
-
-			// Act
 			var files = await RundeckClient
 				.Jobs
 				.GetFilesAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
-			// Assert
 			files.Should().NotBeNull();
 			files.Paging.Count.Should().Be(1);
 			files.Files.Should().ContainSingle();
@@ -461,35 +161,24 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task Jobs_GetUploadedOptionFileInfo_Passes()
 		{
-			// Arrange
 			var jobImportResult = await ImportJobAsync();
-
-			const string fileContent = "test file";
-			var uploadJobOptionResult = await RundeckClient
-				.Jobs
-				.UploadJobOptionFileAsync(jobImportResult.Id, "myfile", fileContent, TestContext.Current.CancellationToken);
-
-			uploadJobOptionResult.Should().NotBeNull();
+			await UploadOptionFileAsync(jobImportResult.Id);
 
 			var files = await RundeckClient
 				.Jobs
 				.GetFilesAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
-			// Act
 			var fileInfo = await RundeckClient
 				.Jobs
 				.GetFileInfoAsync(files.Files[0].Id, TestContext.Current.CancellationToken);
 
-			// Assert
 			fileInfo.Should().NotBeNull();
 			fileInfo.Id.Should().Be(files.Files[0].Id);
-			// Todo - Test all properties on FileInfo
 		}
 
 		[Fact]
 		public async Task Jobs_GetForecast_Passes()
 		{
-			// Arrange
 			var jobImportResult = await ImportJobAsync();
 
 			var forecast = await RundeckClient
@@ -498,21 +187,17 @@ namespace Rundeck.Api.Test.Documented
 
 			forecast.Should().NotBeNull();
 			forecast.Id.Should().Be(jobImportResult.Id);
-			// Todo - test all properties of Forecast
 		}
 
 		[Fact]
 		public async Task Jobs_GetWorkflow_Passes()
 		{
-			// Arrange
 			var jobImportResult = await ImportJobAsync();
 
-			// Act
 			var workflow = await RundeckClient
 				.Jobs
 				.GetWorkflowAsync(jobImportResult.Id, TestContext.Current.CancellationToken);
 
-			// Assert
 			workflow.Should().NotBeNull();
 			workflow.Count.Should().Be(1);
 			workflow.Should().ContainKey("workflow");
@@ -520,21 +205,76 @@ namespace Rundeck.Api.Test.Documented
 			workflow["workflow"][0].Exec.Should().Be("pwd");
 		}
 
+		private async Task AssertImportAndDeleteAsync()
+		{
+			await AssertJobsEmptyAsync();
+			var jobImportResult = await ImportJobAsync();
 
-		private Task DeleteJobAsync(string id)
+			await GetSingleJobAsync();
+
+			await DeleteJobAsync(jobImportResult.Id);
+			await AssertJobsEmptyAsync();
+		}
+
+		private async Task AssertImportedJobExecutesAsync()
+		{
+			var jobImportResult = await ImportJobAsync();
+			await EnableAndRunJobAsync(jobImportResult.Id);
+
+			var executionResult = await WaitForExecutionsAsync(jobImportResult.Id);
+
+			executionResult.Executions.Should().ContainSingle();
+			executionResult.Executions[0].Status.Should().Be(JobExecutionStatus.Succeeded);
+		}
+
+		private Task<JobOptionUploadResult> UploadOptionFileAsync(string jobId)
 			=> RundeckClient
 				.Jobs
-				.DeleteAsync(id);
+				.UploadJobOptionFileAsync(jobId, "myfile", "test file", TestContext.Current.CancellationToken);
 
-		private async Task AssertJobsEmptyAsync(string projectName)
+		private async Task AssertToggleAsync(
+			Func<string, CancellationToken, Task<SuccessResult>> turnOn,
+			Func<string, CancellationToken, Task<SuccessResult>> turnOff,
+			Func<Job, bool> isOn)
 		{
-			var jobsAfterDelete = await RundeckClient
-							.Jobs
-							.GetAllAsync(projectName)
-							;
+			await AssertJobsEmptyAsync();
+			await ImportJobAsync();
+			var job = await GetSingleJobAsync();
+			job.Enabled.Should().BeFalse();
 
-			jobsAfterDelete.Should().NotBeNull();
-			jobsAfterDelete.Should().BeEmpty();
+			(await turnOn(job.Id, TestContext.Current.CancellationToken)).Success.Should().BeTrue();
+			isOn(await GetSingleJobAsync()).Should().BeTrue();
+
+			(await turnOff(job.Id, TestContext.Current.CancellationToken)).Success.Should().BeTrue();
+			isOn(await GetSingleJobAsync()).Should().BeFalse();
+		}
+
+		private async Task AssertBulkToggleAsync(
+			Func<List<string>, CancellationToken, Task<BulkActionResult>> turnOn,
+			Func<List<string>, CancellationToken, Task<BulkActionResult>> turnOff)
+		{
+			var ids = await ImportTwoJobsAsync();
+
+			try
+			{
+				var enabled = await turnOn(ids, TestContext.Current.CancellationToken);
+
+				enabled.Should().NotBeNull();
+				enabled.RequestCount.Should().Be(2);
+				enabled.Enabled.Should().BeTrue();
+				enabled.Succeeded.Should().HaveCount(2);
+
+				var disabled = await turnOff(ids, TestContext.Current.CancellationToken);
+
+				disabled.RequestCount.Should().Be(2);
+				disabled.Enabled.Should().BeFalse();
+				disabled.Succeeded.Should().HaveCount(2);
+			}
+			finally
+			{
+				await RundeckClient.Jobs.DeleteAsync(ids, TestContext.Current.CancellationToken);
+				await AssertJobsEmptyAsync();
+			}
 		}
 	}
 }

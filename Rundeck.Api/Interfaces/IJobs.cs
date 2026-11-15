@@ -105,7 +105,20 @@ namespace Rundeck.Api.Interfaces
 		[Headers("Content-Type: application/json")]
 		Task<string> ExecuteAsync(
 			string id,
-			[Body] Dictionary<string, Dictionary<string, string>>? executionOptions = null,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Execute a job with options
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="executionOptions"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		[Post("/job/{id}/run")]
+		[Headers("Content-Type: application/json")]
+		Task<string> ExecuteAsync(
+			string id,
+			[Body] Dictionary<string, Dictionary<string, string>>? executionOptions,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -122,7 +135,22 @@ namespace Rundeck.Api.Interfaces
 			string projectName,
 			[Body] string jobContent,
 			[AliasAs("fileformat")] JobFileFormat fileFormat,
-			[AliasAs("uuidOption")] JobUuidOption uuidOption = JobUuidOption.Preserve,
+			[AliasAs("uuidOption")] JobUuidOption uuidOption,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Import job for a project from a definition, preserving the job UUIDs
+		/// </summary>
+		/// <param name="projectName"></param>
+		/// <param name="jobContent"></param>
+		/// <param name="fileFormat"></param>
+		/// <param name="cancellationToken"></param>
+		[Post("/project/{projectName}/jobs/import")]
+		[Headers("Content-Type: application/yaml")]
+		Task<JobImportResults> ImportAsync(
+			string projectName,
+			[Body] string jobContent,
+			[AliasAs("fileformat")] JobFileFormat fileFormat,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
