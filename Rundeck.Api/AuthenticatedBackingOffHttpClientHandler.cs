@@ -86,18 +86,23 @@ namespace Rundeck.Api
 
 		private static async Task ThrowForErrorStatusAsync(HttpResponseMessage response, CancellationToken cancellationToken)
 		{
-			switch ((int)response.StatusCode)
+			var status = (int)response.StatusCode;
+
+			if (status == 400)
 			{
-				case 400:
-					throw new RundeckException(await ReadErrorAsync(response, cancellationToken).ConfigureAwait(false));
-				case 500:
-					throw new RundeckException(response.Content != null
-						? await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
-						: Resources.NoContentBody);
-				case 403:
-					throw new NotAuthorizedException(await ReadErrorAsync(response, cancellationToken).ConfigureAwait(false));
-				default:
-					break;
+				throw new RundeckException(await ReadErrorAsync(response, cancellationToken).ConfigureAwait(false));
+			}
+
+			if (status == 500)
+			{
+				throw new RundeckException(response.Content != null
+					? await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
+					: Resources.NoContentBody);
+			}
+
+			if (status == 403)
+			{
+				throw new NotAuthorizedException(await ReadErrorAsync(response, cancellationToken).ConfigureAwait(false));
 			}
 		}
 

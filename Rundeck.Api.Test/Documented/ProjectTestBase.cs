@@ -69,7 +69,13 @@ namespace Rundeck.Api.Test.Documented
 			return [first.Id, second.Id];
 		}
 
-		protected async Task EnableAndRunJobAsync(string jobId, Dictionary<string, Dictionary<string, string>>? options = null)
+		protected async Task EnableAndRunJobAsync(string jobId)
+		{
+			await RundeckClient.Jobs.EnableExecutionsAsync(jobId);
+			await RundeckClient.Jobs.ExecuteAsync(jobId, TestContext.Current.CancellationToken);
+		}
+
+		protected async Task EnableAndRunJobAsync(string jobId, Dictionary<string, Dictionary<string, string>> options)
 		{
 			await RundeckClient.Jobs.EnableExecutionsAsync(jobId);
 			await RundeckClient.Jobs.ExecuteAsync(jobId, options, TestContext.Current.CancellationToken);
