@@ -7,14 +7,18 @@ docker run -dt --rm -p 4440:4440 -v ${PWD}/Dockerfiles:/home/rundeck/dockerfiles
 
 # Wait for an HTTP 200 from Rundeck
 do {
+    $request = $null
     try {
-        $request = Invoke-webrequest http://127.0.0.1:4440
-    } catch {}
+        $request = Invoke-WebRequest http://127.0.0.1:4440 -ErrorAction Stop
+    }
+    catch {
+        Write-Verbose "Rundeck is not answering yet: $($_.Exception.Message)"
+    }
     if ($request.StatusCode -eq 200) {
-        Write-Host "Rundeck ready"
+        Write-Output "Rundeck ready"
     }
     else {
-        Write-Host "Rundeck not ready, waiting 1 second"
-        sleep 1
+        Write-Output "Rundeck not ready, waiting 1 second"
+        Start-Sleep -Seconds 1
     }
 } until ($request.StatusCode -eq 200)

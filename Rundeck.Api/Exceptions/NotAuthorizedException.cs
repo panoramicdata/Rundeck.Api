@@ -4,7 +4,7 @@ namespace Rundeck.Api.Exceptions
 {
 	public class NotAuthorizedException : RundeckException
 	{
-		public NotAuthorizedException() : base()
+		public NotAuthorizedException()
 		{
 		}
 

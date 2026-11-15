@@ -7,94 +7,78 @@ namespace Rundeck.Api.Test.Documented
 {
 	public class AclPoliciesTests : TestBase
 	{
+		private const string PolicyName = "test.aclpolicy";
+
 		public AclPoliciesTests(ITestOutputHelper output) : base(output)
 		{
 		}
 
 		[Fact]
-		public async Task Policies_GetAll_Ok()
-		{
-			var policyListing = await RundeckClient
-				.Policies
-				.GetAllAsync(TestContext.Current.CancellationToken);
-
-			policyListing.Should().NotBeNull();
-			policyListing.Policies.Should().NotBeNull();
-			policyListing.Policies.Should().BeEmpty();
-		}
+		public Task Policies_GetAll_Ok()
+			=> AssertNoPoliciesAsync();
 
 		[Fact]
 		public async Task Policies_BasicCrud_Ok()
 		{
-			// Arrange
 			// Make sure there are no policies
-			var policyListing = await RundeckClient
-				.Policies
-				.GetAllAsync(TestContext.Current.CancellationToken);
+			await AssertNoPoliciesAsync();
 
-			policyListing.Should().NotBeNull();
-			policyListing.Policies.Should().NotBeNull();
-			policyListing.Policies.Should().BeEmpty();
-
-			// Act
-			const string policyName = "test.aclpolicy";
 			try
 			{
-				// Create a policy
 				var policy = await RundeckClient
 					.Policies
-					.CreateAsync(policyName, new AclPolicy
-						{
-							Contents = "description: \"my policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build"
-						}, TestContext.Current.CancellationToken);
+					.CreateAsync(PolicyName, PolicyWithDescription("my policy"), TestContext.Current.CancellationToken);
 
-				// Assert
 				policy.Should().NotBeNull();
 
-				// GetAll
 				var allAfterCreate = await RundeckClient
-				.Policies
-				.GetAllAsync(TestContext.Current.CancellationToken);
+					.Policies
+					.GetAllAsync(TestContext.Current.CancellationToken);
 
 				allAfterCreate.Policies.Should().HaveCount(1);
-				allAfterCreate.Policies[0].Name.Should().Be(policyName);
+				allAfterCreate.Policies[0].Name.Should().Be(PolicyName);
 
 				var policyByName = await RundeckClient
-				.Policies
-				.GetAsync(policyName, TestContext.Current.CancellationToken);
+					.Policies
+					.GetAsync(PolicyName, TestContext.Current.CancellationToken);
 
 				policyByName.Should().NotBeNull();
 				policyByName.Should().BeEquivalentTo(policy);
 				policyByName.Contents.Should().Be(policy.Contents);
 
-				// Update
-				const string newContents = "description: \"updated policy\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build";
 				var updatedPolicy = await RundeckClient
 					.Policies
-					.UpdateAsync(policyName, new AclPolicy
-						{
-							Contents = newContents
-						}, TestContext.Current.CancellationToken);
+					.UpdateAsync(PolicyName, PolicyWithDescription("updated policy"), TestContext.Current.CancellationToken);
 
 				updatedPolicy.Should().NotBeNull();
 				updatedPolicy.Should().NotBeEquivalentTo(policy);
-				updatedPolicy.Contents.Should().Be(newContents);
+				updatedPolicy.Contents.Should().Be(PolicyWithDescription("updated policy").Contents);
 			}
 			finally
 			{
-				// Cleanup
 				await RundeckClient
 					.Policies
-					.DeleteAsync(policyName, TestContext.Current.CancellationToken);
+					.DeleteAsync(PolicyName, TestContext.Current.CancellationToken);
 
-				var allAfterDelete = await RundeckClient
+				await AssertNoPoliciesAsync();
+			}
+		}
+
+		private static AclPolicy PolicyWithDescription(string description)
+			=> new()
+			{
+				Contents = $"description: \"{description}\"\ncontext:\n  application: rundeck\nfor:\n  project:\n    - allow: read\nby:\n  group: build"
+			};
+
+		private async Task AssertNoPoliciesAsync()
+		{
+			var policyListing = await RundeckClient
 				.Policies
 				.GetAllAsync(TestContext.Current.CancellationToken);
 
-				allAfterDelete.Should().NotBeNull();
-				allAfterDelete.Policies.Should().NotBeNull();
-				allAfterDelete.Policies.Should().BeEmpty();
-			}
+			policyListing.Should().NotBeNull();
+			policyListing.Policies.Should().NotBeNull();
+			policyListing.Policies.Should().BeEmpty();
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using AwesomeAssertions;
 using Rundeck.Api.Models;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,7 +16,6 @@ namespace Rundeck.Api.Test.Documented
 		[Fact]
 		public async Task GetPathAsync_Root_Passes()
 		{
-			// Get the keys from the root
 			var keys = await RundeckClient
 				.Keys
 				.GetAsync("", TestContext.Current.CancellationToken);
@@ -24,74 +25,37 @@ namespace Rundeck.Api.Test.Documented
 		}
 
 		[Fact]
-		public async Task CreatePrivateKey_Passes()
-		{
-			var newKey = await RundeckClient
-				.Keys
-				.CreatePrivateKeyAsync("myprivatekey", "SomePrivateKeyText", TestContext.Current.CancellationToken);
-
-			try
-			{
-				newKey.Should().NotBeNull();
-				newKey.Type.Should().Be(KeyResourceType.File);
-				newKey.Meta.Should().NotBeNull();
-				newKey.Meta.RundeckKeyType.Should().Be(KeyType.Private);
-				newKey.Resources.Should().BeEmpty();
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					.Keys
-					.DeleteAsync("myprivatekey", TestContext.Current.CancellationToken);
-			}
-		}
+		public Task CreatePrivateKey_Passes()
+			=> AssertKeyCreatedAsync("myprivatekey", KeyType.Private, RundeckClient.Keys.CreatePrivateKeyAsync);
 
 		[Fact]
-		public async Task CreatePublicKey_Passes()
-		{
-			var newKey = await RundeckClient
-				.Keys
-				.CreatePublicKeyAsync("mypublickey", "SomePublicKeyText", TestContext.Current.CancellationToken);
-
-			try
-			{
-				newKey.Should().NotBeNull();
-				newKey.Type.Should().Be(KeyResourceType.File);
-				newKey.Meta.Should().NotBeNull();
-				newKey.Meta.RundeckKeyType.Should().Be(KeyType.Public);
-				newKey.Resources.Should().BeEmpty();
-			}
-			finally
-			{
-				// Cleanup
-				await RundeckClient
-					.Keys
-					.DeleteAsync("mypublickey", TestContext.Current.CancellationToken);
-			}
-		}
+		public Task CreatePublicKey_Passes()
+			=> AssertKeyCreatedAsync("mypublickey", KeyType.Public, RundeckClient.Keys.CreatePublicKeyAsync);
 
 		[Fact]
-		public async Task CreatePasswordKey_Passes()
+		public Task CreatePasswordKey_Passes()
+			=> AssertKeyCreatedAsync("mypasswordkey", KeyType.Password, RundeckClient.Keys.CreatePasswordAsync);
+
+		private async Task AssertKeyCreatedAsync(
+			string name,
+			KeyType expectedType,
+			Func<string, string, CancellationToken, Task<KeyStorage>> create)
 		{
-			var newKey = await RundeckClient
-				.Keys
-				.CreatePasswordAsync("mypasswordkey", "SomepasswordKeyText", TestContext.Current.CancellationToken);
+			var newKey = await create(name, "SomeKeyText", TestContext.Current.CancellationToken);
 
 			try
 			{
 				newKey.Should().NotBeNull();
 				newKey.Type.Should().Be(KeyResourceType.File);
 				newKey.Meta.Should().NotBeNull();
-				newKey.Meta.RundeckKeyType.Should().Be(KeyType.Password);
+				newKey.Meta.RundeckKeyType.Should().Be(expectedType);
 				newKey.Resources.Should().BeEmpty();
 			}
 			finally
 			{
-				// Cleanup
 				await RundeckClient
 					.Keys
-					.DeleteAsync("mypasswordkey", TestContext.Current.CancellationToken);
+					.DeleteAsync(name, TestContext.Current.CancellationToken);
 			}
 		}
 	}

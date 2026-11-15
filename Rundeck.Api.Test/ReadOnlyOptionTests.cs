@@ -41,25 +41,20 @@ namespace Rundeck.Api.Test
 		/// <summary>A write is refused before any connection is made (nothing listens on the address).</summary>
 		[Fact]
 		public async Task ReadOnly_Write_IsRefusedBeforeSending()
-		{
-			using var client = ClientFor(FreeLoopbackUri(), isReadOnly: true);
-
-			var act = () => client.Jobs.DisableExecutionsAsync("job-1", TestContext.Current.CancellationToken);
-
-			var thrown = await act.Should().ThrowAsync<Exception>();
-			IsRefused(thrown.Which).Should().BeTrue();
-		}
+			=> IsRefused(await ThrownByWriteAsync(isReadOnly: true)).Should().BeTrue();
 
 		/// <summary>With the option off the same write is attempted and fails on the missing server, not on the policy.</summary>
 		[Fact]
 		public async Task NotReadOnly_Write_IsAttempted()
+			=> IsRefused(await ThrownByWriteAsync(isReadOnly: false)).Should().BeFalse();
+
+		private static async Task<Exception> ThrownByWriteAsync(bool isReadOnly)
 		{
-			using var client = ClientFor(FreeLoopbackUri(), isReadOnly: false);
+			using var client = ClientFor(FreeLoopbackUri(), isReadOnly);
 
 			var act = () => client.Jobs.DisableExecutionsAsync("job-1", TestContext.Current.CancellationToken);
 
-			var thrown = await act.Should().ThrowAsync<Exception>();
-			IsRefused(thrown.Which).Should().BeFalse();
+			return (await act.Should().ThrowAsync<Exception>()).Which;
 		}
 
 		/// <summary>A read still reaches the server.</summary>
