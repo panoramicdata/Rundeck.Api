@@ -5,6 +5,7 @@ namespace Rundeck.Api
 	/// <summary>
 	/// An API error, as sent back from the server
 	/// </summary>
+	[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Skip)]
 	public class RundeckError
 	{
 		/// <summary>

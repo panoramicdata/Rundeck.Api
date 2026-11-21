@@ -410,6 +410,17 @@ namespace Rundeck.Api.Test
 		}
 
 		[Fact]
+		public async Task Forbidden_WithUnknownErrorFields_StillThrowsNotAuthorized()
+		{
+			using var server = new StubRundeckServer("""{"error":true,"message":"nope","extra":{"a":1},"messages":[]}""", 403);
+			using var client = server.CreateClient();
+
+			var act = () => client.Users.GetAsync("u", TestContext.Current.CancellationToken);
+
+			(await ThrownAsync<NotAuthorizedException>(act)).Message.Should().Be("nope");
+		}
+
+		[Fact]
 		public async Task BadRequest_ThrowsRundeckExceptionWithTheErrorMessage()
 		{
 			using var server = new StubRundeckServer("""{"error":true,"message":"bad"}""", 400);
