@@ -124,6 +124,35 @@ namespace Rundeck.Api.Test
 		}
 
 		[Fact]
+		public async Task Execution_ExplicitNullsForValueTypes_LeaveTheDefaults()
+		{
+			var execution = await ReadExecutionAsync("""{"id":null,"status":null,"date-started":{"unixtime":null,"date":null}}""");
+
+			execution.Id.Should().Be(0);
+			execution.Status.Should().Be(JobExecutionStatus.Unknown);
+			execution.DateStarted.Unixtime.Should().Be(0);
+			execution.DateStarted.Date.Should().Be(default);
+		}
+
+		[Fact]
+		public async Task Execution_ArbitraryObjectProperty_ParsesIsoDateStringsAsDateTime()
+		{
+			var execution = await ReadExecutionAsync("""{"argstring":"2020-01-02T03:04:05Z"}""");
+
+			execution.Argstring.Should().BeOfType<DateTime>().Which.ToUniversalTime().Should().Be(new DateTime(2020, 1, 2, 3, 4, 5, DateTimeKind.Utc));
+		}
+
+		[Fact]
+		public async Task Execution_ArbitraryObjectProperty_ReadsBooleansAndFloats()
+		{
+			var flag = await ReadExecutionAsync("""{"argstring":true}""");
+			var number = await ReadExecutionAsync("""{"argstring":2.5}""");
+
+			Describe(flag.Argstring).Should().Be("bool:True");
+			Describe(number.Argstring).Should().Be("double:2.5");
+		}
+
+		[Fact]
 		public async Task Metrics_ExtensionData_CapturesUnknownMetricsWithInferredTypes()
 		{
 			var metrics = await ReadAsync(
