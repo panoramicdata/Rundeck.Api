@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models.Dtos
 {
@@ -6,13 +6,12 @@ namespace Rundeck.Api.Models.Dtos
 	/// A Project when listing Projects
 	/// Projects have different properties when listing
 	/// </summary>
-	[DataContract]
 	public class ProjectListingDto : Project
 	{
 		/// <summary>
 		/// Label
 		/// </summary>
-		[DataMember(Name = "label")]
+		[JsonPropertyName("label")]
 		public string Label { get; set; } = default!;
 	}
 }

@@ -1,20 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class Resource
 	{
-		[DataMember(Name = "href")]
+		[JsonPropertyName("href")]
 		public string Href { get; set; } = default!;
 
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string? Description { get; set; }
 
-		[DataMember(Name = "writeable")]
+		[JsonPropertyName("writeable")]
 		public bool Writeable { get; set; }
 
-		[DataMember(Name = "empty")]
+		[JsonPropertyName("empty")]
 		public bool? Empty { get; set; }
 	}
 }

@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class ResumeIncompleteLogStorageResult
 	{
 		/// <summary>
 		/// Whether it was resumed
 		/// </summary>
-		[DataMember(Name = "resumed")]
+		[JsonPropertyName("resumed")]
 		public bool Resumed { get; set; }
 	}
 }

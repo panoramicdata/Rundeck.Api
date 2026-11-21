@@ -484,10 +484,13 @@ namespace Rundeck.Api.Test
 			var inner = value switch
 			{
 				IDictionary<string, object?> d => d[key],
-				Newtonsoft.Json.Linq.JObject o => o[key]?.ToObject<object>(),
+				{ } o => TokenValue(o.GetType().GetProperty("Item", [typeof(string)])!.GetValue(o, [key])),
 				_ => throw new InvalidOperationException($"Unexpected nested type {value?.GetType().Name}")
 			};
 			return Describe(inner);
 		}
+
+		private static object? TokenValue(object? token)
+			=> token?.GetType().GetProperty("Value")?.GetValue(token);
 	}
 }

@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Counter
 	/// </summary>
-	[DataContract]
 	public class Counter
 	{
 		/// <summary>
 		/// The count
 		/// </summary>
-		[DataMember(Name = "count")]
+		[JsonPropertyName("count")]
 		public int Count { get; set; }
 	}
 }

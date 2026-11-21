@@ -1,35 +1,34 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class ProjectResource
 	{
-		[DataMember(Name = "nodename")]
+		[JsonPropertyName("nodename")]
 		public string Nodename { get; set; } = default!;
 
-		[DataMember(Name = "hostname")]
+		[JsonPropertyName("hostname")]
 		public string Hostname { get; set; } = default!;
 
-		[DataMember(Name = "osFamily")]
+		[JsonPropertyName("osFamily")]
 		public string OsFamily { get; set; } = default!;
 
-		[DataMember(Name = "osVersion")]
+		[JsonPropertyName("osVersion")]
 		public string OsVersion { get; set; } = default!;
 
-		[DataMember(Name = "osArch")]
+		[JsonPropertyName("osArch")]
 		public string OsArch { get; set; } = default!;
 
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; } = default!;
 
-		[DataMember(Name = "osName")]
+		[JsonPropertyName("osName")]
 		public string OsName { get; set; } = default!;
 
-		[DataMember(Name = "username")]
+		[JsonPropertyName("username")]
 		public string Username { get; set; } = default!;
 
-		[DataMember(Name = "tags")]
+		[JsonPropertyName("tags")]
 		public string Tags { get; set; } = default!;
 	}
 }

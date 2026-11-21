@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// ExecutionMode
 	/// </summary>
-	[DataContract]
 	public class ExecutionMode
 	{
 		/// <summary>
 		/// The execution mode
 		/// </summary>
-		[DataMember(Name = "executionMode")]
+		[JsonPropertyName("executionMode")]
 		public ExecutionModeEnum ExecutionModeEnum { get; set; } = default;
 	}
 }

@@ -1,30 +1,29 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The SystemTimeStamp
 	/// </summary>
-	[DataContract]
 	public class SystemTimestamp
 	{
 		/// <summary>
 		/// Epoch time
 		/// </summary>
-		[DataMember(Name = "epoch")]
+		[JsonPropertyName("epoch")]
 		public long Epoch { get; set; }
 
 		/// <summary>
 		/// Unit
 		/// </summary>
-		[DataMember(Name = "unit")]
+		[JsonPropertyName("unit")]
 		public string Unit { get; set; } = default!;
 
 		/// <summary>
 		/// DateTimeOffset
 		/// </summary>
-		[DataMember(Name = "datetime")]
+		[JsonPropertyName("datetime")]
 		public DateTimeOffset Datetime { get; set; }
 	}
 }

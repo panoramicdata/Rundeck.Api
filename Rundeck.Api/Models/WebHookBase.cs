@@ -1,32 +1,31 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The settings shared by a webhook and the request that creates one
 	/// </summary>
-	[DataContract]
 	public abstract class WebHookBase
 	{
-		[DataMember(Name = "config")]
+		[JsonPropertyName("config")]
 		public WebHookConfig Config { get; set; } = new WebHookConfig();
 
-		[DataMember(Name = "enabled")]
+		[JsonPropertyName("enabled")]
 		public bool Enabled { get; set; }
 
-		[DataMember(Name = "eventPlugin")]
+		[JsonPropertyName("eventPlugin")]
 		public string EventPlugin { get; set; } = default!;
 
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
-		[DataMember(Name = "project")]
+		[JsonPropertyName("project")]
 		public string Project { get; set; } = default!;
 
-		[DataMember(Name = "roles")]
+		[JsonPropertyName("roles")]
 		public string Roles { get; set; } = default!;
 
-		[DataMember(Name = "user")]
+		[JsonPropertyName("user")]
 		public string User { get; set; } = default!;
 	}
 }

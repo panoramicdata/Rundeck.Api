@@ -1,37 +1,36 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// A job
 	/// </summary>
-	[DataContract]
 	public class Job : JobReferenceBase
 	{
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; } = default!;
 
-		[DataMember(Name = "options")]
+		[JsonPropertyName("options")]
 		public Dictionary<string, string> Options { get; set; } = new Dictionary<string, string>();
 
-		[DataMember(Name = "scheduled")]
+		[JsonPropertyName("scheduled")]
 		public bool Scheduled { get; set; }
 
-		[DataMember(Name = "scheduleEnabled")]
+		[JsonPropertyName("scheduleEnabled")]
 		public bool ScheduleEnabled { get; set; }
 
-		[DataMember(Name = "enabled")]
+		[JsonPropertyName("enabled")]
 		public bool Enabled { get; set; }
 
 		// provided in cluster mode
-		[DataMember(Name = "serverOwner")]
+		[JsonPropertyName("serverOwner")]
 		public bool? ServerOwner { get; set; }
 
-		[DataMember(Name = "serverNodeUUID")]
+		[JsonPropertyName("serverNodeUUID")]
 		public string? ServerNodeUUID { get; set; } = default!;
 
-		[DataMember(Name = "averageDuration")]
+		[JsonPropertyName("averageDuration")]
 		public int AverageDuration { get; set; }
 	}
 }

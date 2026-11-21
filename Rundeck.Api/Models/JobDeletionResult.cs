@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class JobDeletionResult
 	{
-		[DataMember(Name = "id")]
+		[JsonPropertyName("id")]
 		public string Id { get; set; } = default!;
 
-		[DataMember(Name = "message")]
+		[JsonPropertyName("message")]
 		public string Message { get; set; } = default!;
 
-		[DataMember(Name = "errorCode")]
+		[JsonPropertyName("errorCode")]
 		public string? ErrorCode { get; set; }
 	}
 }

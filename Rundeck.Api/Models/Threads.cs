@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Threads
 	/// </summary>
-	[DataContract]
 	public class Threads
 	{
 		/// <summary>
 		/// Active
 		/// </summary>
-		[DataMember(Name = "active")]
+		[JsonPropertyName("active")]
 		public int Active { get; set; }
 	}
 }

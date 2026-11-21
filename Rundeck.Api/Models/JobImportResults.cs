@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class JobImportResults
 	{
-		[DataMember(Name = "succeeded")]
+		[JsonPropertyName("succeeded")]
 		public List<JobImportResult> Succeeded { get; set; } = new List<JobImportResult>();
 
-		[DataMember(Name = "failed")]
+		[JsonPropertyName("failed")]
 		public List<JobImportResult> Failed { get; set; } = new List<JobImportResult>();
 
-		[DataMember(Name = "skipped")]
+		[JsonPropertyName("skipped")]
 		public List<JobImportResult> Skipped { get; set; } = new List<JobImportResult>();
 	}
 }

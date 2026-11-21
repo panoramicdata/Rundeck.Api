@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class KeyMeta
 	{
-		[DataMember(Name = "Rundeck-key-type")]
+		[JsonPropertyName("Rundeck-key-type")]
 		public KeyType RundeckKeyType { get; set; } = default!;
 
-		[DataMember(Name = "Rundeck-content-mask")]
+		[JsonPropertyName("Rundeck-content-mask")]
 		public string RundeckContentMask { get; set; } = default!;
 
-		[DataMember(Name = "Rundeck-content-size")]
+		[JsonPropertyName("Rundeck-content-size")]
 		public string RundeckContentSize { get; set; } = default!;
 
-		[DataMember(Name = "Rundeck-content-type")]
+		[JsonPropertyName("Rundeck-content-type")]
 		public string RundeckContentType { get; set; } = default!;
 
-		[DataMember(Name = "Rundeck-content-creation-time")]
+		[JsonPropertyName("Rundeck-content-creation-time")]
 		public DateTime RundeckContentCreationTime { get; set; }
 
-		[DataMember(Name = "Rundeck-content-modify-time")]
+		[JsonPropertyName("Rundeck-content-modify-time")]
 		public DateTime RundeckContentModifyTime { get; set; }
 
-		[DataMember(Name = "Rundeck-auth-created-username")]
+		[JsonPropertyName("Rundeck-auth-created-username")]
 		public string RundeckAuthCreatedUsername { get; set; } = default!;
 
-		[DataMember(Name = "Rundeck-auth-modified-username")]
+		[JsonPropertyName("Rundeck-auth-modified-username")]
 		public string RundeckAuthModifiedUsername { get; set; } = default!;
 	}
 }

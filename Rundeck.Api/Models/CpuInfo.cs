@@ -1,23 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// A CPU info
 	/// </summary>
-	[DataContract]
 	public class CpuInfo
 	{
 		/// <summary>
 		/// The loadAverage
 		/// </summary>
-		[DataMember(Name = "loadAverage")]
+		[JsonPropertyName("loadAverage")]
 		public LoadAverage LoadAverage { get; set; } = new LoadAverage();
 
 		/// <summary>
 		/// The number of processors
 		/// </summary>
-		[DataMember(Name = "processors")]
+		[JsonPropertyName("processors")]
 		public int Processors { get; set; }
 	}
 }

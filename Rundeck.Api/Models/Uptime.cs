@@ -1,29 +1,28 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Uptime
 	/// </summary>
-	[DataContract]
 	public class Uptime
 	{
 		/// <summary>
 		/// Duration
 		/// </summary>
-		[DataMember(Name = "duration")]
+		[JsonPropertyName("duration")]
 		public int Duration { get; set; }
 
 		/// <summary>
 		/// Unit
 		/// </summary>
-		[DataMember(Name = "unit")]
+		[JsonPropertyName("unit")]
 		public string Unit { get; set; } = default!;
 
 		/// <summary>
 		/// Uptime since in SystemTimestamp
 		/// </summary>
-		[DataMember(Name = "since")]
+		[JsonPropertyName("since")]
 		public SystemTimestamp Since { get; set; } = new SystemTimestamp();
 	}
 }

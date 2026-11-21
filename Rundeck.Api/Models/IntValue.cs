@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// An int value
 	/// </summary>
-	[DataContract]
 	public class IntValue : ValueObject<int>
 	{
 	}

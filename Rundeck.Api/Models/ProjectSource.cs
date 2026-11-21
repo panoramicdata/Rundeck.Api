@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class ProjectSource
 	{
-		[DataMember(Name = "index")]
+		[JsonPropertyName("index")]
 		public int Index { get; set; }
 
-		[DataMember(Name = "type")]
+		[JsonPropertyName("type")]
 		public string Type { get; set; } = default!;
 
-		[DataMember(Name = "resources")]
+		[JsonPropertyName("resources")]
 		public Resource Resource { get; set; } = new Resource();
 	}
 }

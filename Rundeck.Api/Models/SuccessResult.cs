@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class SuccessResult
 	{
-		[DataMember(Name = "success")]
+		[JsonPropertyName("success")]
 		public bool Success { get; set; }
 	}
 }

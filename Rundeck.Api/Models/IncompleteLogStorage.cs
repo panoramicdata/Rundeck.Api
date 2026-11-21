@@ -1,36 +1,35 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Incomplete log storage
 	/// </summary>
-	[DataContract]
 	public class IncompleteLogStorage
 	{
 		/// <summary>
 		/// The total
 		/// </summary>
-		[DataMember(Name = "total")]
+		[JsonPropertyName("total")]
 		public int Total { get; set; }
 
 		/// <summary>
 		/// The max
 		/// </summary>
-		[DataMember(Name = "max")]
+		[JsonPropertyName("max")]
 		public int Max { get; set; }
 
 		/// <summary>
 		/// The offset
 		/// </summary>
-		[DataMember(Name = "offset")]
+		[JsonPropertyName("offset")]
 		public int Offset { get; set; }
 
 		/// <summary>
 		/// The executions
 		/// </summary>
-		[DataMember(Name = "executions")]
+		[JsonPropertyName("executions")]
 		public List<Execution> Executions { get; set; } = new List<Execution>();
 	}
 }

@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class Workflow
 	{
-		[DataMember(Name = "exec")]
+		[JsonPropertyName("exec")]
 		public string Exec { get; set; } = default!;
 
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; } = default!;
 	}
 }

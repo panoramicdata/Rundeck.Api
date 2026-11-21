@@ -1,36 +1,35 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// An AclPolicy when listing policies
 	/// </summary>
-	[DataContract]
 	public class AclPolicyResource
 	{
 		/// <summary>
 		/// Path
 		/// </summary>
-		[DataMember(Name = "path")]
+		[JsonPropertyName("path")]
 		public string Path { get; set; } = default!;
 
 		/// <summary>
 		/// Name
 		/// </summary>
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
 		/// <summary>
 		/// Type
 		/// Todo: Should be an enum, gather possible values
 		/// </summary>
-		[DataMember(Name = "type")]
+		[JsonPropertyName("type")]
 		public string Type { get; set; } = default!;
 
 		/// <summary>
 		/// Href
 		/// </summary>
-		[DataMember(Name = "href")]
+		[JsonPropertyName("href")]
 		public string Href { get; set; } = default!;
 	}
 }

@@ -1,25 +1,24 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	[SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>")]
 	public class KeyResource
 	{
-		[DataMember(Name = "meta")]
+		[JsonPropertyName("meta")]
 		public KeyMeta Meta { get; set; } = new KeyMeta();
 
-		[DataMember(Name = "url")]
+		[JsonPropertyName("url")]
 		public string Url { get; set; } = default!;
 
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
-		[DataMember(Name = "type")]
+		[JsonPropertyName("type")]
 		public KeyResourceType Type { get; set; }
 
-		[DataMember(Name = "path")]
+		[JsonPropertyName("path")]
 		public string Path { get; set; } = default!;
 	}
 }

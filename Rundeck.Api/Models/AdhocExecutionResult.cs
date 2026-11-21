@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class AdhocExecutionResult
 	{
-		[DataMember(Name = "message")]
+		[JsonPropertyName("message")]
 		public string Message { get; set; } = default!;
 
-		[DataMember(Name = "execution")]
+		[JsonPropertyName("execution")]
 		public Execution Execution { get; set; } = new Execution();
 	}
 }

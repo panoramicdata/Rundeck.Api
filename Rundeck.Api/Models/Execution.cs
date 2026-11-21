@@ -1,87 +1,86 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// An execution
 	/// </summary>
-	[DataContract]
 	public class Execution
 	{
 		/// <summary>
 		/// Execution ID
 		/// </summary>
-		[DataMember(Name = "id")]
+		[JsonPropertyName("id")]
 		public int Id { get; set; }
 
 		/// <summary>
 		/// Project Name
 		/// </summary>
-		[DataMember(Name = "project")]
+		[JsonPropertyName("project")]
 		public string Project { get; set; } = string.Empty;
 
 		/// <summary>
 		/// API URL for Execution
 		/// </summary>
-		[DataMember(Name = "href")]
+		[JsonPropertyName("href")]
 		public string Href { get; set; } = string.Empty;
 
 		/// <summary>
 		/// GUI URL for Execution
 		/// </summary>
-		[DataMember(Name = "permalink")]
+		[JsonPropertyName("permalink")]
 		public string Permalink { get; set; } = string.Empty;
 
 		/// <summary>
 		/// The storage
 		/// </summary>
-		[DataMember(Name = "storage")]
+		[JsonPropertyName("storage")]
 		public Storage Storage { get; set; } = new Storage();
 
 		/// <summary>
 		/// The errors
 		/// </summary>
-		[DataMember(Name = "errors")]
+		[JsonPropertyName("errors")]
 		public List<string> Errors { get; set; } = new List<string>();
 
 		/// <summary>
 		/// Status
 		/// </summary>
-		[DataMember(Name = "status")]
+		[JsonPropertyName("status")]
 		public JobExecutionStatus Status { get; set; } = default!;
 
-		[DataMember(Name = "executionType")]
+		[JsonPropertyName("executionType")]
 		public string ExecutionType { get; set; } = default!;
 
-		[DataMember(Name = "user")]
+		[JsonPropertyName("user")]
 		public string User { get; set; } = default!;
 
-		[DataMember(Name = "date-started")]
+		[JsonPropertyName("date-started")]
 		public JobDateTime DateStarted { get; set; } = new JobDateTime();
 
-		[DataMember(Name = "date-ended")]
+		[JsonPropertyName("date-ended")]
 		public JobDateTime DateEnded { get; set; } = new JobDateTime();
 
-		[DataMember(Name = "job")]
+		[JsonPropertyName("job")]
 		public Job Job { get; set; } = new Job();
 
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; } = default!;
 
-		[DataMember(Name = "argstring")]
+		[JsonPropertyName("argstring")]
 		public object Argstring { get; set; } = default!;
 
-		[DataMember(Name = "serverUUID")]
+		[JsonPropertyName("serverUUID")]
 		public string ServerUUID { get; set; } = default!;
 
-		[DataMember(Name = "successfulNodes")]
+		[JsonPropertyName("successfulNodes")]
 		public IList<string> SuccessfulNodes { get; set; } = default!;
 
 		/// <summary>
 		/// Whether the execution's job has since been deleted
 		/// </summary>
-		[DataMember(Name = "jobDeleted")]
+		[JsonPropertyName("jobDeleted")]
 		public bool? JobDeleted { get; set; }
 	}
 }

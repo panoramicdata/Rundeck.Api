@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class BulkActionResult
 	{
-		[DataMember(Name = "requestCount")]
+		[JsonPropertyName("requestCount")]
 		public int RequestCount { get; set; }
 
-		[DataMember(Name = "successCount")]
+		[JsonPropertyName("successCount")]
 		public int SuccessCount { get; set; }
 
-		[DataMember(Name = "failedCount")]
+		[JsonPropertyName("failedCount")]
 		public int FailedCount { get; set; }
 
-		[DataMember(Name = "allsuccessful")]
+		[JsonPropertyName("allsuccessful")]
 		public bool Allsuccessful { get; set; }
 
-		[DataMember(Name = "enabled")]
+		[JsonPropertyName("enabled")]
 		public bool? Enabled { get; set; }
 
-		[DataMember(Name = "succeeded")]
+		[JsonPropertyName("succeeded")]
 		public IList<ActionResult> Succeeded { get; set; } = new List<ActionResult>();
 
-		[DataMember(Name = "failed")]
+		[JsonPropertyName("failed")]
 		public IList<ActionResult> Failed { get; set; } = new List<ActionResult>();
 	}
 }

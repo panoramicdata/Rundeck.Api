@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The SystemInfo
 	/// </summary>
-	[DataContract]
 	public class SystemInfo
 	{
 		/// <summary>
 		/// The actual SystemNode
 		/// </summary>
-		[DataMember(Name = "system")]
+		[JsonPropertyName("system")]
 		public SystemNode System { get; set; } = new SystemNode();
 	}
 }

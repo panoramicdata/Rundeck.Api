@@ -1,60 +1,59 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// A user
 	/// </summary>
-	[DataContract]
 	public class User
 	{
 		/// <summary>
 		/// The login
 		/// </summary>
-		[DataMember(Name = "login")]
+		[JsonPropertyName("login")]
 		public string Login { get; set; } = string.Empty;
 
 		/// <summary>
 		/// First name
 		/// </summary>
-		[DataMember(Name = "firstName")]
+		[JsonPropertyName("firstName")]
 		public string FirstName { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Last name
 		/// </summary>
-		[DataMember(Name = "lastName")]
+		[JsonPropertyName("lastName")]
 		public string LastName { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Email address
 		/// </summary>
-		[DataMember(Name = "email")]
+		[JsonPropertyName("email")]
 		public string Email { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Creation time
 		/// </summary>
-		[DataMember(Name = "created")]
+		[JsonPropertyName("created")]
 		public DateTimeOffset Created { get; set; } = DateTimeOffset.MinValue;
 
 		/// <summary>
 		/// Last update time
 		/// </summary>
-		[DataMember(Name = "updated")]
+		[JsonPropertyName("updated")]
 		public DateTimeOffset? Updated { get; set; }
 
 		/// <summary>
 		/// Time of the user's last job execution, if any
 		/// </summary>
-		[DataMember(Name = "lastJob")]
+		[JsonPropertyName("lastJob")]
 		public DateTimeOffset? LastJob { get; set; }
 
 		/// <summary>
 		/// The number of tokens
 		/// </summary>
-		[DataMember(Name = "tokens")]
+		[JsonPropertyName("tokens")]
 		public int TokenCount { get; set; }
 	}
 }

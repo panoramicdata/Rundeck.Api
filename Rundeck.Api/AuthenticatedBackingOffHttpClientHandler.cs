@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
 using Rundeck.Api.Exceptions;
+using Rundeck.Api.Serialization;
 using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -108,7 +109,7 @@ namespace Rundeck.Api
 
 		private static async Task<RundeckError> ReadErrorAsync(HttpResponseMessage response, CancellationToken cancellationToken)
 			=> response.Content != null
-				? JsonConvert.DeserializeObject<RundeckError>(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)) ?? new RundeckError { Message = Resources.NoContentBody }
+				? JsonSerializer.Deserialize<RundeckError>(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false), RundeckJson.Options) ?? new RundeckError { Message = Resources.NoContentBody }
 				: new RundeckError { Message = Resources.NoContentBody };
 	}
 }

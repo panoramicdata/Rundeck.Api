@@ -1,47 +1,46 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Metrics: the metrics
 	/// </summary>
-	[DataContract]
 	public class MetricsMetrics
 	{
 		/// <summary>
 		/// Version
 		/// </summary>
-		[DataMember(Name = "version")]
+		[JsonPropertyName("version")]
 		public string Version { get; set; } = default!;
 
 		/// <summary>
 		/// Gauges
 		/// </summary>
-		[DataMember(Name = "gauges")]
+		[JsonPropertyName("gauges")]
 		public Gauges Gauges { get; set; } = default!;
 
 		/// <summary>
 		/// Counters
 		/// </summary>
-		[DataMember(Name = "counters")]
+		[JsonPropertyName("counters")]
 		public Counters Counters { get; set; } = default!;
 
 		/// <summary>
 		/// Histograms
 		/// </summary>
-		[DataMember(Name = "histograms")]
+		[JsonPropertyName("histograms")]
 		public Histograms Histograms { get; set; } = default!;
 
 		/// <summary>
 		/// Meters
 		/// </summary>
-		[DataMember(Name = "meters")]
+		[JsonPropertyName("meters")]
 		public Meters Meters { get; set; } = default!;
 
 		/// <summary>
 		/// Timers
 		/// </summary>
-		[DataMember(Name = "timers")]
+		[JsonPropertyName("timers")]
 		public MetricsTimers Timers { get; set; } = default!;
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
@@ -7,38 +7,37 @@ namespace Rundeck.Api.Models
 	/// A Project
 	/// Documentation: https://docs.rundeck.com/docs/administration/projects/
 	/// </summary>
-	[DataContract]
 	public class Project
 	{
 		/// <summary>
 		/// The project description
 		/// </summary>
-		[DataMember(Name = "description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; } = default!;
 
 		/// <summary>
 		/// The project name
 		/// </summary>
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
 		/// <summary>
 		/// The project URL
 		/// </summary>
-		[DataMember(Name = "url")]
+		[JsonPropertyName("url")]
 		public string Url { get; set; } = default!;
 
 		/// <summary>
 		/// Created
 		/// </summary>
-		[DataMember(Name = "created")]
+		[JsonPropertyName("created")]
 		public DateTimeOffset Created { get; set; }
 
 		/// <summary>
 		/// Project configuration.  For more details, see:
 		/// https://docs.rundeck.com/docs/administration/projects/configuration.html
 		/// </summary>
-		[DataMember(Name = "config")]
+		[JsonPropertyName("config")]
 		public Config Config { get; set; } = new Config();
 	}
 }

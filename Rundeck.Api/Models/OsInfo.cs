@@ -1,29 +1,28 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Operating System Info
 	/// </summary>
-	[DataContract]
 	public class OsInfo
 	{
 		/// <summary>
 		/// Arch
 		/// </summary>
-		[DataMember(Name = "arch")]
+		[JsonPropertyName("arch")]
 		public string Arch { get; set; } = default!;
 
 		/// <summary>
 		/// Name
 		/// </summary>
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
 		/// <summary>
 		/// Version
 		/// </summary>
-		[DataMember(Name = "version")]
+		[JsonPropertyName("version")]
 		public string Version { get; set; } = default!;
 	}
 }

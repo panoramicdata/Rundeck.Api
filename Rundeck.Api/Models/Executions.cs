@@ -1,23 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Executions
 	/// </summary>
-	[DataContract]
 	public class Executions
 	{
 		/// <summary>
 		/// Execution status
 		/// </summary>
-		[DataMember(Name = "active")]
+		[JsonPropertyName("active")]
 		public bool Active { get; set; }
 
 		/// <summary>
 		/// ExecutionMode
 		/// </summary>
-		[DataMember(Name = "executionMode")]
+		[JsonPropertyName("executionMode")]
 		public ExecutionModeEnum ExecutionMode { get; set; }
 	}
 }

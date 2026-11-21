@@ -1,35 +1,34 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// MemoryInfo
 	/// </summary>
-	[DataContract]
 	public class MemoryInfo
 	{
 		/// <summary>
 		/// Unit
 		/// </summary>
-		[DataMember(Name = "unit")]
+		[JsonPropertyName("unit")]
 		public string Unit { get; set; } = default!;
 
 		/// <summary>
 		/// Max value
 		/// </summary>
-		[DataMember(Name = "max")]
+		[JsonPropertyName("max")]
 		public long Max { get; set; }
 
 		/// <summary>
 		/// Free
 		/// </summary>
-		[DataMember(Name = "free")]
+		[JsonPropertyName("free")]
 		public long Free { get; set; }
 
 		/// <summary>
 		/// Total
 		/// </summary>
-		[DataMember(Name = "total")]
+		[JsonPropertyName("total")]
 		public long Total { get; set; }
 	}
 }
