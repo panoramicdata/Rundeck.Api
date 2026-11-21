@@ -124,6 +124,36 @@ namespace Rundeck.Api.Test
 		}
 
 		[Fact]
+		public async Task StringProperties_AcceptNumbersAndBooleans()
+		{
+			var execution = await ReadExecutionAsync("""{"project":5,"href":true,"permalink":1.5,"job":{"options":{"a":7,"b":false}}}""");
+
+			execution.Project.Should().Be("5");
+			execution.Href.Should().Be("true");
+			execution.Permalink.Should().Be("1.5");
+			execution.Job.Options.Should().BeEquivalentTo(new Dictionary<string, string> { ["a"] = "7", ["b"] = "false" });
+		}
+
+		[Fact]
+		public async Task StringProperty_FromObject_IsRejected()
+		{
+			var act = () => ReadExecutionAsync("""{"project":{"a":1}}""");
+
+			await act.Should().ThrowAsync<Exception>();
+		}
+
+		[Fact]
+		public async Task BooleanProperty_AcceptsStringsAndNull()
+		{
+			var fromString = await ReadExecutionAsync("""{"job":{"enabled":"true","scheduled":true}}""");
+			var fromNull = await ReadExecutionAsync("""{"job":{"enabled":null}}""");
+
+			fromString.Job.Enabled.Should().BeTrue();
+			fromString.Job.Scheduled.Should().BeTrue();
+			fromNull.Job.Enabled.Should().BeFalse();
+		}
+
+		[Fact]
 		public async Task Execution_ExplicitNullsForValueTypes_LeaveTheDefaults()
 		{
 			var execution = await ReadExecutionAsync("""{"id":null,"status":null,"date-started":{"unixtime":null,"date":null}}""");
