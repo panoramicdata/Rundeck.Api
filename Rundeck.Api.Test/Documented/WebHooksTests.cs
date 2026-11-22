@@ -1,8 +1,6 @@
 ﻿using AwesomeAssertions;
-using Rundeck.Api.Exceptions;
 using Rundeck.Api.Models;
 using Rundeck.Api.Models.Dtos;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -110,14 +108,8 @@ namespace Rundeck.Api.Test.Documented
 		{
 			await CreateWebHookForNewJobAsync();
 
-			Func<Task> act = async () => await RundeckClient
-				.WebHooks
-				.SendEventAsync("invalid_auth_token", TestContext.Current.CancellationToken);
-
-			// Refit wraps the exception thrown by the HTTP handler
-			var thrown = (await act.Should().ThrowAsync<Exception>()).Which;
-
-			thrown.InnerException.Should().BeOfType<NotAuthorizedException>();
+			await NotAuthorizedAssertions.ShouldThrowNotAuthorizedAsync(
+				() => RundeckClient.WebHooks.SendEventAsync("invalid_auth_token", TestContext.Current.CancellationToken));
 		}
 
 		private Task<List<WebHook>> GetWebHooksAsync()
