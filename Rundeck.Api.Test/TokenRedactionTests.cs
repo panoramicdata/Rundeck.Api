@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,27 +17,42 @@ namespace Rundeck.Api.Test
 		public async Task TraceLogging_DoesNotContainTheApiToken()
 		{
 			using var server = new StubRundeckServer("[]");
-			var logger = new CapturingLogger();
+			var (logger, messages) = CapturingLogger.Create();
 			using var client = new RundeckClient(
 				new RundeckClientOptions { Uri = server.Uri, ApiToken = Token, Logger = logger });
 
 			await client.Jobs.GetAllAsync("any", TestContext.Current.CancellationToken);
 
-			logger.Messages.Should().NotBeEmpty();
-			logger.Messages.Should().OnlyContain(message => !message.Contains(Token, StringComparison.Ordinal));
-			logger.Messages.Should().Contain(message => message.Contains("X-Rundeck-Auth-Token", StringComparison.Ordinal));
+			messages.Should().NotBeEmpty();
+			messages.Should().OnlyContain(message => !message.Contains(Token, StringComparison.Ordinal));
+			messages.Should().Contain(message => message.Contains("X-Rundeck-Auth-Token", StringComparison.Ordinal));
 		}
 
-		private sealed class CapturingLogger : ILogger
+		public class CapturingLogger : DispatchProxy
 		{
 			public List<string> Messages { get; } = [];
 
-			public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+			public static (ILogger Logger, List<string> Messages) Create()
+			{
+				var logger = Create<ILogger, CapturingLogger>();
+				return (logger, ((CapturingLogger)(object)logger).Messages);
+			}
 
-			public bool IsEnabled(LogLevel logLevel) => true;
+			protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
+			{
+				if (targetMethod?.Name == nameof(ILogger.IsEnabled))
+				{
+					return true;
+				}
 
-			public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-				=> Messages.Add(formatter(state, exception));
+				if (targetMethod?.Name == nameof(ILogger.Log))
+				{
+					var formatter = (Delegate)args![4]!;
+					Messages.Add((string)formatter.DynamicInvoke(args[2], args[3])!);
+				}
+
+				return null;
+			}
 		}
 	}
 }
