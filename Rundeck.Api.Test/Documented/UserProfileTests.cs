@@ -1,15 +1,43 @@
 ﻿using AwesomeAssertions;
 using Rundeck.Api.Models;
+using Rundeck.Api.Models.Dtos;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Rundeck.Api.Test.Documented
 {
-	public class UserProfileTests : TestBase
+	public class UserProfileTests : TestBase, IAsyncLifetime
 	{
 		public UserProfileTests(ITestOutputHelper output) : base(output)
 		{
 		}
+
+		// A fresh Rundeck has no user record until something, such as creating a token, creates it
+		public async ValueTask InitializeAsync()
+		{
+			var users = await RundeckClient
+				.Users
+				.GetAllAsync(TestContext.Current.CancellationToken);
+
+			if (users.Count > 0)
+			{
+				return;
+			}
+
+			var token = await RundeckClient
+				.AuthenticationTokens
+				.CreateAsync(new AuthenticationTokenCreationDto
+				{
+					User = TestConfig.Username,
+					Roles = ["*"]
+				}, TestContext.Current.CancellationToken);
+
+			await RundeckClient
+				.AuthenticationTokens
+				.DeleteAsync(token.Id, TestContext.Current.CancellationToken);
+		}
+
+		public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
 		[Fact]
 		public async Task Users_GetAllAsync_Passes()
