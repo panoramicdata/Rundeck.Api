@@ -36,6 +36,13 @@ namespace Rundeck.Api.Test
 			return Assert.IsType<TException>(thrown, exactMatch: false);
 		}
 
+		internal static async Task<TException> ThrownForUserGetAsync<TException>(string body, int status)
+			where TException : Exception
+		{
+			using var server = new StubRundeckServer(body, status);
+			using var client = server.CreateClient();
+			return await ThrownAsync<TException>(() => client.Users.GetAsync("u", TestContext.Current.CancellationToken));
+		}
 		internal static string Describe(object? value)
 			=> value switch
 			{
