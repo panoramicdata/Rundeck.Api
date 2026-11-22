@@ -78,12 +78,17 @@ namespace Rundeck.Api
 				return;
 			}
 
-			_logger.Log(_levelToLogAt, $"{title}\r\n{summary}");
+			_logger.Log(_levelToLogAt, $"{title}\r\n{Redact(summary)}");
 			if (content != null)
 			{
-				_logger.Log(_levelToLogAt, $"{title}Content\r\n" + await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+				_logger.Log(_levelToLogAt, $"{title}Content\r\n" + Redact(await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)));
 			}
 		}
+
+		private string Redact(string text)
+			=> string.IsNullOrEmpty(_options.ApiToken)
+				? text
+				: text.Replace(_options.ApiToken, "[redacted]", StringComparison.Ordinal);
 
 		private static async Task ThrowForErrorStatusAsync(HttpResponseMessage response, CancellationToken cancellationToken)
 		{
