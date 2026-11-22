@@ -1,7 +1,4 @@
-﻿using AwesomeAssertions;
-using Rundeck.Api.Exceptions;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace Rundeck.Api.Test
@@ -15,11 +12,8 @@ namespace Rundeck.Api.Test
 			using var server = new StubRundeckServer("{\"error\":true,\"message\":\"denied\"}", 403);
 			using var client = server.CreateClient();
 
-			var act = () => client.WebHooks.SendEventAsync("invalid_auth_token", TestContext.Current.CancellationToken);
-
-			var thrown = (await act.Should().ThrowAsync<Exception>()).Which;
-
-			thrown.InnerException.Should().BeOfType<NotAuthorizedException>();
+			await NotAuthorizedAssertions.ShouldThrowNotAuthorizedAsync(
+				() => client.WebHooks.SendEventAsync("invalid_auth_token", TestContext.Current.CancellationToken));
 		}
 	}
 }
