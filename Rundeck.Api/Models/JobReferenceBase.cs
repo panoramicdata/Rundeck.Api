@@ -1,29 +1,28 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The identifying details shared by a job and the result of importing one
 	/// </summary>
-	[DataContract]
 	public abstract class JobReferenceBase
 	{
-		[DataMember(Name = "id")]
+		[JsonPropertyName("id")]
 		public string Id { get; set; } = default!;
 
-		[DataMember(Name = "name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; } = default!;
 
-		[DataMember(Name = "group")]
+		[JsonPropertyName("group")]
 		public string Group { get; set; } = default!;
 
-		[DataMember(Name = "project")]
+		[JsonPropertyName("project")]
 		public string Project { get; set; } = default!;
 
-		[DataMember(Name = "href")]
+		[JsonPropertyName("href")]
 		public string Href { get; set; } = default!;
 
-		[DataMember(Name = "permalink")]
+		[JsonPropertyName("permalink")]
 		public string Permalink { get; set; } = default!;
 	}
 }

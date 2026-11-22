@@ -1,23 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Scheduler
 	/// </summary>
-	[DataContract]
 	public class Scheduler
 	{
 		/// <summary>
 		/// Running
 		/// </summary>
-		[DataMember(Name = "running")]
+		[JsonPropertyName("running")]
 		public int Running { get; set; }
 
 		/// <summary>
 		/// ThreadPoolSize
 		/// </summary>
-		[DataMember(Name = "threadPoolSize")]
+		[JsonPropertyName("threadPoolSize")]
 		public int ThreadPoolSize { get; set; }
 	}
 }

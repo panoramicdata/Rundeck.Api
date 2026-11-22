@@ -1,62 +1,60 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Counters
 	/// </summary>
-	[DataContract]
-	[JsonObject(MemberSerialization.OptIn, MissingMemberHandling = MissingMemberHandling.Ignore)]
+	[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Skip)]
 	public class Counters
 	{
 		/// <summary>
 		/// RundeckSchedulerQuartzScheduledJobs
 		/// </summary>
-		[DataMember(Name = "rundeck.scheduler.quartz.scheduledJobs")]
+		[JsonPropertyName("rundeck.scheduler.quartz.scheduledJobs")]
 		public Counter RundeckSchedulerQuartzScheduledJobs { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsFailed
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.failed")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.failed")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsFailed { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsPartial
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.partial")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.partial")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsPartial { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsQueued
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.queued")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.queued")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsQueued { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsRetries
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.retries")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.retries")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsRetries { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsRunning
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.running")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.running")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsRunning { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsSucceeded
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.succeeded")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.succeeded")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsSucceeded { get; set; } = new Counter();
 
 		/// <summary>
 		/// RundeckServicesLogFileStorageServiceStorageRequestsTotal
 		/// </summary>
-		[DataMember(Name = "rundeck.services.LogFileStorageService.storageRequests.total")]
+		[JsonPropertyName("rundeck.services.LogFileStorageService.storageRequests.total")]
 		public Counter RundeckServicesLogFileStorageServiceStorageRequestsTotal { get; set; } = new Counter();
 
 		/// <summary>

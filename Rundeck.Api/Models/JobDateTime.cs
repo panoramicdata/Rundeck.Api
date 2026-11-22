@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class JobDateTime
 	{
-		[DataMember(Name = "unixtime")]
+		[JsonPropertyName("unixtime")]
 		public long Unixtime { get; set; }
 
-		[DataMember(Name = "date")]
+		[JsonPropertyName("date")]
 		public DateTimeOffset Date { get; set; }
 	}
 }

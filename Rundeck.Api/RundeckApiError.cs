@@ -1,35 +1,35 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api
 {
 	/// <summary>
 	/// An API error, as sent back from the server
 	/// </summary>
-	[DataContract]
+	[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Skip)]
 	public class RundeckError
 	{
 		/// <summary>
 		/// Whether this is an error
 		/// </summary>
-		[DataMember(Name = "error")]
+		[JsonPropertyName("error")]
 		public bool Error { get; set; }
 
 		/// <summary>
 		/// The API version
 		/// </summary>
-		[DataMember(Name = "apiversion")]
+		[JsonPropertyName("apiversion")]
 		public int ApiVersion { get; set; }
 
 		/// <summary>
 		/// The error code
 		/// </summary>
-		[DataMember(Name = "errorCode")]
+		[JsonPropertyName("errorCode")]
 		public string ErrorCode { get; set; } = string.Empty;
 
 		/// <summary>
 		/// The message
 		/// </summary>
-		[DataMember(Name = "message")]
+		[JsonPropertyName("message")]
 		public string Message { get; set; } = string.Empty;
 	}
 }

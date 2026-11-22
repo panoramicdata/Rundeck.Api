@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public abstract class ValueObject<T> where T : struct
 	{
 		/// <summary>
 		/// The value
 		/// </summary>
-		[DataMember(Name = "value")]
+		[JsonPropertyName("value")]
 		public T Value { get; set; } = default;
 
 		public override string ToString()

@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// An ACL Policy
 	/// </summary>
-	[DataContract]
 	public class AclPolicy
 	{
 		/// <summary>
 		/// The contents of the policy
 		/// </summary>
-		[DataMember(Name = "contents")]
+		[JsonPropertyName("contents")]
 		public string Contents { get; set; } = default!;
 	}
 }

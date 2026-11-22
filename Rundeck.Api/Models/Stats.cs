@@ -1,41 +1,40 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// System Stats
 	/// </summary>
-	[DataContract]
 	public class Stats
 	{
 		/// <summary>
 		/// Uptime
 		/// </summary>
-		[DataMember(Name = "uptime")]
+		[JsonPropertyName("uptime")]
 		public Uptime Uptime { get; set; } = new Uptime();
 
 		/// <summary>
 		/// CPU info
 		/// </summary>
-		[DataMember(Name = "cpu")]
+		[JsonPropertyName("cpu")]
 		public CpuInfo Cpu { get; set; } = new CpuInfo();
 
 		/// <summary>
 		/// Memory info
 		/// </summary>
-		[DataMember(Name = "memory")]
+		[JsonPropertyName("memory")]
 		public MemoryInfo Memory { get; set; } = new MemoryInfo();
 
 		/// <summary>
 		/// Scheduler
 		/// </summary>
-		[DataMember(Name = "scheduler")]
+		[JsonPropertyName("scheduler")]
 		public Scheduler Scheduler { get; set; } = new Scheduler();
 
 		/// <summary>
 		/// Threads
 		/// </summary>
-		[DataMember(Name = "threads")]
+		[JsonPropertyName("threads")]
 		public Threads Threads { get; set; } = new Threads();
 	}
 }

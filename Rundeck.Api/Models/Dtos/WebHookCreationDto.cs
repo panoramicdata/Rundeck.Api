@@ -1,8 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models.Dtos
 {
-	[DataContract]
 	public class WebHookCreationDto : WebHookBase
 	{
 	}

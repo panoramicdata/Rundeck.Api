@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class JobOptionUploadResult
 	{
-		[DataMember(Name = "options")]
+		[JsonPropertyName("options")]
 		public Dictionary<string, string> Options { get; set; } = new Dictionary<string, string>();
 
-		[DataMember(Name = "total")]
+		[JsonPropertyName("total")]
 		public int Total { get; set; }
 	}
 }

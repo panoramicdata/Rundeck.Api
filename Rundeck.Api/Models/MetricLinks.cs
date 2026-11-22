@@ -1,35 +1,34 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The links
 	/// </summary>
-	[DataContract]
 	public class MetricLinks
 	{
 		/// <summary>
 		/// The metrics
 		/// </summary>
-		[DataMember(Name = "metrics")]
+		[JsonPropertyName("metrics")]
 		public Link Metrics { get; set; } = default!;
 
 		/// <summary>
 		/// The ping
 		/// </summary>
-		[DataMember(Name = "ping")]
+		[JsonPropertyName("ping")]
 		public Link Ping { get; set; } = default!;
 
 		/// <summary>
 		/// The threads
 		/// </summary>
-		[DataMember(Name = "threads")]
+		[JsonPropertyName("threads")]
 		public Link Threads { get; set; } = default!;
 
 		/// <summary>
 		/// The healthcheck
 		/// </summary>
-		[DataMember(Name = "healthcheck")]
+		[JsonPropertyName("healthcheck")]
 		public Link Healthcheck { get; set; } = default!;
 	}
 }

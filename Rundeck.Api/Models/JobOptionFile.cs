@@ -1,45 +1,44 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class JobOptionFile
 	{
-		[DataMember(Name = "id")]
+		[JsonPropertyName("id")]
 		public string Id { get; set; } = default!;
 
-		[DataMember(Name = "user")]
+		[JsonPropertyName("user")]
 		public string User { get; set; } = default!;
 
-		[DataMember(Name = "optionName")]
+		[JsonPropertyName("optionName")]
 		public string OptionName { get; set; } = default!;
 
-		[DataMember(Name = "fileState")]
+		[JsonPropertyName("fileState")]
 		public string FileState { get; set; } = default!;
 
-		[DataMember(Name = "sha")]
+		[JsonPropertyName("sha")]
 		public string Sha { get; set; } = default!;
 
-		[DataMember(Name = "jobId")]
+		[JsonPropertyName("jobId")]
 		public string JobId { get; set; } = default!;
 
-		[DataMember(Name = "dateCreated")]
+		[JsonPropertyName("dateCreated")]
 		public DateTimeOffset DateCreated { get; set; }
 
-		[DataMember(Name = "serverNodeUUID")]
+		[JsonPropertyName("serverNodeUUID")]
 		public string ServerNodeUUID { get; set; } = default!;
 
-		[DataMember(Name = "fileName")]
+		[JsonPropertyName("fileName")]
 		public object FileName { get; set; } = default!;
 
-		[DataMember(Name = "size")]
+		[JsonPropertyName("size")]
 		public int Size { get; set; }
 
-		[DataMember(Name = "expirationDate")]
+		[JsonPropertyName("expirationDate")]
 		public DateTimeOffset ExpirationDate { get; set; }
 
-		[DataMember(Name = "execId")]
+		[JsonPropertyName("execId")]
 		public object ExecId { get; set; } = default!;
 	}
 }

@@ -1,56 +1,54 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Meters
 	/// </summary>
-	[DataContract]
-	[JsonObject(MemberSerialization.OptIn, MissingMemberHandling = MissingMemberHandling.Ignore)]
+	[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Skip)]
 	public class Meters
 	{
 		/// <summary>
 		/// RundeckControllersFrameworkControllerCreateProjectPost
 		/// </summary>
-		[DataMember(Name = "rundeck.controllers.FrameworkController.createProjectPost")]
+		[JsonPropertyName("rundeck.controllers.FrameworkController.createProjectPost")]
 		public Meter RundeckControllersFrameworkControllerCreateProjectPost { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesAuthorizationServicesystemAuthorizationEvaluateMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.AuthorizationService.systemAuthorization.evaluateMeter")]
+		[JsonPropertyName("rundeck.services.AuthorizationService.systemAuthorization.evaluateMeter")]
 		public Meter RundeckServicesAuthorizationServicesystemAuthorizationEvaluateMeter { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesAuthorizationServicesystemAuthorizationEvaluateSetMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.AuthorizationService.systemAuthorization.evaluateSetMeter")]
+		[JsonPropertyName("rundeck.services.AuthorizationService.systemAuthorization.evaluateSetMeter")]
 		public Meter RundeckServicesAuthorizationServicesystemAuthorizationEvaluateSetMeter { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesExecutionServiceExecutionAdhocStartMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.ExecutionService.executionAdhocStartMeter")]
+		[JsonPropertyName("rundeck.services.ExecutionService.executionAdhocStartMeter")]
 		public Meter RundeckServicesExecutionServiceExecutionAdhocStartMeter { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesExecutionServiceExecutionJobStartMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.ExecutionService.executionJobStartMeter")]
+		[JsonPropertyName("rundeck.services.ExecutionService.executionJobStartMeter")]
 		public Meter RundeckServicesExecutionServiceExecutionJobStartMeter { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesExecutionServiceExecutionStartMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.ExecutionService.executionStartMeter")]
+		[JsonPropertyName("rundeck.services.ExecutionService.executionStartMeter")]
 		public Meter RundeckServicesExecutionServiceExecutionStartMeter { get; set; } = new Meter();
 
 		/// <summary>
 		/// RundeckServicesExecutionServiceExecutionSuccessMeter
 		/// </summary>
-		[DataMember(Name = "rundeck.services.ExecutionService.executionSuccessMeter")]
+		[JsonPropertyName("rundeck.services.ExecutionService.executionSuccessMeter")]
 		public Meter RundeckServicesExecutionServiceExecutionSuccessMeter { get; set; } = new Meter();
 
 		/// <summary>

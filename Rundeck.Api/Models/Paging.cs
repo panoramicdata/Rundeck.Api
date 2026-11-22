@@ -1,20 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class Paging
 	{
-		[DataMember(Name = "offset")]
+		[JsonPropertyName("offset")]
 		public int Offset { get; set; }
 
-		[DataMember(Name = "max")]
+		[JsonPropertyName("max")]
 		public int Max { get; set; }
 
-		[DataMember(Name = "total")]
+		[JsonPropertyName("total")]
 		public int Total { get; set; }
 
-		[DataMember(Name = "count")]
+		[JsonPropertyName("count")]
 		public int Count { get; set; }
 	}
 }

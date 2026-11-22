@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
 using Refit;
 using Rundeck.Api.Exceptions;
 using Rundeck.Api.Interfaces;
+using Rundeck.Api.Serialization;
 using System;
 using System.Net.Http;
 
@@ -31,17 +31,7 @@ namespace Rundeck.Api
 
 			var refitSettings = new RefitSettings
 			{
-				ContentSerializer = new NewtonsoftJsonContentSerializer(
-					new JsonSerializerSettings
-					{
-						NullValueHandling = NullValueHandling.Ignore
-						//, Converters = { new StringEnumConverter() }
-#if DEBUG
-						,
-						MissingMemberHandling = MissingMemberHandling.Error
-#endif
-					}
-				)
+				ContentSerializer = new SystemTextJsonContentSerializer(RundeckJson.Options)
 			};
 
 			AuthenticationTokens = RestService.For<IAuthenticationTokens>(_httpClient, refitSettings);

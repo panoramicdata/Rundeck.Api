@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// Histograms
 	/// </summary>
-	[DataContract]
-	[JsonObject(MemberSerialization.OptIn, MissingMemberHandling = MissingMemberHandling.Ignore)]
+	[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Skip)]
 	public class Histograms
 	{
 		/// <summary>

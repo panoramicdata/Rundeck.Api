@@ -1,77 +1,76 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// The SystemNode
 	/// </summary>
-	[DataContract]
 	public class SystemNode
 	{
 		/// <summary>
 		/// SystemTimestamp
 		/// </summary>
-		[DataMember(Name = "timestamp")]
+		[JsonPropertyName("timestamp")]
 		public SystemTimestamp Timestamp { get; set; } = new SystemTimestamp();
 
 		/// <summary>
 		/// RundeckInfo
 		/// </summary>
-		[DataMember(Name = "rundeck")]
+		[JsonPropertyName("rundeck")]
 		public RundeckInfo Rundeck { get; set; } = new RundeckInfo();
 
 		/// <summary>
 		/// Executions
 		/// </summary>
-		[DataMember(Name = "executions")]
+		[JsonPropertyName("executions")]
 		public Executions Executions { get; set; } = new Executions();
 
 		/// <summary>
 		/// OsInfo
 		/// </summary>
-		[DataMember(Name = "os")]
+		[JsonPropertyName("os")]
 		public OsInfo OsInfo { get; set; } = new OsInfo();
 
 		/// <summary>
 		/// JvmInfo
 		/// </summary>
-		[DataMember(Name = "jvm")]
+		[JsonPropertyName("jvm")]
 		public JvmInfo JvmInfo { get; set; } = new JvmInfo();
 
 		/// <summary>
 		/// System Stats
 		/// </summary>
-		[DataMember(Name = "stats")]
+		[JsonPropertyName("stats")]
 		public Stats Stats { get; set; } = new Stats();
 
 		/// <summary>
 		/// Metrics links
 		/// </summary>
-		[DataMember(Name = "metrics")]
+		[JsonPropertyName("metrics")]
 		public Link Metrics { get; set; } = new Link();
 
 		/// <summary>
 		/// ThreadDump links
 		/// </summary>
-		[DataMember(Name = "threadDump")]
+		[JsonPropertyName("threadDump")]
 		public Link ThreadDump { get; set; } = new Link();
 
 		/// <summary>
 		/// Healthcheck links
 		/// </summary>
-		[DataMember(Name = "healthcheck")]
+		[JsonPropertyName("healthcheck")]
 		public Link Healthcheck { get; set; } = new Link();
 
 		/// <summary>
 		/// Extended system information, when the server provides it
 		/// </summary>
-		[DataMember(Name = "extended")]
+		[JsonPropertyName("extended")]
 		public object? Extended { get; set; }
 
 		/// <summary>
 		/// Ping link
 		/// </summary>
-		[DataMember(Name = "ping")]
+		[JsonPropertyName("ping")]
 		public Link Ping { get; set; } = new Link();
 	}
 }

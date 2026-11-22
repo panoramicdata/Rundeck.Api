@@ -12,6 +12,16 @@ Supports .NET 11.0.
 
 [![Nuget](https://img.shields.io/nuget/v/Rundeck.Api)](https://www.nuget.org/packages/Rundeck.Api/)
 
+## Breaking changes in the next release
+
+JSON handling moved from Newtonsoft.Json to System.Text.Json. The public types and members are unchanged, but the following are visible to consumers:
+
+- Untyped `object` values (for example `Execution.Argstring`) and `AdditionalMetrics` entries that hold a JSON object or array are now `Dictionary<string, object?>` or `List<object?>`, not `JObject` or `JArray`. Code that casts to Newtonsoft types will fail at runtime. Scalars are still `long`, `double`, `bool`, `string` and `DateTime`.
+- `[DataContract]` and `[DataMember]` were removed from the model types and replaced by `[JsonPropertyName]`. Serializing these models with your own Newtonsoft.Json or `DataContractSerializer` no longer produces the Rundeck property names.
+- A response that cannot be deserialized now has an inner `System.Text.Json.JsonException` (inside Refit's `ApiException`) instead of `Newtonsoft.Json.JsonReaderException`.
+- `Newtonsoft.Json` and `Refit.Newtonsoft.Json` are no longer dependencies of this package.
+- Reading stays lenient (case-insensitive names, nulls leave defaults, numbers and strings interchangeable, `+0000` date offsets, enums by value, name or number), but the error messages for malformed JSON differ.
+
 ## Running the tests
 
 Every test calls a live Rundeck, so the tests run locally, not in CI. The repository includes a disposable

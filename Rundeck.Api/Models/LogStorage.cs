@@ -1,83 +1,82 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
 	/// <summary>
 	/// A log storage
 	/// </summary>
-	[DataContract]
 	public class LogStorage
 	{
 		/// <summary>
 		/// Whether it is enabled
 		/// </summary>
-		[DataMember(Name = "enabled")]
+		[JsonPropertyName("enabled")]
 		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// The plugin name
 		/// </summary>
-		[DataMember(Name = "pluginName")]
+		[JsonPropertyName("pluginName")]
 		public string PluginName { get; set; } = string.Empty;
 
 		/// <summary>
 		/// The succeeded count
 		/// </summary>
-		[DataMember(Name = "succeededCount")]
+		[JsonPropertyName("succeededCount")]
 		public int SucceededCount { get; set; }
 
 		/// <summary>
 		/// The failed count
 		/// </summary>
-		[DataMember(Name = "failedCount")]
+		[JsonPropertyName("failedCount")]
 		public int FailedCount { get; set; }
 
 		/// <summary>
 		/// The queued count
 		/// </summary>
-		[DataMember(Name = "queuedCount")]
+		[JsonPropertyName("queuedCount")]
 		public int QueuedCount { get; set; }
 
 		/// <summary>
 		/// The queued request count
 		/// </summary>
-		[DataMember(Name = "queuedRequestCount")]
+		[JsonPropertyName("queuedRequestCount")]
 		public int QueuedRequestCount { get; set; }
 
 		/// <summary>
 		/// The queued retries count
 		/// </summary>
-		[DataMember(Name = "queuedRetriesCount")]
+		[JsonPropertyName("queuedRetriesCount")]
 		public int QueuedRetriesCount { get; set; }
 
 		/// <summary>
 		/// The queued incomplete count
 		/// </summary>
-		[DataMember(Name = "queuedIncompleteCount")]
+		[JsonPropertyName("queuedIncompleteCount")]
 		public int QueuedIncompleteCount { get; set; }
 
 		/// <summary>
 		/// The total count
 		/// </summary>
-		[DataMember(Name = "totalCount")]
+		[JsonPropertyName("totalCount")]
 		public int TotalCount { get; set; }
 
 		/// <summary>
 		/// The incomplete count
 		/// </summary>
-		[DataMember(Name = "incompleteCount")]
+		[JsonPropertyName("incompleteCount")]
 		public int IncompleteCount { get; set; }
 
 		/// <summary>
 		/// The missing count
 		/// </summary>
-		[DataMember(Name = "missingCount")]
+		[JsonPropertyName("missingCount")]
 		public int MissingCount { get; set; }
 
 		/// <summary>
 		/// The retries count
 		/// </summary>
-		[DataMember(Name = "retriesCount")]
+		[JsonPropertyName("retriesCount")]
 		public int RetriesCount { get; set; }
 	}
 }

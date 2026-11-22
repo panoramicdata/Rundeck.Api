@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Rundeck.Api.Models
 {
-	[DataContract]
 	public class WebHookConfig
 	{
-		[DataMember(Name = "argString")]
+		[JsonPropertyName("argString")]
 		public string? ArgString { get; set; }
 
-		[DataMember(Name = "jobId")]
+		[JsonPropertyName("jobId")]
 		public string JobId { get; set; } = default!;
 	}
 }
