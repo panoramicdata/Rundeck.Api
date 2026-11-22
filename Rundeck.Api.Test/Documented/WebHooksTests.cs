@@ -112,9 +112,12 @@ namespace Rundeck.Api.Test.Documented
 
 			Func<Task> act = async () => await RundeckClient
 				.WebHooks
-				.SendEventAsync("invalid_auth_token");
+				.SendEventAsync("invalid_auth_token", TestContext.Current.CancellationToken);
 
-			await act.Should().ThrowAsync<NotAuthorizedException>();
+			// Refit wraps the exception thrown by the HTTP handler
+			var thrown = (await act.Should().ThrowAsync<Exception>()).Which;
+
+			thrown.InnerException.Should().BeOfType<NotAuthorizedException>();
 		}
 
 		private Task<List<WebHook>> GetWebHooksAsync()
