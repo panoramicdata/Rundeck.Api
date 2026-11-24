@@ -7,7 +7,6 @@
     <Company>Panoramic Data Limited</Company>
     <Authors>Panoramic Data Limited</Authors>
     <Description>A nuget package for Rundeck</Description>
-    <Copyright>Panoramic Data Limited 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/panoramicdata/Rundeck.Api</PackageProjectUrl>
     <PackageIcon>Icon.png</PackageIcon>
