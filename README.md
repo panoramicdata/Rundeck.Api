@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/grade/Rundeck.Api)](https://app.codacy.com/gh/panoramicdata/Rundeck.Api/dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9b9e434879364423a0cf12cebd7efb71)](https://app.codacy.com/gh/panoramicdata/Rundeck.Api/dashboard)
 
 # Rundeck.Api
 
